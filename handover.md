@@ -781,8 +781,11 @@ Use Search Console queries and GA4 tool usage to decide between a curated dock/d
 ### Git and deployment
 
 - Start commit: `da41758da5d0b3c6fbf93804387cb5622a21b934`.
-- Implementation commit: pending final local review and commit.
-- Push/deployment: pending implementation commit, `main` push, and GitHub Pages verification.
+- Implementation commit: `2cd48722a660a2302fe2399a58c9b521f8357bb4` (`Complete first-build USB planning tools`).
+- Implementation push: successful; GitHub `main` advanced from `da41758d` to `2cd48722`.
+- GitHub Pages implementation deployment: `pages build and deployment` run #`31497233863` completed successfully for `2cd48722a660a2302fe2399a58c9b521f8357bb4`.
+- Production HTTP verification: Home, sitemap, and robots returned 200; sitemap contained **59** URLs and every URL returned 200; Home displayed 28 tools and referenced `app.js?v=20260811f`.
+- Production browser verification: shared-hub fit/shortfall, role mismatch, USB4 fallback, high-refresh isolation, dropout evidence, one-cable power blocking, and existing Charge Check bottleneck all recalculated correctly. All **28** production Tool routes initialized without NaN/Infinity; Tools mobile menu and horizontal overflow passed at 390 px; representative production console warnings/errors: zero.
 - Final commit: the final `main` commit containing the completed deployment record; resolve in the final task report because a commit cannot contain its own hash.
 
 ### Next real work after this expansion
