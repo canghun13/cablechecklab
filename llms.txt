@@ -1,6 +1,6 @@
 # Cable Check Lab
 
-> Cable Check Lab provides 22 free, browser-only tools for USB-C, USB Power Delivery, USB4, Thunderbolt, video adapters, DisplayPort, docks, and troubleshooting.
+> Cable Check Lab provides 28 free, browser-only tools for USB-C, USB Power Delivery, USB4, Thunderbolt, video adapters, DisplayPort, docks, and troubleshooting.
 
 Primary URL: https://cablechecklab.com/
 Contact: canghun13@naver.com
@@ -15,7 +15,7 @@ Language: English
 - [Displays](https://cablechecklab.com/tools/displays/): Payload, HDR/VRR/HDCP/audio/DSC, lanes, MST, dock topology.
 - [Docks and hubs](https://cablechecklab.com/tools/docks/): Requirements, power, USB4, data/display tradeoffs, A/B isolation.
 
-## Twenty-two interactive tools
+## Twenty-eight interactive tools
 
 - [USB-C Charge Check](https://cablechecklab.com/tools/charge-check/)
 - [USB PD Fixed Profile Matcher](https://cablechecklab.com/tools/pd-fixed-profile-matcher/)
@@ -39,6 +39,12 @@ Language: English
 - [USB-C Hub and Dock Power Budget](https://cablechecklab.com/tools/hub-power-budget/)
 - [Direct vs Dock Isolation Matrix](https://cablechecklab.com/tools/direct-dock-isolation/)
 - [USB-C Troubleshooter](https://cablechecklab.com/tools/troubleshoot/)
+- [USB Hub Shared Bandwidth Planner](https://cablechecklab.com/tools/usb-hub-bandwidth-planner/)
+- [USB-C Role Match Checker](https://cablechecklab.com/tools/usb-c-role-match/)
+- [USB4 Fallback Speed Isolator](https://cablechecklab.com/tools/usb4-fallback-isolator/)
+- [High-Refresh Display Failure Isolator](https://cablechecklab.com/tools/high-refresh-display-isolator/)
+- [USB Peripheral Dropout Isolator](https://cablechecklab.com/tools/usb-peripheral-dropout-isolator/)
+- [One-Cable USB-C Monitor Planner](https://cablechecklab.com/tools/one-cable-monitor-planner/)
 
 ## Guides and evidence
 
@@ -47,6 +53,7 @@ Language: English
 - [USB and DisplayPort payload reference](https://cablechecklab.com/references/link-payloads/)
 - [USB4 and Thunderbolt tunnel reference](https://cablechecklab.com/references/usb4-tunneling/)
 - [Video conversion and feature reference](https://cablechecklab.com/references/video-conversion-features/)
+- [USB data pools, roles, and fallback reference](https://cablechecklab.com/references/usb-data-roles-fallback/)
 - [Technical references and method](https://cablechecklab.com/references/)
 
 ## Interpretation policy

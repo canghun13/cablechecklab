@@ -1,1 +1,104 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>USB4 & Thunderbolt Tools — Features, Tunnels & Bandwidth</title><meta name="description" content="Plan USB4 and Thunderbolt feature paths, shared display/USB/PCIe budgets, cable requirements, port claims, and direct-versus-dock isolation."><link rel="canonical" href="https://cablechecklab.com/tools/usb4-thunderbolt/"><meta property="og:title" content="USB4 & Thunderbolt Tools"><meta property="og:description" content="Separate link rate, tunnel features, workload budget, and exact accessory support."><meta property="og:type" content="website"><meta property="og:url" content="https://cablechecklab.com/tools/usb4-thunderbolt/"><link rel="stylesheet" href="/assets/styles.css"><script async src="https://www.googletagmanager.com/gtag/js?id=G-8PFRRXPGEF"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-8PFRRXPGEF');</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"USB4 and Thunderbolt Tools","url":"https://cablechecklab.com/tools/usb4-thunderbolt/"}</script></head><body><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><div class="nav-shell"><a class="brand" href="/"><span class="brand-mark"></span>Cable Check Lab</a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button><nav class="main-nav" id="main-nav"><a href="/tools/" aria-current="page">Tools</a><a href="/guides/">Guides</a><a href="/references/">References</a><a href="/about/">About</a></nav></div></header><main id="main"><section class="page-hero"><div class="shell"><div class="breadcrumbs"><a href="/">Home</a> / <a href="/tools/">Tools</a> / USB4 & Thunderbolt</div><p class="eyebrow">USB4 & Thunderbolt workbench</p><h1>Plan rate, features, and tunnel demand separately.</h1><p class="lede">A fast USB-C port does not automatically establish PCIe tunneling, display count, cable support, or application throughput.</p></div></section><section class="section"><div class="shell"><div class="grid two"><article class="tool-card"><span class="tag">Feature path</span><h3>Does every segment declare the workload feature?</h3><p>Record the weakest link and explicit display, PCIe, USB, or mixed-dock declarations.</p><a href="/tools/usb4-feature-path/">Open Feature Path Checker →</a></article><article class="tool-card"><span class="tag">Budget</span><h3>Do the traffic budgets fit the planning share?</h3><p>Add display, USB, and PCIe demand without predicting dynamic allocation.</p><a href="/tools/usb4-tunnel-budget/">Open Tunnel Budget Planner →</a></article><article class="tool-card"><span class="tag">Port claims</span><h3>What does this exact USB-C port establish?</h3><p>Preserve data, power, display, PCIe, USB4, and unknown fields.</p><a href="/tools/port-capability-decoder/">Open Port Capability Decoder →</a></article><article class="tool-card"><span class="tag">Cable</span><h3>What minimum cable claims are required?</h3><p>Build the combined power, data, video, and tunneled-use requirement.</p><a href="/tools/cable-selector/">Open Cable Requirement Selector →</a></article><article class="tool-card"><span class="tag">Isolation</span><h3>Which functions fail only through the dock?</h3><p>Compare direct and dock-path power, data, and video observations.</p><a href="/tools/direct-dock-isolation/">Open Direct vs Dock Matrix →</a></article><article class="tool-card"><span class="tag">Guide</span><h3>How should USB4 and Thunderbolt claims be read?</h3><p>Use a feature-first workflow for docks, enclosures, displays, and mixed loads.</p><a href="/guides/usb4-thunderbolt-planning/">Read the planning guide →</a></article></div><div class="callout"><strong>Order:</strong> exact port and cable claims → required tunnel features → planning budget → direct-path control test.</div></div></section></main><footer class="site-footer"><div class="shell"><div class="footer-bottom"><span>© 2026 Cable Check Lab</span><span><a href="/references/usb4-tunneling/">USB4 reference</a> · <a href="mailto:canghun13@naver.com">Contact</a></span></div></div></footer><script src="/assets/app.js?v=20260811e" defer></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>USB4 & Thunderbolt Tools — Features, Tunnels & Bandwidth</title>
+<meta name="description" content="Plan USB4 and Thunderbolt feature paths, shared display/USB/PCIe budgets, cable requirements, port claims, and direct-versus-dock isolation.">
+<link rel="canonical" href="https://cablechecklab.com/tools/usb4-thunderbolt/">
+<meta property="og:title" content="USB4 & Thunderbolt Tools">
+<meta property="og:description" content="Separate link rate, tunnel features, workload budget, and exact accessory support.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cablechecklab.com/tools/usb4-thunderbolt/">
+<link rel="stylesheet" href="/assets/styles.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8PFRRXPGEF">
+</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-8PFRRXPGEF');</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"USB4 and Thunderbolt Tools","url":"https://cablechecklab.com/tools/usb4-thunderbolt/"}</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="nav-shell">
+<a class="brand" href="/">
+<span class="brand-mark">
+</span>Cable Check Lab</a>
+<button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+<nav class="main-nav" id="main-nav">
+<a href="/tools/" aria-current="page">Tools</a>
+<a href="/guides/">Guides</a>
+<a href="/references/">References</a>
+<a href="/about/">About</a>
+</nav>
+</div>
+</header>
+<main id="main">
+<section class="page-hero">
+<div class="shell">
+<div class="breadcrumbs">
+<a href="/">Home</a> / <a href="/tools/">Tools</a> / USB4 & Thunderbolt</div>
+<p class="eyebrow">USB4 & Thunderbolt workbench</p>
+<h1>Plan rate, features, and tunnel demand separately.</h1>
+<p class="lede">A fast USB-C port does not automatically establish PCIe tunneling, display count, cable support, or application throughput.</p>
+</div>
+</section>
+<section class="section">
+<div class="shell">
+<div class="grid two">
+<article class="tool-card">
+<span class="tag">Feature path</span>
+<h3>Does every segment declare the workload feature?</h3>
+<p>Record the weakest link and explicit display, PCIe, USB, or mixed-dock declarations.</p>
+<a href="/tools/usb4-feature-path/">Open Feature Path Checker →</a>
+</article>
+<article class="tool-card">
+<span class="tag">Budget</span>
+<h3>Do the traffic budgets fit the planning share?</h3>
+<p>Add display, USB, and PCIe demand without predicting dynamic allocation.</p>
+<a href="/tools/usb4-tunnel-budget/">Open Tunnel Budget Planner →</a>
+</article>
+<article class="tool-card">
+<span class="tag">Port claims</span>
+<h3>What does this exact USB-C port establish?</h3>
+<p>Preserve data, power, display, PCIe, USB4, and unknown fields.</p>
+<a href="/tools/port-capability-decoder/">Open Port Capability Decoder →</a>
+</article>
+<article class="tool-card">
+<span class="tag">Cable</span>
+<h3>What minimum cable claims are required?</h3>
+<p>Build the combined power, data, video, and tunneled-use requirement.</p>
+<a href="/tools/cable-selector/">Open Cable Requirement Selector →</a>
+</article>
+<article class="tool-card">
+<span class="tag">Isolation</span>
+<h3>Which functions fail only through the dock?</h3>
+<p>Compare direct and dock-path power, data, and video observations.</p>
+<a href="/tools/direct-dock-isolation/">Open Direct vs Dock Matrix →</a>
+</article>
+<article class="tool-card"><span class="tag">Fallback</span><h3>Which segment lowers the USB4 link class?</h3><p>Compare target, observed class, segment declarations, direct control, and OS evidence.</p><a href="/tools/usb4-fallback-isolator/">Open Fallback Speed Isolator →</a></article>
+<article class="tool-card">
+<span class="tag">Guide</span>
+<h3>How should USB4 and Thunderbolt claims be read?</h3>
+<p>Use a feature-first workflow for docks, enclosures, displays, and mixed loads.</p>
+<a href="/guides/usb4-thunderbolt-planning/">Read the planning guide →</a>
+</article>
+</div>
+<div class="callout">
+<strong>Order:</strong> exact port and cable claims → required tunnel features → planning budget → direct-path control test.</div>
+</div>
+</section>
+</main>
+<footer class="site-footer">
+<div class="shell">
+<div class="footer-bottom">
+<span>© 2026 Cable Check Lab</span>
+<span>
+<a href="/references/usb4-tunneling/">USB4 reference</a> · <a href="mailto:canghun13@naver.com">Contact</a>
+</span>
+</div>
+</div>
+</footer>
+<script src="/assets/app.js?v=20260811f" defer>
+</script>
+</body>
+</html>

@@ -646,3 +646,149 @@ Use Search Console queries and GA4 tool usage to decide between a curated dock/d
 3. Keep device/model charging data, exact dock/eGPU/adapter/MST compatibility databases, cable-length prediction, and affiliate comparison on HOLD until provenance, stable identifiers, update cadence, uncertainty labels, and correction workflows are defined.
 4. Re-review USB-IF, VESA, HDMI, Intel, Microsoft, and Apple public guidance when standards, certification requirements, or OS display/tunnel behavior materially changes.
 5. Use Search Console/GA4 and support feedback to decide whether the next release should deepen one current tool, merge a weak journey, or define a maintainable data product. Do not target a page count by itself.
+
+## 2026-08-11 shared-USB, role, monitor, and failure-isolation expansion
+
+### Start state
+
+- Repository path on this computer: `C:\Users\cangh\OneDrive\문서\ChatGPT\cablechecklab\repository`.
+- Branch: `main`; remote: `https://github.com/canghun13/cablechecklab.git`.
+- Start local HEAD: `da41758da5d0b3c6fbf93804387cb5622a21b934`.
+- Start `origin/main`: `da41758da5d0b3c6fbf93804387cb5622a21b934`.
+- Start actual GitHub `main` from `git ls-remote`: `da41758da5d0b3c6fbf93804387cb5622a21b934`.
+- Start tree: clean and synchronized after `git fetch origin main`; no pull was required.
+- The previously reported `7e11d791b6e5a8656ed8d86ca5453910ecca9895` was correctly treated as historical rather than forced over the newer remote state.
+- Verified starting inventory: **50 public HTML files**, **49 indexable/sitemap pages**, **22 interactive tools**, six problem workbenches plus the Tools hub, ten standalone guides plus the Guides hub, and four focused references plus the References hub.
+
+### Expansion judgment
+
+- The existing 22 Tool controllers and inputs were inspected before candidate selection. The strongest remaining gaps were multi-device sharing, endpoint role direction, fallback/dropout isolation, and the composite one-cable monitor intent—not another thin label decoder or arithmetic clone.
+- Search Console and GA4 behavior data are still too young to justify keyword-driven copies, but current official troubleshooting guidance and recurring public problem reports support these six problem-first additions without a private model database.
+- **35 candidate concepts reviewed: 6 GO, 14 MERGE, 11 HOLD, 4 REJECT.**
+
+#### GO — implemented
+
+1. USB Hub Shared Bandwidth Planner — adds simultaneous workload demands against one explicit upstream pool and a visible planning share; independent from the single-chain Data Path Checker and USB4 tunnel budget.
+2. USB-C Role Match Checker — compares two endpoints and intended power/data/display direction; independent from recording one port's capabilities.
+3. USB4 Fallback Speed Isolator — compares intended and observed link classes with host/cable/device declarations, intermediary/direct controls, and operating-system enumeration evidence.
+4. High-Refresh Display Failure Isolator — combines exact payload/capacity with lower-mode, direct, dock, and end-to-end feature controls.
+5. USB Peripheral Dropout Isolator — ranks direct, external-power, lighter-load, alternate-cable, failure-scope, and idle/wake evidence.
+6. One-Cable USB-C Monitor Planner — combines three declared video segments with separate display, laptop-charging, and monitor-USB budgets for a distinct pre-purchase job.
+
+#### MERGE
+
+- USB speed-label decoding stays in Port Capability Decoder and Cable Capability Decoder.
+- Charging logo/watt-label interpretation stays in Cable Capability Decoder.
+- USB4/Thunderbolt generation naming stays in Port Capability Decoder and the USB4 reference.
+- 3 A/5 A/EPR cable requirements stay in PD Requirement Builder.
+- Cable claim-consistency screening stays in Cable Capability Decoder.
+- Cable feature matrices stay in Cable Requirement Selector.
+- Mixed-resolution display splitting stays in Display Link Planner.
+- An inverse “maximum refresh” calculator stays merged with the same Display Link Planner arithmetic.
+- Dock upstream requirements merge into Dock Requirement Builder and the new shared-bandwidth planner.
+- SSD-path bottleneck checking stays in Data Path Checker.
+- Bus-powered/self-powered numeric power stays in Hub Power Budget.
+- Charger/cable current matching stays in Charge Check and PD Requirement Builder.
+- A generic direct-versus-dock high-refresh page merges into the new high-refresh isolator and current display tools.
+- Charger disconnects after adding a port remain in Multi-port Scenario Comparator and the central Troubleshooter.
+
+#### HOLD
+
+- Device/model charging database — no maintained normalized model/source process.
+- Exact dock compatibility checker — host/GPU/OS/firmware/chipset/topology data remain model-specific.
+- Cable-length limit calculator — signaling target plus active/passive/certified construction remains decisive.
+- Product comparison or affiliate layer — no verified catalog or traffic-driven editorial scope.
+- Exact USB4/Thunderbolt eGPU or PCIe-enclosure model compatibility database.
+- Exact video-adapter model database.
+- Exact MST monitor-chain database.
+- External-device performance predictor.
+- Active-cable compatibility database — exact controller, firmware, length, and power behavior need maintained product evidence.
+- Automatic host-controller topology mapper — a static browser page lacks the required privileged system telemetry.
+- Exact USB-C KVM/monitor compatibility database — exact models, firmware, wake, EDID, and host policy require maintained testing data.
+
+#### REJECT
+
+- Connector-only endpoint-role inference.
+- Automatic negotiated USB/USB4 speed detection from an ordinary browser page.
+- A universal USB efficiency factor or guaranteed per-port speed promise.
+- A standalone raw transfer-time calculator detached from path and workload evidence.
+
+### Research findings
+
+- USB-IF separates power roles (Source/Sink/DRP) from data roles (DFP/UFP/DRD), with USB PD capable of role swaps when products support the policy. This supports an endpoint comparison while ruling out connector-only inference.
+- Microsoft states that USB bandwidth is finite, can be shared by multiple client drivers, and is hard to predict exactly. Its USB FAQ documents SuperSpeed storage falling back through a USB 2 hub and separate USB 2/SuperSpeed hub components. This supports a transparent workload budget, not a promised throughput percentage.
+- Microsoft USB-C troubleshooting identifies wrong ports, non-USB4 cables, non-USB4 intermediary devices, and insufficient power as distinct failure layers. Windows USB4 settings can expose attached USB4 hubs/devices and capabilities on supported systems.
+- Microsoft selective-suspend documentation makes idle/wake a useful controlled clue while not proving one root cause. Community problem reports separately repeat under-load, add-device, and all-functions-drop patterns.
+- VESA public material documents higher-refresh DisplayPort configurations and DSC use; Apple separately warns that exact modes/features can depend on the full adapter path. This supports an exact-mode isolator rather than an HDMI/DisplayPort version guarantee.
+- Existing competition includes bandwidth articles and catalog-limited dock checkers such as 3C Compass. A transparent shared-device workload planner and evidence-first isolators remain meaningfully independent from catalog matching.
+
+### Primary sources reviewed
+
+- USB-IF USB Type-C System Overview: `https://www.usb.org/sites/default/files/D1T1-2%20-%20USB%20Type-C%20System%20Overview.pdf`
+- USB-IF USB4: `https://www.usb.org/usb4`
+- Microsoft USB bandwidth allocation: `https://learn.microsoft.com/en-us/windows-hardware/drivers/usbcon/usb-bandwidth-allocation`
+- Microsoft USB FAQ: `https://learn.microsoft.com/en-us/windows-hardware/drivers/usbcon/usb-faq--introductory-level`
+- Microsoft Fix USB-C problems: `https://support.microsoft.com/en-us/windows/hardware/fix-usb-c-problems-in-windows`
+- Microsoft USB4 settings enablement: `https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/usb4-settings-enablement`
+- Microsoft USB selective suspend: `https://learn.microsoft.com/en-us/windows-hardware/drivers/usbcon/usb-selective-suspend`
+- VESA DisplayPort 2.0 high-refresh/DSC overview: `https://www.displayport.org/pr/vesa-publishes-displayport-2-0-video-standard-enabling-support-for-beyond-8k-resolutions-higher-refresh-rates-for-4k-hdr-and-virtual-reality-applications/`
+- VESA DisplayPort FAQ: `https://www.displayport.org/faq/`
+- Apple HDMI connection guidance: `https://support.apple.com/en-us/108928`
+- Apple Adaptive Sync displays: `https://support.apple.com/en-asia/102144`
+- 3C Compass USB-C dock monitor checker (competition review): `https://3ccompass.com/tools/usb-c-dock-monitor-checker`
+
+### Implementation
+
+- Added six independent interactive Tools: `tools/usb-hub-bandwidth-planner/`, `tools/usb-c-role-match/`, `tools/usb4-fallback-isolator/`, `tools/high-refresh-display-isolator/`, `tools/usb-peripheral-dropout-isolator/`, and `tools/one-cable-monitor-planner/`.
+- Added three supporting Guides: `guides/usb-hub-shared-bandwidth/`, `guides/usb-c-roles-one-cable-monitor/`, and `guides/usb4-fallback-dropout-isolation/`.
+- Added one focused Reference: `references/usb-data-roles-fallback/`.
+- Extended `assets/app.js` with six controllers. Every result distinguishes entered/calculated evidence from live negotiation or exact-model proof and rejects invalid numeric states without emitting NaN/Infinity.
+- Updated Home, Tools, Cables/Data, USB4/Thunderbolt, Displays, Docks/Hubs, Guides, and References journeys. No seventh workbench was added because all six Tools fit existing user systems.
+- Updated `sitemap.xml`, `llms.txt`, page-count metadata, and the shared JavaScript cache key from `20260811e` to `20260811f` on all public HTML.
+- Preserved static HTML/CSS/vanilla JavaScript, GitHub Pages, GA4 `G-8PFRRXPGEF`, contact `canghun13@naver.com`, visual identity, existing tools, and explicit uncertainty boundaries.
+
+### Changed files
+
+- Shared behavior: `assets/app.js`.
+- New pages: the six Tool, three Guide, and one Reference directories listed above.
+- Expanded hubs/entry points: `index.html`, `tools/index.html`, `tools/cables/index.html`, `tools/usb4-thunderbolt/index.html`, `tools/displays/index.html`, `tools/docks/index.html`, `guides/index.html`, and `references/index.html`.
+- Discovery: `sitemap.xml`, `llms.txt`.
+- Cache-key-only edits: remaining pre-existing public HTML files.
+- Operating record: `handover.md`.
+
+### Final inventory for this implementation
+
+- Public HTML files: **60** (up from 50).
+- Indexable/sitemap pages: **59** (up from 49); 404 remains non-indexable.
+- Interactive tools: **28** (22 existing + 6 new).
+- Problem workbenches: **6** plus the main Tools hub.
+- Standalone guides: **13** plus the Guides hub.
+- Focused reference pages: **5** plus the References/method hub.
+- Comparison/product pages: **0**; no model database, affiliate catalog, or unsafe exact-product verdict was added.
+
+### Local QA
+
+- Automated verifier: PASS for **60 public HTML files** and **59 indexable sitemap URLs**.
+- Internal links/assets, duplicate IDs, unique titles, descriptions, canonical URLs, Open Graph, exactly one H1, parseable JSON-LD, sitemap parity, and GA4 loader/config exactly once: PASS.
+- Shared JavaScript syntax with the bundled Node runtime and `git diff --check`: PASS.
+- All six new Tools: normal default state, changed-input recalculation, explicit invalid input, Reset, no NaN/Infinity, Copy, and Print handler: PASS.
+- Targeted results passed: shared-pool fit/shortfall; role alignment/mismatch; USB4 fallback evidence/target state; direct-pass dock-fail high-refresh isolation; dropout evidence/insufficient controls; one-cable fit/power blocker.
+- Copy result text was read back from the browser clipboard. Print was invoked on a representative new Tool without a JavaScript error.
+- Full browser regression: all **28** interactive Tool routes produced a non-Ready initial result, no NaN/Infinity, and zero console errors/warnings.
+- Horizontal overflow and responsive layout: PASS on the complex One-Cable Monitor Planner at 390, 768, 900, 1024, 1280, and 1440 px; mobile result stacking through 900 px and desktop sticky result from 1024 px behaved as designed.
+- Tools hub mobile menu: PASS at 390 px with visible open navigation and `aria-expanded=true`; Tools hub desktop layout and all 34 hub cards fit without overflow at 1440 px.
+
+### Git and deployment
+
+- Start commit: `da41758da5d0b3c6fbf93804387cb5622a21b934`.
+- Implementation commit: pending final local review and commit.
+- Push/deployment: pending implementation commit, `main` push, and GitHub Pages verification.
+- Final commit: the final `main` commit containing the completed deployment record; resolve in the final task report because a commit cannot contain its own hash.
+
+### Next real work after this expansion
+
+1. Treat the first build as **complete** after this release; stop page-count expansion and collect Search Console/GA4 journey evidence for the 59 indexable pages.
+2. Define a compact GA4 event taxonomy for meaningful calculate/change, Copy, Reset, and Guide/Reference transitions before adding custom events; pageview GA4 is already present.
+3. Use query, landing-page, and support evidence to deepen or merge existing Tools. Do not add role, speed-label, high-refresh, or dock keyword variants that duplicate current logic.
+4. Keep all eleven maintained-data/exact-model candidates on HOLD until provenance, stable identifiers, refresh cadence, uncertainty labels, and correction workflows exist.
+5. Re-review USB-IF, VESA, Thunderbolt, Microsoft, and Apple public guidance when standards, certification, or operating-system behavior materially changes.

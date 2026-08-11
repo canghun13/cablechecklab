@@ -629,7 +629,174 @@
     paint(kind, missing.length ? 'Feature chain blocked' : unknown.length ? 'Feature chain unverified' : 'Declared feature chain', missing.length ? missing.length + ' blocked feature(s)' : unknown.length ? unknown.length + ' unknown feature(s)' : evaluated + ' feature(s) declared', missing.length ? 'At least one requested video feature is explicitly absent in the chain.' : unknown.length ? 'No explicit blocker was entered, but one or more segment claims are unknown.' : evaluated ? 'Every evaluated feature is explicitly declared end to end.' : 'No video feature is selected for evaluation.', list, 'An end-to-end declaration is necessary but not sufficient. Exact resolution/refresh combinations, color format, EDID, firmware, operating-system policy, content protection version, app behavior, and adapter implementation can still limit a feature.');
   }
 
-  const calculators = { charge: chargeCheck, cable: cableDecode, display: displayPlan, multiport: multiportPlan, pps: ppsRangeCheck, pdrequirement: pdRequirement, cableselector: cableSelector, datapath: dataPathCheck, dsc: dscPlan, lanes: lanePlan, dockrequirement: dockRequirement, hubpower: hubPowerBudget, troubleshoot, usb4path: usb4FeaturePath, usb4budget: usb4Budget, adapterdirection: adapterDirection, mstchain: mstChain, pdfixed: pdFixedProfile, multiportcompare: multiportCompare, directdock: directDockIsolation, portdecode: portDecode, videochain: videoFeatureChain };
+  function hubBandwidth() {
+    const upstream = number('hubUpstream');
+    const share = number('hubShare');
+    const demands = [1, 2, 3, 4].map((i) => number('hubDemand' + i));
+    if (!Number.isFinite(upstream) || upstream <= 0 || !Number.isFinite(share) || share <= 0 || share > 100 || demands.some((n) => !Number.isFinite(n) || n < 0)) {
+      paint('bad', 'Check input', '—', 'Enter a positive upstream pool, a 1–100% planning share, and non-negative device demands.', ['Use zero for an unused device row.'], 'This planner uses only the values you enter; it does not infer controller efficiency or live traffic.');
+      return;
+    }
+    const budget = upstream * share / 100;
+    const total = demands.reduce((sum, n) => sum + n, 0);
+    const margin = budget - total;
+    const active = demands.filter((n) => n > 0).length;
+    const list = demands.map((n, i) => 'Device ' + (i + 1) + ': ' + fmt(n, 2) + ' Gbps planning demand.');
+    list.push('Shared upstream budget: ' + fmt(upstream, 2) + ' Gbps × ' + fmt(share, 1) + '% = ' + fmt(budget, 2) + ' Gbps.');
+    list.push(margin >= 0 ? 'Planning headroom: ' + fmt(margin, 2) + ' Gbps.' : 'Planning shortfall: ' + fmt(-margin, 2) + ' Gbps.');
+    paint(margin >= 0 ? 'ok' : 'bad', margin >= 0 ? 'Budget fits' : 'Shared pool exceeded', fmt(total, 2) + ' / ' + fmt(budget, 2) + ' Gbps', margin >= 0 ? 'The entered simultaneous demand fits inside the visible planning budget.' : 'The entered devices demand more than the selected shared planning budget.', list, 'This is an aggregate planning screen for one shared upstream USB pool. Protocol overhead, burstiness, storage workload, hub translation, controller topology, firmware, and operating-system scheduling affect measured throughput. A fit is not a speed guarantee.');
+  }
+
+  function roleMatch() {
+    const aPower = value('roleAPower');
+    const bPower = value('roleBPower');
+    const aData = value('roleAData');
+    const bData = value('roleBData');
+    const aVideo = value('roleAVideo');
+    const bVideo = value('roleBVideo');
+    const powerIntent = value('rolePowerIntent');
+    const dataIntent = value('roleDataIntent');
+    const videoIntent = value('roleVideoIntent');
+    if ([aPower, bPower, aData, bData, aVideo, bVideo, powerIntent, dataIntent, videoIntent].some((v) => !v)) {
+      paint('bad', 'Check input', '—', 'Choose declared roles and the intended direction for power, data, and video.', ['Use Unknown when documentation does not declare a role, and Not needed for an unused function.'], 'Connector shape alone does not establish a role.');
+      return;
+    }
+    const blockers = [];
+    const unknown = [];
+    const list = [];
+    const supports = (role, required, dual) => role === required || role === dual;
+    const checkPair = (label, intent, aRole, bRole, forwardRequired, reverseRequired, dual) => {
+      if (intent === 'none') { list.push(label + ': not required.'); return; }
+      const forward = intent === 'a-b';
+      const leftRequired = forward ? forwardRequired : reverseRequired;
+      const rightRequired = forward ? reverseRequired : forwardRequired;
+      const left = forward ? aRole : bRole;
+      const right = forward ? bRole : aRole;
+      if (left === 'unknown' || right === 'unknown') unknown.push(label + ' role declaration');
+      if (left !== 'unknown' && !supports(left, leftRequired, dual)) blockers.push(label + ' origin is not declared as ' + leftRequired);
+      if (right !== 'unknown' && !supports(right, rightRequired, dual)) blockers.push(label + ' destination is not declared as ' + rightRequired);
+      list.push(label + ': intended ' + (forward ? 'A → B' : 'B → A') + '; entered roles ' + left + ' → ' + right + '.');
+    };
+    checkPair('Power', powerIntent, aPower, bPower, 'source', 'sink', 'drp');
+    checkPair('Data', dataIntent, aData, bData, 'host', 'device', 'drd');
+    checkPair('Video', videoIntent, aVideo, bVideo, 'source', 'sink', 'dual');
+    if (blockers.length) list.push('Role mismatch: ' + blockers.join('; ') + '.');
+    if (unknown.length) list.push('Still verify: ' + unknown.join('; ') + '.');
+    paint(blockers.length ? 'bad' : unknown.length ? 'warn' : 'ok', blockers.length ? 'Role mismatch' : unknown.length ? 'Roles unverified' : 'Declared roles align', blockers.length ? blockers.length + ' blocker(s)' : unknown.length ? unknown.length + ' unknown(s)' : 'A ↔ B', blockers.length ? 'At least one endpoint cannot perform the intended declared role.' : unknown.length ? 'No mismatch is proven, but one or more required roles are unknown.' : 'The entered endpoint roles align with every selected direction.', list, 'USB Power Delivery can swap some power and data roles when both products support the behavior. This checker compares declared roles only; it cannot prove policy, cable capability, Alt Mode entry, power level, or live negotiation.');
+  }
+
+  function usb4Fallback() {
+    const target = number('fallbackTarget');
+    const observed = number('fallbackObserved');
+    const host = number('fallbackHost');
+    const cable = number('fallbackCable');
+    const device = number('fallbackDevice');
+    const path = value('fallbackPath');
+    const direct = value('fallbackDirect');
+    const enumerated = value('fallbackEnumerated');
+    if (![target, observed, host, cable, device].every((n) => Number.isFinite(n) && n >= 0) || target <= 0 || observed <= 0 || !path || !direct || !enumerated) {
+      paint('bad', 'Check input', '—', 'Complete the target, observed rate, segment claims, path, direct test, and operating-system evidence.', ['Use 0 Gbps only for an unknown segment declaration.'], 'This isolates evidence; it does not read a negotiated link.');
+      return;
+    }
+    const list = ['Target class: ' + fmt(target, 0) + ' Gbps; observed or reported class: ' + fmt(observed, 0) + ' Gbps.', 'Declared ceilings — host: ' + (host || 'unknown') + ', cable: ' + (cable || 'unknown') + ', device: ' + (device || 'unknown') + ' Gbps.'];
+    const blockers = [];
+    const unknown = [];
+    [['host port', host], ['cable', cable], ['device', device]].forEach(([label, cap]) => cap === 0 ? unknown.push(label) : cap < target && blockers.push(label + ' declared at ' + cap + ' Gbps'));
+    if (path === 'intermediary' && direct === 'target') blockers.push('intermediary path because the direct control reaches target');
+    if (observed < target) list.push('Fallback gap: ' + fmt(target - observed, 0) + ' Gbps below the intended class.');
+    else list.push('The entered observed class reaches the target; no rate fallback is present in this record.');
+    if (enumerated === 'no') list.push('The intended USB4 hub/device is not listed by the operating system; recheck port, cable, intermediary, power, and device support.');
+    if (direct === 'below') list.push('The direct control is also below target, so the intermediary is not isolated as the only cause.');
+    if (blockers.length) list.push('Implicated evidence: ' + blockers.join('; ') + '.');
+    if (unknown.length) list.push('Missing declarations: ' + unknown.join(', ') + '.');
+    const atTarget = observed >= target;
+    const conflict = atTarget && blockers.length;
+    const kind = conflict ? 'warn' : atTarget ? 'ok' : blockers.length ? 'bad' : 'warn';
+    paint(kind, conflict ? 'Claims conflict' : atTarget ? 'Target class reached' : blockers.length ? 'Fallback evidence found' : 'Fallback not isolated', fmt(observed, 0) + ' Gbps entered', conflict ? 'The entered observed class reaches target, but at least one segment declaration or path comparison contradicts it.' : atTarget ? 'The entered link class meets the intended target.' : blockers.length ? 'At least one entered segment or A/B test explains a lower class.' : 'The rate is below target, but the current evidence does not isolate a segment.', list, 'A marketed maximum is not proof of the live negotiated class, and application throughput is not the raw link rate. Verify exact port, cable, device, intermediary, power, firmware, operating-system USB4 listing, and a direct known-good control.');
+  }
+
+  function highRefreshIsolation() {
+    const demand = number('refreshDemand');
+    const capacity = number('refreshCapacity');
+    const low = value('refreshLow');
+    const direct = value('refreshDirect');
+    const dock = value('refreshDock');
+    const reduced = value('refreshReduced');
+    const features = value('refreshFeatures');
+    if (![demand, capacity].every((n) => Number.isFinite(n) && n > 0) || [low, direct, dock, reduced, features].some((v) => !v)) {
+      paint('bad', 'Check input', '—', 'Enter positive payload values and complete every control-test state.', ['Use the same display, cable, timing, and feature settings when comparing paths.'], 'No exact mode is inferred from resolution and refresh labels alone.');
+      return;
+    }
+    const list = ['Entered target payload: ' + fmt(demand, 2) + ' Gbps; entered usable path capacity: ' + fmt(capacity, 2) + ' Gbps.'];
+    const blockers = [];
+    const unknown = [];
+    if (demand > capacity) blockers.push('target payload exceeds entered usable capacity');
+    if (features === 'no') blockers.push('a required end-to-end feature is explicitly absent');
+    if (features === 'unknown') unknown.push('HDR/VRR/DSC/color-depth feature chain');
+    if (direct === 'pass' && dock === 'fail') blockers.push('dock/adapter path because the direct target mode passes');
+    if (direct === 'fail') list.push('The target also fails directly; establish the host, cable, display, timing, and feature baseline before blaming a dock.');
+    if (low === 'pass' && reduced === 'pass') list.push('Lower refresh and/or reduced color/HDR succeeds, which is consistent with a capacity or exact-mode feature boundary.');
+    if (low === 'fail') blockers.push('basic lower-refresh baseline also fails');
+    if (blockers.length) list.push('Implicated evidence: ' + blockers.join('; ') + '.');
+    if (unknown.length) list.push('Still verify: ' + unknown.join(', ') + '.');
+    paint(blockers.length ? 'bad' : unknown.length ? 'warn' : 'info', blockers.length ? 'Failure layer narrowed' : unknown.length ? 'Mode unverified' : 'More control evidence needed', demand > capacity ? fmt(demand - capacity, 2) + ' Gbps over' : fmt(capacity - demand, 2) + ' Gbps headroom', blockers.length ? 'The entered payload or A/B evidence identifies at least one boundary.' : unknown.length ? 'Payload fits, but an end-to-end feature declaration remains unknown.' : 'The entered record has no explicit capacity blocker; continue exact-mode isolation.', list, 'Payload arithmetic is a screen, not a mode guarantee. Exact timings, blanking, chroma, bit depth, HDR, DSC, VRR, GPU limits, MST, EDID, operating-system policy, firmware, and adapter implementation can change the result.');
+  }
+
+  function peripheralDropout() {
+    const trigger = value('dropTrigger');
+    const scope = value('dropScope');
+    const direct = value('dropDirect');
+    const powered = value('dropPowered');
+    const lighter = value('dropLighter');
+    const cable = value('dropCable');
+    if ([trigger, scope, direct, powered, lighter, cable].some((v) => !v)) {
+      paint('bad', 'Check input', '—', 'Complete the trigger, failure scope, and each controlled comparison.', ['Use Not tested when a control has not been run.'], 'A symptom alone does not identify a failed component.');
+      return;
+    }
+    const list = ['Trigger: ' + trigger.replace('-', ' ') + '; scope: ' + scope.replace('-', ' ') + '.'];
+    const evidence = [];
+    if (direct === 'stable') evidence.push('hub/dock or shared upstream layer: direct connection is stable');
+    if (direct === 'drops') evidence.push('device/host/cable/software baseline: direct connection also drops');
+    if (powered === 'helps') evidence.push('power budget or power delivery: external power prevents the dropout');
+    if (lighter === 'helps') evidence.push('shared load or bandwidth/power contention: lighter load prevents the dropout');
+    if (cable === 'helps') evidence.push('original cable/path integrity: alternate known-good cable prevents the dropout');
+    if (trigger === 'idle') evidence.push('power-state/resume path: the failure follows idle or wake');
+    if (scope === 'all') evidence.push('common upstream link, hub power, or controller: all downstream functions drop together');
+    else evidence.push('device-specific branch: only one peripheral drops');
+    list.push(...evidence.map((item, i) => (i + 1) + '. ' + item + '.'));
+    const strong = [direct, powered, lighter, cable].filter((v) => v === 'stable' || v === 'drops' || v === 'helps' || v === 'nochange').length;
+    paint(strong >= 2 ? 'warn' : 'info', strong >= 2 ? 'Evidence ranked' : 'More A/B tests needed', evidence.length + ' clue(s)', strong >= 2 ? 'The controlled comparisons narrow the next layer to inspect.' : 'Run direct, powered, lighter-load, and known-good-cable controls one at a time.', list, 'These tests rank implicated layers; they do not diagnose an exact defective product. Preserve the same workload and change one variable at a time. Drivers, firmware, thermal behavior, connector fit, storage faults, and operating-system power policy can produce similar symptoms.');
+  }
+
+  function oneCableMonitor() {
+    const hostVideo = value('monitorHostVideo');
+    const cableVideo = value('monitorCableVideo');
+    const monitorVideo = value('monitorInputVideo');
+    const displayDemand = number('monitorDisplayDemand');
+    const displayCapacity = number('monitorDisplayCapacity');
+    const laptopPower = number('monitorLaptopPower');
+    const monitorPower = number('monitorPowerOffer');
+    const cablePower = number('monitorCablePower');
+    const usbDemand = number('monitorUsbDemand');
+    const usbCapacity = number('monitorUsbCapacity');
+    if ([hostVideo, cableVideo, monitorVideo].some((v) => !v) || ![displayDemand, displayCapacity, laptopPower, monitorPower, cablePower, usbDemand, usbCapacity].every((n) => Number.isFinite(n) && n >= 0) || displayDemand <= 0 || displayCapacity <= 0) {
+      paint('bad', 'Check input', '—', 'Complete the three video declarations and enter non-negative power/data values plus positive display payload values.', ['Use zero only when charging or monitor USB data is not required.'], 'A USB-C receptacle does not guarantee video, charging, or downstream USB.');
+      return;
+    }
+    const blockers = [];
+    const unknown = [];
+    [['host video output', hostVideo], ['cable video path', cableVideo], ['monitor USB-C video input', monitorVideo]].forEach(([label, state]) => state === 'no' ? blockers.push(label) : state === 'unknown' && unknown.push(label));
+    if (displayDemand > displayCapacity) blockers.push('display payload exceeds entered usable capacity');
+    const powerCeiling = Math.min(monitorPower, cablePower);
+    if (laptopPower > 0 && powerCeiling < laptopPower) blockers.push('monitor/cable charging ceiling is below laptop target');
+    if (usbDemand > usbCapacity) blockers.push('monitor hub demand exceeds entered USB upstream pool');
+    const list = ['Display: ' + fmt(displayDemand, 2) + ' Gbps demand / ' + fmt(displayCapacity, 2) + ' Gbps usable capacity.', 'Charging: ' + fmt(laptopPower, 0) + ' W target / ' + fmt(powerCeiling, 0) + ' W declared monitor-and-cable ceiling.', 'Monitor USB: ' + fmt(usbDemand, 2) + ' Gbps demand / ' + fmt(usbCapacity, 2) + ' Gbps upstream pool.'];
+    if (blockers.length) list.push('Blocking condition(s): ' + blockers.join('; ') + '.');
+    if (unknown.length) list.push('Still verify: ' + unknown.join(', ') + '.');
+    paint(blockers.length ? 'bad' : unknown.length ? 'warn' : 'ok', blockers.length ? 'One-cable plan blocked' : unknown.length ? 'One-cable plan unverified' : 'Declared one-cable fit', blockers.length ? blockers.length + ' blocker(s)' : unknown.length ? unknown.length + ' unknown(s)' : 'Video + power + USB', blockers.length ? 'At least one entered requirement cannot pass through this one-cable plan.' : unknown.length ? 'The numeric budgets fit, but a required video declaration is unknown.' : 'The entered video, charging, and USB requirements fit on paper.', list, 'This combines declared requirements; it does not prove an exact host/monitor pairing. Lane sharing, DSC, display timing, monitor KVM behavior, Ethernet/audio, wake/sleep, firmware, cable construction, and power negotiation still require exact-model verification.');
+  }
+
+  const calculators = { charge: chargeCheck, cable: cableDecode, display: displayPlan, multiport: multiportPlan, pps: ppsRangeCheck, pdrequirement: pdRequirement, cableselector: cableSelector, datapath: dataPathCheck, dsc: dscPlan, lanes: lanePlan, dockrequirement: dockRequirement, hubpower: hubPowerBudget, troubleshoot, usb4path: usb4FeaturePath, usb4budget: usb4Budget, adapterdirection: adapterDirection, mstchain: mstChain, pdfixed: pdFixedProfile, multiportcompare: multiportCompare, directdock: directDockIsolation, portdecode: portDecode, videochain: videoFeatureChain, hubbandwidth: hubBandwidth, rolematch: roleMatch, usb4fallback: usb4Fallback, highrefresh: highRefreshIsolation, dropout: peripheralDropout, onecablemonitor: oneCableMonitor };
   const calculate = calculators[tool.dataset.tool];
   if (!calculate) return;
   form.addEventListener('input', calculate);

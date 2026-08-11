@@ -1,1 +1,117 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>USB-C, USB4 Dock & Hub Tools — Requirements, Power & Isolation</title><meta name="description" content="Build dock requirements, budget power, plan USB4 tunnels and display lanes, check data paths, and compare direct versus dock failures."><link rel="canonical" href="https://cablechecklab.com/tools/docks/"><meta property="og:title" content="USB-C, USB4 Dock & Hub Tools"><meta property="og:description" content="Plan dock functions without an unsafe exact-model compatibility promise."><meta property="og:type" content="website"><meta property="og:url" content="https://cablechecklab.com/tools/docks/"><link rel="stylesheet" href="/assets/styles.css"><script async src="https://www.googletagmanager.com/gtag/js?id=G-8PFRRXPGEF"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-8PFRRXPGEF');</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"USB-C USB4 Dock and Hub Tools","url":"https://cablechecklab.com/tools/docks/"}</script></head><body><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><div class="nav-shell"><a class="brand" href="/"><span class="brand-mark"></span>Cable Check Lab</a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button><nav class="main-nav" id="main-nav"><a href="/tools/" aria-current="page">Tools</a><a href="/guides/">Guides</a><a href="/references/">References</a><a href="/about/">About</a></nav></div></header><main id="main"><section class="page-hero"><div class="shell"><div class="breadcrumbs"><a href="/">Home</a> / <a href="/tools/">Tools</a> / Docks & Hubs</div><p class="eyebrow">Dock & hub workbench</p><h1>Plan the dock as four shared systems.</h1><p class="lede">Host features, display topology, data/tunnel bandwidth, and power allocation can fail independently.</p></div></section><section class="section"><div class="shell"><div class="grid two"><article class="tool-card"><span class="tag">Pre-purchase</span><h3>Build the required feature checklist</h3><p>Translate displays, OS, host charging, data, and PCIe needs into rejection criteria.</p><a href="/tools/dock-requirement-builder/">Open Dock Requirement Builder →</a></article><article class="tool-card"><span class="tag">USB4 features</span><h3>Does the full path declare the workload?</h3><p>Check link rate and display, USB, PCIe, or mixed-dock features separately.</p><a href="/tools/usb4-feature-path/">Open Feature Path Checker →</a></article><article class="tool-card"><span class="tag">USB4 budget</span><h3>Do shared tunnel budgets fit?</h3><p>Add display, USB, and PCIe demand against an explicit planning share.</p><a href="/tools/usb4-tunnel-budget/">Open Tunnel Budget Planner →</a></article><article class="tool-card"><span class="tag">Power</span><h3>Does the supply cover host and peripherals?</h3><p>Add delivered host power, dock reserve, and downstream budgets.</p><a href="/tools/hub-power-budget/">Open Hub Power Budget →</a></article><article class="tool-card"><span class="tag">Video/data lanes</span><h3>Does conventional Alt Mode need all four lanes?</h3><p>Test whether two DP lanes fit while preserving native USB 3.</p><a href="/tools/usb-c-lane-planner/">Open USB-C Lane Planner →</a></article><article class="tool-card"><span class="tag">Data</span><h3>Is the dock upstream link the bottleneck?</h3><p>Compare host, cable, hub, and device data classes.</p><a href="/tools/data-path-checker/">Open Data Path Checker →</a></article><article class="tool-card"><span class="tag">A/B isolation</span><h3>Which functions fail only through the dock?</h3><p>Compare direct and dock-path power, data, and video outcomes.</p><a href="/tools/direct-dock-isolation/">Open Direct vs Dock Matrix →</a></article><article class="tool-card"><span class="tag">Full isolation</span><h3>What should be bypassed first?</h3><p>Create a shortest-first sequence for charging, video, or disconnect failures.</p><a href="/tools/troubleshoot/">Open Troubleshooter →</a></article></div><div class="callout"><strong>Intentionally not offered:</strong> an exact dock model compatibility verdict without a maintained device database and complete vendor topology data.</div></div></section></main><footer class="site-footer"><div class="shell"><div class="footer-bottom"><span>© 2026 Cable Check Lab</span><span><a href="/tools/usb4-thunderbolt/">USB4 workbench</a> · <a href="/guides/dock-buying-checklist/">Buying checklist</a></span></div></div></footer><script src="/assets/app.js?v=20260811e" defer></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>USB-C, USB4 Dock & Hub Tools — Requirements, Power & Isolation</title>
+<meta name="description" content="Build dock requirements, budget power, plan USB4 tunnels and display lanes, check data paths, and compare direct versus dock failures.">
+<link rel="canonical" href="https://cablechecklab.com/tools/docks/">
+<meta property="og:title" content="USB-C, USB4 Dock & Hub Tools">
+<meta property="og:description" content="Plan dock functions without an unsafe exact-model compatibility promise.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cablechecklab.com/tools/docks/">
+<link rel="stylesheet" href="/assets/styles.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8PFRRXPGEF">
+</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-8PFRRXPGEF');</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"USB-C USB4 Dock and Hub Tools","url":"https://cablechecklab.com/tools/docks/"}</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="nav-shell">
+<a class="brand" href="/">
+<span class="brand-mark">
+</span>Cable Check Lab</a>
+<button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+<nav class="main-nav" id="main-nav">
+<a href="/tools/" aria-current="page">Tools</a>
+<a href="/guides/">Guides</a>
+<a href="/references/">References</a>
+<a href="/about/">About</a>
+</nav>
+</div>
+</header>
+<main id="main">
+<section class="page-hero">
+<div class="shell">
+<div class="breadcrumbs">
+<a href="/">Home</a> / <a href="/tools/">Tools</a> / Docks & Hubs</div>
+<p class="eyebrow">Dock & hub workbench</p>
+<h1>Plan the dock as four shared systems.</h1>
+<p class="lede">Host features, display topology, data/tunnel bandwidth, and power allocation can fail independently.</p>
+</div>
+</section>
+<section class="section">
+<div class="shell">
+<div class="grid two">
+<article class="tool-card">
+<span class="tag">Pre-purchase</span>
+<h3>Build the required feature checklist</h3>
+<p>Translate displays, OS, host charging, data, and PCIe needs into rejection criteria.</p>
+<a href="/tools/dock-requirement-builder/">Open Dock Requirement Builder →</a>
+</article>
+<article class="tool-card">
+<span class="tag">USB4 features</span>
+<h3>Does the full path declare the workload?</h3>
+<p>Check link rate and display, USB, PCIe, or mixed-dock features separately.</p>
+<a href="/tools/usb4-feature-path/">Open Feature Path Checker →</a>
+</article>
+<article class="tool-card">
+<span class="tag">USB4 budget</span>
+<h3>Do shared tunnel budgets fit?</h3>
+<p>Add display, USB, and PCIe demand against an explicit planning share.</p>
+<a href="/tools/usb4-tunnel-budget/">Open Tunnel Budget Planner →</a>
+</article>
+<article class="tool-card">
+<span class="tag">Power</span>
+<h3>Does the supply cover host and peripherals?</h3>
+<p>Add delivered host power, dock reserve, and downstream budgets.</p>
+<a href="/tools/hub-power-budget/">Open Hub Power Budget →</a>
+</article>
+<article class="tool-card">
+<span class="tag">Video/data lanes</span>
+<h3>Does conventional Alt Mode need all four lanes?</h3>
+<p>Test whether two DP lanes fit while preserving native USB 3.</p>
+<a href="/tools/usb-c-lane-planner/">Open USB-C Lane Planner →</a>
+</article>
+<article class="tool-card">
+<span class="tag">Data</span>
+<h3>Is the dock upstream link the bottleneck?</h3>
+<p>Compare host, cable, hub, and device data classes.</p>
+<a href="/tools/data-path-checker/">Open Data Path Checker →</a>
+</article>
+<article class="tool-card"><span class="tag">Shared data</span><h3>Can concurrent hub traffic fit upstream?</h3><p>Add several active device workloads against one explicit USB pool.</p><a href="/tools/usb-hub-bandwidth-planner/">Open Shared Bandwidth Planner →</a></article>
+<article class="tool-card">
+<span class="tag">A/B isolation</span>
+<h3>Which functions fail only through the dock?</h3>
+<p>Compare direct and dock-path power, data, and video outcomes.</p>
+<a href="/tools/direct-dock-isolation/">Open Direct vs Dock Matrix →</a>
+</article>
+<article class="tool-card">
+<span class="tag">Full isolation</span>
+<h3>What should be bypassed first?</h3>
+<p>Create a shortest-first sequence for charging, video, or disconnect failures.</p>
+<a href="/tools/troubleshoot/">Open Troubleshooter →</a>
+</article>
+<article class="tool-card"><span class="tag">Dropouts</span><h3>What does each controlled disconnect test implicate?</h3><p>Rank direct, power, load, cable, scope, and idle-state evidence.</p><a href="/tools/usb-peripheral-dropout-isolator/">Open Dropout Isolator →</a></article>
+</div>
+<div class="callout">
+<strong>Intentionally not offered:</strong> an exact dock model compatibility verdict without a maintained device database and complete vendor topology data.</div>
+</div>
+</section>
+</main>
+<footer class="site-footer">
+<div class="shell">
+<div class="footer-bottom">
+<span>© 2026 Cable Check Lab</span>
+<span>
+<a href="/tools/usb4-thunderbolt/">USB4 workbench</a> · <a href="/guides/dock-buying-checklist/">Buying checklist</a>
+</span>
+</div>
+</div>
+</footer>
+<script src="/assets/app.js?v=20260811f" defer>
+</script>
+</body>
+</html>

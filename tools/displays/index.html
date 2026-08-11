@@ -1,1 +1,117 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>USB-C Display Tools — Bandwidth, Features, DSC, MST & Lanes</title><meta name="description" content="Plan USB-C and DisplayPort payload, adapter features, DSC compression, lane tradeoffs, ordinary MST chains, dock requirements, and no-video isolation."><link rel="canonical" href="https://cablechecklab.com/tools/displays/"><meta property="og:title" content="USB-C Display Tools"><meta property="og:description" content="Payload, features, compression, lanes, topology, and OS limits are separate decisions."><meta property="og:type" content="website"><meta property="og:url" content="https://cablechecklab.com/tools/displays/"><link rel="stylesheet" href="/assets/styles.css"><script async src="https://www.googletagmanager.com/gtag/js?id=G-8PFRRXPGEF"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-8PFRRXPGEF');</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"USB-C Display Tools","url":"https://cablechecklab.com/tools/displays/"}</script></head><body><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><div class="nav-shell"><a class="brand" href="/"><span class="brand-mark"></span>Cable Check Lab</a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button><nav class="main-nav" id="main-nav"><a href="/tools/" aria-current="page">Tools</a><a href="/guides/">Guides</a><a href="/references/">References</a><a href="/about/">About</a></nav></div></header><main id="main"><section class="page-hero"><div class="shell"><div class="breadcrumbs"><a href="/">Home</a> / <a href="/tools/">Tools</a> / Displays</div><p class="eyebrow">Display workbench</p><h1>Plan payload, features, compression, lanes, and topology separately.</h1><p class="lede">A mode can fit the arithmetic and still fail because a source, adapter, cable, OS, or display omits the path.</p></div></section><section class="section"><div class="shell"><div class="grid two"><article class="tool-card"><span class="tag">Payload</span><h3>Will the uncompressed display target fit?</h3><p>Estimate resolution, refresh, color, and display-count demand.</p><a href="/tools/display-planner/">Open Display Link Planner →</a></article><article class="tool-card"><span class="tag">Features</span><h3>Which segment drops HDR, VRR, HDCP, audio, or DSC?</h3><p>Check source, adapter/dock, and display declarations.</p><a href="/tools/video-feature-chain/">Open Video Feature Chain →</a></article><article class="tool-card"><span class="tag">Compression</span><h3>What DSC ratio would be required?</h3><p>Compare uncompressed demand with link payload and a 3:1 planning boundary.</p><a href="/tools/dsc-requirement-planner/">Open DSC Requirement Planner →</a></article><article class="tool-card"><span class="tag">Lane tradeoff</span><h3>Can video preserve native USB 3 data?</h3><p>Test the same payload against two and four conventional DP Alt Mode lanes.</p><a href="/tools/usb-c-lane-planner/">Open USB-C Lane Planner →</a></article><article class="tool-card"><span class="tag">MST chain</span><h3>Can ordinary MST extend every display?</h3><p>Screen OS policy, branch roles, display count, and shared payload.</p><a href="/tools/mst-chain-checker/">Open MST Chain Checker →</a></article><article class="tool-card"><span class="tag">Dock topology</span><h3>What must a multi-display dock support?</h3><p>Build OS-aware MST, Thunderbolt, USB4, display-count, and USB-graphics checks.</p><a href="/tools/dock-requirement-builder/">Open Dock Requirement Builder →</a></article><article class="tool-card"><span class="tag">Adapter direction</span><h3>Does the path need active conversion?</h3><p>Classify USB-C, DP, HDMI, DVI, reverse, and USB graphics paths.</p><a href="/tools/video-adapter-direction/">Open Direction Checker →</a></article><article class="tool-card"><span class="tag">Isolation</span><h3>Why is there no video or low refresh?</h3><p>Prove a direct path, lower the mode, then restore one component at a time.</p><a href="/tools/troubleshoot/">Open Troubleshooter →</a></article></div><div class="callout"><strong>Order:</strong> one-stream payload → all streams on the link → optional features → DSC → lane/tunnel topology → host/OS display count.</div></div></section></main><footer class="site-footer"><div class="shell"><div class="footer-bottom"><span>© 2026 Cable Check Lab</span><span><a href="/tools/video-adapters/">Adapter workbench</a> · <a href="/references/link-payloads/">Payload reference</a></span></div></div></footer><script src="/assets/app.js?v=20260811e" defer></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>USB-C Display Tools — Bandwidth, Features, DSC, MST & Lanes</title>
+<meta name="description" content="Plan USB-C and DisplayPort payload, adapter features, DSC compression, lane tradeoffs, ordinary MST chains, dock requirements, and no-video isolation.">
+<link rel="canonical" href="https://cablechecklab.com/tools/displays/">
+<meta property="og:title" content="USB-C Display Tools">
+<meta property="og:description" content="Payload, features, compression, lanes, topology, and OS limits are separate decisions.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cablechecklab.com/tools/displays/">
+<link rel="stylesheet" href="/assets/styles.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8PFRRXPGEF">
+</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-8PFRRXPGEF');</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"USB-C Display Tools","url":"https://cablechecklab.com/tools/displays/"}</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="nav-shell">
+<a class="brand" href="/">
+<span class="brand-mark">
+</span>Cable Check Lab</a>
+<button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+<nav class="main-nav" id="main-nav">
+<a href="/tools/" aria-current="page">Tools</a>
+<a href="/guides/">Guides</a>
+<a href="/references/">References</a>
+<a href="/about/">About</a>
+</nav>
+</div>
+</header>
+<main id="main">
+<section class="page-hero">
+<div class="shell">
+<div class="breadcrumbs">
+<a href="/">Home</a> / <a href="/tools/">Tools</a> / Displays</div>
+<p class="eyebrow">Display workbench</p>
+<h1>Plan payload, features, compression, lanes, and topology separately.</h1>
+<p class="lede">A mode can fit the arithmetic and still fail because a source, adapter, cable, OS, or display omits the path.</p>
+</div>
+</section>
+<section class="section">
+<div class="shell">
+<div class="grid two">
+<article class="tool-card">
+<span class="tag">Payload</span>
+<h3>Will the uncompressed display target fit?</h3>
+<p>Estimate resolution, refresh, color, and display-count demand.</p>
+<a href="/tools/display-planner/">Open Display Link Planner →</a>
+</article>
+<article class="tool-card">
+<span class="tag">Features</span>
+<h3>Which segment drops HDR, VRR, HDCP, audio, or DSC?</h3>
+<p>Check source, adapter/dock, and display declarations.</p>
+<a href="/tools/video-feature-chain/">Open Video Feature Chain →</a>
+</article>
+<article class="tool-card">
+<span class="tag">Compression</span>
+<h3>What DSC ratio would be required?</h3>
+<p>Compare uncompressed demand with link payload and a 3:1 planning boundary.</p>
+<a href="/tools/dsc-requirement-planner/">Open DSC Requirement Planner →</a>
+</article>
+<article class="tool-card">
+<span class="tag">Lane tradeoff</span>
+<h3>Can video preserve native USB 3 data?</h3>
+<p>Test the same payload against two and four conventional DP Alt Mode lanes.</p>
+<a href="/tools/usb-c-lane-planner/">Open USB-C Lane Planner →</a>
+</article>
+<article class="tool-card">
+<span class="tag">MST chain</span>
+<h3>Can ordinary MST extend every display?</h3>
+<p>Screen OS policy, branch roles, display count, and shared payload.</p>
+<a href="/tools/mst-chain-checker/">Open MST Chain Checker →</a>
+</article>
+<article class="tool-card">
+<span class="tag">Dock topology</span>
+<h3>What must a multi-display dock support?</h3>
+<p>Build OS-aware MST, Thunderbolt, USB4, display-count, and USB-graphics checks.</p>
+<a href="/tools/dock-requirement-builder/">Open Dock Requirement Builder →</a>
+</article>
+<article class="tool-card">
+<span class="tag">Adapter direction</span>
+<h3>Does the path need active conversion?</h3>
+<p>Classify USB-C, DP, HDMI, DVI, reverse, and USB graphics paths.</p>
+<a href="/tools/video-adapter-direction/">Open Direction Checker →</a>
+</article>
+<article class="tool-card">
+<span class="tag">Isolation</span>
+<h3>Why is there no video or low refresh?</h3>
+<p>Prove a direct path, lower the mode, then restore one component at a time.</p>
+<a href="/tools/troubleshoot/">Open Troubleshooter →</a>
+</article>
+<article class="tool-card"><span class="tag">High refresh</span><h3>Why does the target refresh fail?</h3><p>Combine payload, direct/dock, reduced-mode, and feature-chain evidence.</p><a href="/tools/high-refresh-display-isolator/">Open High-Refresh Isolator →</a></article>
+<article class="tool-card"><span class="tag">One-cable monitor</span><h3>Can one cable carry video, power, and USB?</h3><p>Check endpoint declarations and three separate budgets.</p><a href="/tools/one-cable-monitor-planner/">Open One-Cable Monitor Planner →</a></article>
+</div>
+<div class="callout">
+<strong>Order:</strong> one-stream payload → all streams on the link → optional features → DSC → lane/tunnel topology → host/OS display count.</div>
+</div>
+</section>
+</main>
+<footer class="site-footer">
+<div class="shell">
+<div class="footer-bottom">
+<span>© 2026 Cable Check Lab</span>
+<span>
+<a href="/tools/video-adapters/">Adapter workbench</a> · <a href="/references/link-payloads/">Payload reference</a>
+</span>
+</div>
+</div>
+</footer>
+<script src="/assets/app.js?v=20260811f" defer>
+</script>
+</body>
+</html>
