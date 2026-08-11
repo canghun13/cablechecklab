@@ -203,10 +203,15 @@ Potential long-term models are contextual advertising, clearly disclosed affilia
 - Added `robots.txt`, `sitemap.xml`, and `llms.txt`.
 - Added GA4 measurement ID `G-8PFRRXPGEF` once on every public HTML page, including 404.
 - Preserved the existing `CNAME` value `cablechecklab.com`.
+- Completed a post-launch trust and UX pass without increasing page count.
+- Removed invented charging fallback wattage and speculative multi-port power allocation from tool results.
+- Made charging-path, cable-product-type, and troubleshooting-path inputs affect their results.
+- Added explicit display-topology limits, a connected Tools hub journey, and refreshed primary-source references.
 
 ## Pending work
 
-- After launch data exists, select the next tool from HOLD based on search impressions and tool engagement rather than page-count targets.
+- Collect enough Search Console query/impression data and GA4 tool-engagement data to distinguish real demand from anecdotal demand.
+- Keep the device-specific charger directory, exact dock checker, cable-length estimator, and product-comparison layer on HOLD until their source, maintenance, and correction models are defined.
 
 ## QA
 
@@ -263,3 +268,86 @@ Required for every material release:
 ## Next real work after launch
 
 Use Search Console queries and GA4 tool usage to decide between a curated dock/display compatibility data model and a device-specific charging requirement directory. Before implementing either, define source provenance, update cadence, model identifiers, uncertainty rules, and a correction workflow.
+
+## 2026-08-11 post-launch trust and UX release
+
+### Start state
+
+- This computer's workspace root contained only an empty, no-commit Git initialization with no remote. It was not treated as the project.
+- The repository was cloned non-destructively into a `repository` child directory.
+- Start local HEAD: `7e11d791b6e5a8656ed8d86ca5453910ecca9895`
+- Start `origin/main`: `7e11d791b6e5a8656ed8d86ca5453910ecca9895`
+- Start actual GitHub `main`: `7e11d791b6e5a8656ed8d86ca5453910ecca9895`
+- Working tree after clone/fetch: clean; branch `main`; no pull was required.
+
+### Decision
+
+- **No new public page or independent tool.** Inventory remains 15 public HTML files, 14 indexable pages, and five tools.
+- The next highest-value work was a quality release for result honesty, input usefulness, and navigation between existing tools.
+- Device-specific charging requirements: **HOLD** — still needs a maintained model/source normalization system.
+- Exact dock compatibility: **HOLD** — host, GPU, OS, firmware, chipset, MST/DSC, port-combination, and display-count data remain model-specific.
+- Cable length limit estimator: **HOLD** — active/passive construction, exact signaling target, certification, and topology still make a standalone estimate falsely precise.
+- Product comparator/affiliate layer: **HOLD** — no traffic-driven editorial scope or repeatable verified product-data process yet.
+- DP Alt Mode checker, charger selector, cable marking decoder, slow-charging calculator, and dual-monitor checker remain **MERGE** with the existing five-tool journey.
+- A charging-protocol fallback-wattage estimator is **REJECT** because a missing PPS or proprietary protocol does not imply one public, deterministic fallback rate.
+
+### Focused research
+
+- USB-IF's current public cable guidance confirms certified C-to-C cable marking around 60 W or 240 W and provides exact-product certification records; legacy 100 W claims must not be presented as current certified branding.
+- USB-IF's public Power Delivery overview supports a declared electrical ceiling up to 240 W but does not support inferring a negotiated fallback wattage from a missing protocol checkbox.
+- VESA's current public FAQ confirms DisplayPort over USB-C can use two or four high-speed lanes and that adapter, MST, DSC, source, cable, and display capabilities are separate prerequisites.
+- Microsoft documents DisplayPort MST support on supported Windows hardware; Apple directs users to model-specific external-display limits. This reinforces keeping universal dock/model verdicts on HOLD.
+- The research updated the existing reference/method page; it did not repeat the first-release market study.
+
+### Implementation
+
+- **USB-C Charge Check:** separates the arithmetic electrical ceiling from PPS/vendor-protocol uncertainty; removes the invented 50% fallback; reports multi-port and dock/monitor path verification requirements.
+- **Cable Capability Decoder:** uses the selected product type; distinguishes C-to-C, A-to-C, USB-C-to-DisplayPort, and USB-C-to-HDMI products; flags impossible or category-mismatched power/data/video claims; adds a normal legacy/basic A-to-C input path.
+- **Display Link Planner:** labels output as a payload estimate and explicitly reports the separate host display-count and MST/Thunderbolt/USB4 topology requirement for multiple streams.
+- **Multi-port Power Planner:** removes proportional per-device allocation; reports capped demand, port limits, total-budget shortfall, and the need for the manufacturer's exact occupied-port table.
+- **USB-C Troubleshooter:** uses the selected direct/dock/monitor/multi-adapter path to insert the highest-signal bypass test.
+- **Tools hub:** adds three suggested journeys so users move between tools only when a separate decision remains.
+- **References:** refreshes primary USB-IF, VESA, Microsoft, and Apple sources and aligns calculation notes with actual tool behavior.
+- Bumped the shared JavaScript asset query to `20260811b` on all 15 public HTML files to avoid stale cached behavior.
+
+### Changed files
+
+- Logic: `assets/app.js`
+- Tool UI/copy: `tools/charge-check/index.html`, `tools/cable-decoder/index.html`, `tools/multiport-planner/index.html`, `tools/troubleshoot/index.html`
+- Result-boundary copy only: `tools/display-planner/index.html` behavior comes from shared JavaScript
+- Hub/method: `tools/index.html`, `references/index.html`
+- Cache-buster only on the remaining public HTML files: `index.html`, `404.html`, About, Contact, Privacy, both guide pages, and both hub pages not otherwise listed above
+- Operating record: `handover.md`
+
+### QA
+
+- Automated verifier: PASS for 15 public HTML files and 14 sitemap/indexable pages.
+- Internal links/local assets, duplicate IDs, unique titles/descriptions, canonical, Open Graph, one H1, parseable JSON-LD, robots, sitemap parity, CNAME, and GA4 `G-8PFRRXPGEF` exactly once: PASS.
+- JavaScript syntax and `git diff --check`: PASS.
+- Real browser loaded all 15 public pages with CSS and `app.js?v=20260811b`, one H1, correct canonical behavior (404 intentionally non-indexable), and zero console warnings/errors.
+- Five tools: baseline result, changed input, invalid input, no NaN/Infinity, Reset, Copy, and Print: PASS.
+- Charge Check: missing PPS preserves the 100 W electrical ceiling and reports protocol uncertainty instead of inventing 50 W; multi-port path note and 65 W bottleneck: PASS.
+- Cable Decoder: C-to-C baseline, normal A-to-C, contradictory A-to-C video, USB-C-to-HDMI adapter, invalid length, and Reset: PASS.
+- Display Planner: one-stream fit, two-stream over-payload result plus topology boundary, invalid width, and Reset: PASS.
+- Multi-port Planner: 25 W shortfall without proportional allocation, 200 W fit, per-port limit, missing active port ceiling, and Reset: PASS.
+- Troubleshooter: direct baseline, dock bypass insertion, dual-display dock path, and Reset: PASS.
+- Copy clipboard content verified for all five tools; Print invoked for all five without JavaScript error or blocking dialog.
+- Horizontal overflow: PASS on Home, Tools hub, and representative two-panel planner at 390, 768, 900, 1024, 1280, and 1440 px.
+- Mobile navigation at 390 px: PASS for hidden/open states and `aria-expanded=false/true`.
+
+### Git and deployment
+
+- Start commit: `7e11d791b6e5a8656ed8d86ca5453910ecca9895`
+- Implementation commit: `a65fd63f3201c143f034e6515a9c9a38d3c9cad7` (`Harden tool result confidence and journeys`)
+- Implementation push: successful; GitHub `main` advanced from `7e11d791` to `a65fd63f`.
+- GitHub Pages: `pages build and deployment` run #5 (`31486757211`) completed successfully for `a65fd63f3201c143f034e6515a9c9a38d3c9cad7`.
+- Production verification: Charge Check preserved the 100 W electrical ceiling while reporting missing PPS as unverified; Multi-port Planner reported the 25 W shortfall without proportional allocation; the Tools hub showed the new suggested journeys; `app.js?v=20260811b`, `robots.txt`, and `sitemap.xml` were live; representative production pages had zero console warnings/errors.
+- Final commit: the commit containing this handover entry; resolve with `git log -1 --format=%H` after the final commit because a commit cannot contain its own hash.
+- Handover finalization: commit this operating record after the verified implementation deployment, push `main`, wait for the resulting Pages run, then verify actual remote `main` and a clean synchronized tree.
+
+### Next real work
+
+1. Do not add another tool merely to grow page count.
+2. Collect Search Console and GA4 evidence for the five existing tools.
+3. If device/model demand is real, define the source-provenance, update cadence, stable identifiers, uncertainty labels, correction workflow, and minimum viable record set before choosing a directory or exact compatibility checker.
+4. Re-review external technical sources when standards, operating-system behavior, or tool rules materially change.
