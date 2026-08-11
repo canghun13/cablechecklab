@@ -60,6 +60,7 @@
     const ratio = ceiling / need;
     const notes = ['Electrical ceiling: ' + fmt(ceiling) + ' W, set by ' + bottlenecks.join(' + ') + '.'];
     const protocolIssues = [];
+    if (need > 100) protocolIssues.push('A target above 100 W requires a mutually supported USB PD EPR profile across source and sink plus a 5 A EPR cable; entered wattages alone do not confirm that profile.');
     if (ppsNeeded && !pps) protocolIssues.push('The device needs PPS for the intended rate, but a matching charger PPS range was not confirmed. The fallback rate cannot be inferred from wattage alone.');
     if (proprietary) protocolIssues.push('The advertised maximum depends on a vendor-specific protocol or cable; standard USB PD may negotiate a different rate.');
     notes.push(...protocolIssues);
@@ -151,10 +152,10 @@
 
   function multiportPlan() {
     const total = number('total');
-    const wants = [1, 2, 3, 4].map((i) => Math.max(0, number('device' + i) || 0));
-    const caps = [1, 2, 3, 4].map((i) => Math.max(0, number('cap' + i) || 0));
-    if (!Number.isFinite(total) || total <= 0 || !wants.some((w) => w > 0)) {
-      paint('bad', 'Check input', '—', 'Add a positive charger budget and at least one device.', ['Unused rows can stay at zero.'], 'No allocation can be estimated without a total budget.');
+    const wants = [1, 2, 3, 4].map((i) => number('device' + i));
+    const caps = [1, 2, 3, 4].map((i) => number('cap' + i));
+    if (!Number.isFinite(total) || total <= 0 || ![...wants, ...caps].every((n) => Number.isFinite(n) && n >= 0) || !wants.some((w) => w > 0)) {
+      paint('bad', 'Check input', '—', 'Add a positive charger budget, non-negative row values, and at least one device.', ['Use zero for both fields on an unused row; an empty field is not treated as zero.'], 'No allocation can be estimated from missing or invalid values.');
       return;
     }
     const missingCaps = wants.some((w, i) => w > 0 && caps[i] <= 0);
@@ -196,6 +197,10 @@
     const maxW = number('maxW');
     if (![deviceV, deviceA, minV, maxV, maxA, maxW].every((n) => Number.isFinite(n) && n > 0) || minV > maxV) {
       paint('bad', 'Check input', '—', 'Enter positive values and a PPS minimum no higher than its maximum.', ['Copy one APDO range from the charger specification; do not combine values from different APDOs.'], 'No range result is produced from invalid input.');
+      return;
+    }
+    if (deviceV > 21 || minV > 21 || maxV > 21) {
+      paint('bad', 'Check input', '—', 'PPS entries must stay at or below 21 V.', ['Higher programmable-voltage ranges use an AVS APDO, not a PPS APDO. Use the exact APDO type and range from the source specification.'], 'This checker is limited to PPS. It does not evaluate SPR AVS or EPR AVS ranges.');
       return;
     }
     const requestW = deviceV * deviceA;
@@ -789,6 +794,7 @@
     if (displayDemand > displayCapacity) blockers.push('display payload exceeds entered usable capacity');
     const powerCeiling = Math.min(monitorPower, cablePower);
     if (laptopPower > 0 && powerCeiling < laptopPower) blockers.push('monitor/cable charging ceiling is below laptop target');
+    if (laptopPower > 100) unknown.push('USB PD EPR support across monitor, host, and 5 A EPR cable');
     if (usbDemand > usbCapacity) blockers.push('monitor hub demand exceeds entered USB upstream pool');
     const list = ['Display: ' + fmt(displayDemand, 2) + ' Gbps demand / ' + fmt(displayCapacity, 2) + ' Gbps usable capacity.', 'Charging: ' + fmt(laptopPower, 0) + ' W target / ' + fmt(powerCeiling, 0) + ' W declared monitor-and-cable ceiling.', 'Monitor USB: ' + fmt(usbDemand, 2) + ' Gbps demand / ' + fmt(usbCapacity, 2) + ' Gbps upstream pool.'];
     if (blockers.length) list.push('Blocking condition(s): ' + blockers.join('; ') + '.');

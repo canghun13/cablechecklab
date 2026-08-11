@@ -179,13 +179,12 @@ Potential long-term models are contextual advertising, clearly disclosed affilia
 
 ## Current inventory
 
-- Public HTML total: 15
-- Indexable HTML: 14
-- Tools: 5
-- Tool hubs: 1
-- Guides: 2
-- Guide hubs: 1
-- References: 1
+- Public HTML total: 60
+- Indexable HTML / sitemap URLs: 59; the custom 404 is the only non-indexable HTML page
+- Interactive Tools: 28
+- Problem workbenches: 6 (`charging`, `cables`, `displays`, `docks`, `usb4-thunderbolt`, and `video-adapters`) plus the main Tools hub
+- Standalone Guides: 13 plus the Guides hub
+- Focused References: 5 plus the References/method hub
 - Comparisons: 0
 - Other public pages: Home, About, Contact, Privacy, 404
 
@@ -211,7 +210,10 @@ Potential long-term models are contextual advertising, clearly disclosed affilia
 ## Pending work
 
 - Collect enough Search Console query/impression data and GA4 tool-engagement data to distinguish real demand from anecdotal demand.
-- Keep the device-specific charger directory, exact dock checker, cable-length estimator, and product-comparison layer on HOLD until their source, maintenance, and correction models are defined.
+- Define a compact GA4 event taxonomy for meaningful calculate/change, Copy, Reset, and Guide/Reference transitions before adding custom events; GA4 pageview collection is already present.
+- Use query, landing-page, journey, and support evidence to deepen or merge current Tools rather than add page-count or keyword variants.
+- Keep device/model charging data, exact dock/eGPU/adapter/MST compatibility, cable-length prediction, and product comparison on HOLD until provenance, stable identifiers, refresh cadence, uncertainty labels, and correction workflows are defined.
+- Re-review the public USB-IF, VESA, HDMI, Intel, Microsoft, and Apple boundaries when standards, certification, or operating-system behavior materially changes.
 
 ## QA
 
@@ -228,7 +230,7 @@ Required for every material release:
 - Horizontal overflow at 390, 768, 900, 1024, 1280, and 1440 px
 - Mobile navigation and keyboard focus
 - Every tool's baseline behavior, input-change recalculation, invalid input, no NaN/Infinity, Reset, Copy, and Print
-- Real browser checks on representative pages and all five tools
+- Real browser checks on representative pages and all current tools
 
 ### 2026-08-11 first-release QA result
 
@@ -795,3 +797,67 @@ Use Search Console queries and GA4 tool usage to decide between a curated dock/d
 3. Use query, landing-page, and support evidence to deepen or merge existing Tools. Do not add role, speed-label, high-refresh, or dock keyword variants that duplicate current logic.
 4. Keep all eleven maintained-data/exact-model candidates on HOLD until provenance, stable identifiers, refresh cadence, uncertainty labels, and correction workflows exist.
 5. Re-review USB-IF, VESA, Thunderbolt, Microsoft, and Apple public guidance when standards, certification, or operating-system behavior materially changes.
+
+## 2026-08-11 first-build final audit
+
+### Start state
+
+- Repository path on this computer: `C:\Users\cangh\OneDrive\문서\ChatGPT\cablechecklab\repository`.
+- Branch: `main`; remote: `https://github.com/canghun13/cablechecklab.git`.
+- Start local HEAD: `823720d7cad5d0287093c71eea85469d79b52ea4`.
+- Start `origin/main`: `823720d7cad5d0287093c71eea85469d79b52ea4`.
+- Start actual GitHub `main` from `git ls-remote`: `823720d7cad5d0287093c71eea85469d79b52ea4`.
+- Start tree: clean and synchronized after `git fetch origin main`; no pull was required.
+- Verified inventory: **60 public HTML files**, **59 indexable/sitemap pages**, **28 interactive Tools**, six problem workbenches plus the Tools hub, 13 standalone Guides plus the Guides hub, five focused References plus the References hub, and five other public pages.
+
+### Audit judgment
+
+- This was a final audit, not an expansion. No new Tool, Guide, Reference, workbench, comparison, or keyword-variant landing page was added.
+- All 28 Tool controllers, inputs, default results, boundaries, and neighboring-tool responsibilities were reviewed. No exact functional duplicate or unsafe model-specific claim was found, so no Tool was merged or removed.
+- Eight real defect groups were confirmed and fixed: missing-input coercion in Multi-port Planner; EPR uncertainty not surfaced by two composite charging screens; PPS accepting AVS-range voltages; one 390 px reference-table overflow; four weak primary-Tool breadcrumbs; three workbench footers without direct correction contact; incomplete shared navigation/accessibility on 404; and missing favicon/site identity asset.
+- Search Console/GA4 data remains the correct gate for the next product/content decision. The audit did not manufacture new scope merely because behavior data is still young.
+
+### Technical research and corrections
+
+- USB-IF's current Power Delivery overview confirms that the pre-EPR ceiling was 100 W at 20 V/5 A and that EPR adds 28 V, 36 V, and 48 V fixed voltages up to 240 W. Charge Check now labels a matching >100 W wattage path as protocol-unverified until source, sink, and 5 A EPR cable support are confirmed; One-Cable Monitor Planner similarly keeps >100 W monitor charging unverified.
+- USB-IF's QuadraMAX release record documents PPS manual requests through 21 V and separately identifies SPR AVS APDO support. PPS Range Checker now caps PPS voltage inputs at 21 V, rejects higher programmable-voltage entries as AVS rather than PPS, and the PD/PPS Guide records the PPS-versus-AVS boundary.
+- Primary sources: `https://www.usb.org/usb-charger-pd`, `https://www.usb.org/documents?category%5B0%5D=49&tid_2%5B0%5D=60`, and `https://compliance.usb.org/cv/QuadraMAX/Installer/releasenotes.html`.
+
+### Implementation
+
+- `assets/app.js`: rejects empty Multi-port Planner rows instead of coercing them to zero; adds >100 W EPR uncertainty to Charge Check and One-Cable Monitor Planner; rejects PPS/AVS category mixing above 21 V.
+- `assets/styles.css`: fixes narrow-screen prose tables with fixed layout and anywhere wrapping at the existing 640 px breakpoint.
+- `tools/pps-range-checker/index.html` and `guides/usb-pd-pps/index.html`: clarify PPS APDO scope, 21 V limit, and AVS distinction.
+- `tools/charge-check/`, `tools/multiport-planner/`, `tools/cable-decoder/`, and `tools/display-planner/`: restore their primary workbench in breadcrumbs.
+- `tools/charging/`, `tools/displays/`, and `tools/docks/`: add the direct correction contact already used elsewhere.
+- `404.html`: adds the shared skip link, menu control, and full primary navigation while retaining `noindex`.
+- Added `favicon.svg`, linked it from all 60 HTML pages, and advanced shared CSS/JavaScript cache keys to `20260811g` without changing GA4.
+- The inventory remains **60 HTML / 59 indexable / 28 Tools / 6 workbenches / 13 Guides / 5 References**.
+
+### Local QA
+
+- Automated verifier: PASS for **60 public HTML files** and **59 indexable sitemap URLs**.
+- Internal links/assets, duplicate IDs, unique titles/descriptions, exact canonical and Open Graph routes, one H1, parseable JSON-LD, sitemap parity, robots/CNAME, and GA4 loader/config exactly once: PASS.
+- Only `G-8PFRRXPGEF` and `canghun13@naver.com` are used in public HTML; no accidental localhost, filesystem, placeholder, debug, or extra `noindex` content was found.
+- JavaScript syntax, `git diff --check`, UTF-8 character scan, and no NaN/Infinity: PASS.
+- Real-browser load audit: all **60** pages loaded with one H1; all **28** Tool routes initialized to a non-Ready result; console errors/warnings: zero.
+- Full Tool interaction audit across all **28** Tools covered changed-input recalculation, Reset, Copy, Print, and invalid input where applicable. All passed. The four corrected Tools then received a second targeted final-state pass including empty fields, EPR/AVS boundaries, Reset, clipboard read-back, and Print invocation.
+- Cross-tool consistency passed for charging/EPR, display payload/DSC/lane/feature chains, USB4 feature/budget/fallback, dock power/bandwidth, and three troubleshooting/isolation paths. A 140 W scenario now yields EPR-required in PD Requirement Builder, a 240 W/5 A e-marked minimum in Cable Selector, and protocol-unverified in Charge Check.
+- Responsive audit: **42 checks** covering seven structurally different pages at 390, 768, 900, 1024, 1280, and 1440 px; no horizontal overflow, H1/header overlap, or result-panel overflow. Mobile navigation passed on Home and 404 with `aria-expanded=true` and visible navigation.
+- Favicon, cache key `20260811g`, skip link/navigation on 404, corrected breadcrumbs, workbench contact links, and the formerly overflowing reference table were all rechecked in the browser.
+
+### Git and deployment
+
+- Start commit: `823720d7cad5d0287093c71eea85469d79b52ea4`.
+- Audit implementation commit: pending until this record is committed.
+- Push and GitHub Pages deployment: pending.
+- Production HTTP and browser verification: pending.
+- Final commit: the final `main` commit containing the completed deployment record; resolve in the final task report because a commit cannot contain its own hash.
+
+### Next real work after the final audit
+
+1. Treat the first build and its final audit as complete. Do not resume page-count expansion without evidence.
+2. Confirm or submit the 59-URL sitemap in Search Console, then collect query, landing-page, and GA4 journey evidence.
+3. Define a compact GA4 interaction taxonomy before adding calculate/change, Copy, Reset, or Guide/Reference transition events.
+4. Use evidence to deepen or merge current journeys. Keep device/model data, exact compatibility databases, cable-length prediction, and comparison/affiliate layers on HOLD until a maintainable evidence model exists.
+5. Re-audit public USB-IF/VESA/HDMI/Intel/Microsoft/Apple boundaries only when standards, certification, or operating-system behavior materially changes.

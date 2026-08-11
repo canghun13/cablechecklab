@@ -171,6 +171,8 @@ fieldset { border: 1px solid var(--line); margin: 0; padding: 14px; }
   .feature-grid { grid-template-columns: 1fr; }
   .feature-grid > strong { display: none; }
   .feature-grid > span { margin-top: 12px; }
+  .prose table { table-layout: fixed; }
+  .prose th, .prose td { overflow-wrap: anywhere; }
 }
 @media print {
   .site-header, .site-footer, .tool-panel, .tool-actions, .breadcrumbs { display: none !important; }
