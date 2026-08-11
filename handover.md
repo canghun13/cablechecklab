@@ -496,3 +496,150 @@ Use Search Console queries and GA4 tool usage to decide between a curated dock/d
 3. If model-level demand becomes strong, first define provenance, stable identifiers, refresh cadence, manufacturer/manual source rules, uncertainty labels, and correction workflow before promoting the device database or exact dock checker from HOLD.
 4. Revisit the adapter-chain checker only if search and troubleshooting data show a distinct pre-purchase intent that cannot be served by Cable Decoder, Dock Builder, and Troubleshooter.
 5. Re-review USB-IF, VESA, Thunderbolt, Microsoft, and Apple public guidance when standards or OS display behavior materially changes.
+
+## 2026-08-11 USB4, video-adapter, and isolation expansion
+
+### Start state
+
+- Repository path on this computer: `C:\Users\cangh\OneDrive\문서\ChatGPT\cablechecklab\repository`.
+- Branch: `main`; remote: `https://github.com/canghun13/cablechecklab.git`.
+- Start local HEAD: `9ffcf0721e7d7422d6a3f719b74a07fb24e610c9`.
+- Start `origin/main`: `9ffcf0721e7d7422d6a3f719b74a07fb24e610c9`.
+- Start actual GitHub `main` from `git ls-remote`: `9ffcf0721e7d7422d6a3f719b74a07fb24e610c9`.
+- Start tree: clean and synchronized; no pull was required.
+- Verified starting inventory: **33 public HTML files**, **32 indexable/sitemap pages**, **13 interactive tools**, four problem workbenches plus the Tools hub, six standalone guides plus the Guides hub, and two focused references plus the References hub.
+
+### Expansion judgment
+
+- This was not an observation-only stage. Current official documentation and recurring user failures supported a feature-first expansion around USB4/Thunderbolt, directional video conversion, MST topology, exact USB PD profile evidence, and direct-versus-dock isolation.
+- The release deliberately avoids product recommendations and exact-model verdicts. Every new tool consumes user-entered public declarations, transparent budgets, or A/B observations and preserves unknowns.
+- **29 candidate concepts reviewed: 9 GO, 8 MERGE, 8 HOLD, 4 REJECT.**
+
+#### GO — implemented
+
+1. USB4 Feature Path Checker — weakest declared rate plus explicit display/PCIe/USB/mixed-workload feature states.
+2. USB4 Tunnel Budget Planner — transparent display, USB, and PCIe planning budgets with a visible usable-share control.
+3. Video Adapter Direction Checker — same-signal, DP++ passive, active conversion, reverse conversion, and USB graphics categories.
+4. MST Daisy Chain Checker — OS policy, source/intermediate MST roles, display count, and shared payload.
+5. USB PD Fixed Profile Matcher — exact fixed voltage and sufficient current against up to four PDO rows.
+6. Multi-port Scenario Comparator — two exact manufacturer-table rows across four ports.
+7. Direct vs Dock Isolation Matrix — A/B power, data, and video observations.
+8. USB-C Port Capability Decoder — data, power direction, display, PCIe, USB4, contradictions, and preserved unknowns.
+9. Video Feature Chain Checker — source/adapter/display support for HDR, VRR, HDCP, audio, and DSC, with an explicit Not required state.
+
+#### MERGE
+
+- A separate Thunderbolt cable selector merges into Cable Requirement Selector plus USB4 Feature Path Checker.
+- A USB4/Thunderbolt generation-name decoder merges into Port Capability Decoder and the USB4 reference.
+- A mixed-resolution display calculator remains part of Display Link Planner; the formula is not an independent product.
+- A high-refresh external-display checker merges into the existing payload/DSC planners plus Adapter Direction and Feature Chain checks.
+- Symptom-specific power-only, data-only, and video-only dock pages merge into Direct vs Dock Isolation plus the existing Troubleshooter.
+- A standalone 3 A/5 A/EPR calculator remains inside PD Requirement Builder.
+- A fixed-profile text decoder is represented by the structured Fixed Profile Matcher instead of a second thin tool.
+- A generic dual-monitor dock checker merges into MST Chain Checker and Dock Requirement Builder.
+
+#### HOLD
+
+- Device/model charging database — no maintained, normalized model/source process.
+- Exact dock compatibility checker — host/GPU/OS/firmware/chipset/topology data remain model-specific.
+- Cable-length limit calculator — exact signaling target and active/passive/certified construction remain decisive.
+- Product comparison or affiliate layer — no verified catalog, correction process, or traffic-driven editorial scope.
+- Exact USB4/Thunderbolt eGPU or PCIe-enclosure model compatibility database.
+- Exact video-adapter model database.
+- Exact MST monitor-chain database.
+- External-device performance predictor; workload, host controller, storage, tunnel contention, and drivers prevent a safe generic verdict.
+
+#### REJECT
+
+- Connector-only USB4/Thunderbolt compatibility verdict.
+- “HDMI version guarantees every feature” checker.
+- Browser hardware/e-marker auto-detection; a normal web page cannot inspect the required hardware state.
+- Raw unit converters, automatic USB4 allocation prediction, reverse-passive-cable assumptions, and keyword clones.
+
+### Research findings
+
+- USB-IF describes USB4 as carrying multiple simultaneous USB/data/display protocols with dynamic sharing and scaling to mutual capability. This supports feature-path and transparent-budget tools, not a connector-only verdict.
+- Microsoft documents USB4 connection-manager tunnel/bandwidth handling, dynamic DisplayPort allocation, and an explicit allocation planning ceiling of 90% of the link in its Windows design model. The Tunnel Budget Planner exposes the percentage and labels 90% as a Windows planning default rather than universal efficiency.
+- Microsoft’s USB-C and external-monitor troubleshooting guidance repeatedly recommends a certified/direct cable path and bypassing docks, adapters, and dongles. Community reports repeatedly show charging/Ethernet working while dock video fails, validating a structured A/B isolation matrix.
+- VESA states that DisplayPort over USB-C can adapt to DP/HDMI/DVI/VGA; simple DP-to-HDMI/DVI paths depend on DP++ while other paths require protocol conversion. This supports a direction-first tool.
+- VESA and Microsoft support ordinary MST planning, while Apple’s model-specific display guidance reinforces keeping universal Mac/dock/display-count verdicts out of the tool.
+- USB-IF public PD material distinguishes fixed Source Capabilities, PPS/APDO behavior, EPR up to 240 W, and 60 W/240 W cable markings. Fixed-PDO matching is independent from the existing PPS and whole-chain tools.
+- Intel public Thunderbolt 4 and 5 material supplies certification/rate context: Thunderbolt 4 is a 40 Gbps class with documented minimums; Thunderbolt 5 is 80 Gbps bidirectional with a display-heavy 120 Gbps transmit mode. The tools do not treat the 120 mode as symmetric data.
+- Competition remains strongest in formula calculators and articles. The clearest gap is user-entered feature paths, direction classification, topology checks, exact table comparisons, and A/B-result interpretation.
+
+### Primary sources reviewed
+
+- USB-IF USB4: `https://www.usb.org/usb4`
+- USB-IF USB Power Delivery: `https://www.usb.org/usb-charger-pd`
+- USB-IF Cables and Connectors: `https://www.usb.org/cable_connector`
+- Microsoft USB4 connection manager: `https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/usb4-intro-to-connection-manager`
+- Microsoft USB4 PCIe tunneling test: `https://learn.microsoft.com/en-us/windows-hardware/test/hlk/testref/7d627bf0-25f3-4564-b554-b2a3450e2bcf`
+- Microsoft USB-C troubleshooting: `https://support.microsoft.com/en-us/windows/hardware/fix-usb-c-problems-in-windows`
+- Microsoft external-monitor troubleshooting: `https://support.microsoft.com/en-us/windows/hardware/display-graphics/troubleshoot-external-monitor-connections-in-windows`
+- VESA DisplayPort FAQ: `https://www.displayport.org/faq/`
+- VESA Get Connected: `https://www.displayport.org/get-connected/`
+- HDMI specification overview: `https://www.hdmi.org/spec/hdmi2_1`
+- Intel Thunderbolt 4 public deck: `https://www.thunderbolttechnology.net/sites/default/files/intel-thunderbolt4-announcement-press-deck.pdf`
+- Intel Thunderbolt 5 brief: `https://www.thunderbolttechnology.net/sites/default/files/Thunderbolt_5_TechBrief_2023_09_12.pdf`
+- Apple HDMI connections: `https://support.apple.com/en-us/108928`
+- Apple display connections: `https://support.apple.com/102555`
+
+### Implementation
+
+- Added nine independent interactive tools: `tools/usb4-feature-path/`, `tools/usb4-tunnel-budget/`, `tools/video-adapter-direction/`, `tools/mst-chain-checker/`, `tools/pd-fixed-profile-matcher/`, `tools/multiport-scenario-comparator/`, `tools/direct-dock-isolation/`, `tools/port-capability-decoder/`, and `tools/video-feature-chain/`.
+- Added two problem workbenches: `tools/usb4-thunderbolt/` and `tools/video-adapters/`.
+- Added four standalone guides: `guides/usb4-thunderbolt-planning/`, `guides/video-adapter-direction/`, `guides/mst-daisy-chain/`, and `guides/pd-profiles-port-tables/`.
+- Added two focused references: `references/usb4-tunneling/` and `references/video-conversion-features/`.
+- Rebuilt the Home, Tools, Charging, Cables, Displays, Docks, Guides, and References hub journeys around six workbenches and 22 tools.
+- Extended `assets/app.js` with nine tool controllers; added only the small responsive feature-chain grid extension to `assets/styles.css`.
+- Updated `sitemap.xml`, `llms.txt`, metadata/count copy, internal links, and the shared JavaScript cache key to `20260811e` on every public HTML page.
+- Preserved static HTML/CSS/vanilla JavaScript, GitHub Pages, GA4 `G-8PFRRXPGEF`, contact `canghun13@naver.com`, and the existing visual identity.
+
+### Changed files
+
+- Shared behavior/style: `assets/app.js`, `assets/styles.css`.
+- New pages: the nine Tool, two Workbench, four Guide, and two Reference directories listed above.
+- Rebuilt hubs/entry points: `index.html`, `tools/index.html`, `tools/charging/index.html`, `tools/cables/index.html`, `tools/displays/index.html`, `tools/docks/index.html`, `guides/index.html`, `references/index.html`.
+- Discovery: `sitemap.xml`, `llms.txt`.
+- Cache-key-only edits: remaining pre-existing public HTML files.
+- Operating record: `handover.md`.
+
+### Final inventory for this implementation
+
+- Public HTML files: **50** (up from 33).
+- Indexable/sitemap pages: **49** (up from 32); 404 remains non-indexable.
+- Interactive tools: **22** (13 existing + 9 new).
+- Problem workbenches: **6** plus the main Tools hub.
+- Standalone guides: **10** plus the Guides hub.
+- Focused reference pages: **4** plus the References/method hub.
+- Comparison/product pages: **0**; no affiliate catalog or model database was added.
+
+### Local QA
+
+- Automated verifier: PASS for **50 public HTML files** and **49 indexable sitemap URLs**.
+- Internal links/assets, duplicate IDs, unique titles, descriptions, canonical URLs, Open Graph, exactly one H1, parseable JSON-LD, sitemap parity, robots sitemap declaration, and GA4 loader/config exactly once: PASS.
+- Shared JavaScript syntax with the bundled Node runtime and `git diff --check`: PASS.
+- Nine new tools: normal default result, targeted changed-result scenario, empty/zero handling where inputs permit it, explicit failure/boundary result, no NaN/Infinity, Reset, Copy, and Print control: PASS.
+- Targeted new-tool states passed: broken USB4 feature path, USB4 budget shortfall, DP++ passive path, blocked MST payload, insufficient fixed-PDO current, port disabled between charger scenarios, direct-pass/dock-fail isolation, conflicting port claims, and blocked video feature chain.
+- Video Feature Chain post-QA improvement: explicit `Not required` state added and verified without treating excluded features as supported.
+- All 13 existing tools: changed-input recalculation, Reset, and no NaN/Infinity regression: PASS.
+- Copy clipboard state verified for all nine new tools. Shared Print handler invoked on representative new tools without JavaScript error or blocking dialog; every new page has exactly one Print control.
+- Horizontal overflow: PASS on Home, Tools hub, Video Feature Chain, and Fixed Profile Matcher at 390, 768, 900, 1024, 1280, and 1440 px.
+- Mobile navigation: PASS at 390 px with the menu visible/open and `aria-expanded=true`; desktop navigation breakpoint correct at 1024 px and above.
+- Visual review: PASS for Video Feature Chain/mobile menu at 390 px and Tools hub at 1440 px.
+- Browser console warnings/errors: zero after final local revision.
+
+### Git and deployment
+
+- Start commit: `9ffcf0721e7d7422d6a3f719b74a07fb24e610c9`.
+- Implementation commit: pending this local QA-complete commit.
+- Implementation push and GitHub Pages deployment: pending.
+- Final handover commit: the commit containing the completed deployment record; resolve with `git log -1 --format=%H` after the documentation commit because a commit cannot contain its own hash.
+
+### Next real work after this expansion
+
+1. Confirm or submit the 49-URL sitemap in Search Console, then let query/page and GA4 journey data accumulate. Use evidence to improve weak workbench-to-tool paths rather than add keyword variants.
+2. Add analytics events for meaningful tool interactions (calculate/change, Copy, and outbound Guide/Reference transitions) only after defining a compact event taxonomy; GA4 pageview collection is already present.
+3. Keep device/model charging data, exact dock/eGPU/adapter/MST compatibility databases, cable-length prediction, and affiliate comparison on HOLD until provenance, stable identifiers, update cadence, uncertainty labels, and correction workflows are defined.
+4. Re-review USB-IF, VESA, HDMI, Intel, Microsoft, and Apple public guidance when standards, certification requirements, or OS display/tunnel behavior materially changes.
+5. Use Search Console/GA4 and support feedback to decide whether the next release should deepen one current tool, merge a weak journey, or define a maintainable data product. Do not target a page count by itself.

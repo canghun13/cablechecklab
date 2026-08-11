@@ -1,41 +1,54 @@
 # Cable Check Lab
 
-> Cable Check Lab provides free, browser-only tools for consumer USB-C cable, charger, port, dock, and display compatibility, selection, planning, and troubleshooting.
+> Cable Check Lab provides 22 free, browser-only tools for USB-C, USB Power Delivery, USB4, Thunderbolt, video adapters, DisplayPort, docks, and troubleshooting.
 
 Primary URL: https://cablechecklab.com/
 Contact: canghun13@naver.com
 Language: English
 
-## Tool workbenches
+## Six workbenches
 
-- [Charging tools](https://cablechecklab.com/tools/charging/): USB PD requirements, PPS ranges, full-chain checks, shared charger budgets, and dock power.
-- [Cable and data tools](https://cablechecklab.com/tools/cables/): Requirement selection, claim decoding, and data-path bottlenecks.
-- [Display tools](https://cablechecklab.com/tools/displays/): Uncompressed payload, DSC, USB-C lanes, dock topology, and isolation.
-- [Dock and hub tools](https://cablechecklab.com/tools/docks/): Requirements, power budgets, data/display tradeoffs, and troubleshooting.
+- [Charging](https://cablechecklab.com/tools/charging/): Fixed PDOs, PPS, requirements, full-chain checks, port-table comparison, shared budgets.
+- [Cables and data](https://cablechecklab.com/tools/cables/): Cable selection, cable/port decoding, data paths, USB4 features.
+- [USB4 and Thunderbolt](https://cablechecklab.com/tools/usb4-thunderbolt/): Feature paths, tunnel budgets, port claims, cable requirements, isolation.
+- [Video adapters](https://cablechecklab.com/tools/video-adapters/): Direction, active/passive conversion, feature chains, payload, MST.
+- [Displays](https://cablechecklab.com/tools/displays/): Payload, HDR/VRR/HDCP/audio/DSC, lanes, MST, dock topology.
+- [Docks and hubs](https://cablechecklab.com/tools/docks/): Requirements, power, USB4, data/display tradeoffs, A/B isolation.
 
-## Thirteen interactive tools
+## Twenty-two interactive tools
 
 - [USB-C Charge Check](https://cablechecklab.com/tools/charge-check/)
+- [USB PD Fixed Profile Matcher](https://cablechecklab.com/tools/pd-fixed-profile-matcher/)
 - [USB PD PPS Range Checker](https://cablechecklab.com/tools/pps-range-checker/)
 - [USB PD Requirement Builder](https://cablechecklab.com/tools/pd-requirement-builder/)
 - [Multi-port Power Planner](https://cablechecklab.com/tools/multiport-planner/)
+- [Multi-port Scenario Comparator](https://cablechecklab.com/tools/multiport-scenario-comparator/)
 - [USB-C Cable Requirement Selector](https://cablechecklab.com/tools/cable-selector/)
 - [Cable Capability Decoder](https://cablechecklab.com/tools/cable-decoder/)
+- [USB-C Port Capability Decoder](https://cablechecklab.com/tools/port-capability-decoder/)
 - [USB Data Path Bottleneck Checker](https://cablechecklab.com/tools/data-path-checker/)
+- [USB4 Feature Path Checker](https://cablechecklab.com/tools/usb4-feature-path/)
+- [USB4 Tunnel Budget Planner](https://cablechecklab.com/tools/usb4-tunnel-budget/)
+- [Video Adapter Direction Checker](https://cablechecklab.com/tools/video-adapter-direction/)
+- [Video Feature Chain Checker](https://cablechecklab.com/tools/video-feature-chain/)
 - [Display Link Planner](https://cablechecklab.com/tools/display-planner/)
 - [DisplayPort DSC Requirement Planner](https://cablechecklab.com/tools/dsc-requirement-planner/)
 - [USB-C DisplayPort Lane Planner](https://cablechecklab.com/tools/usb-c-lane-planner/)
+- [MST Daisy Chain Checker](https://cablechecklab.com/tools/mst-chain-checker/)
 - [USB-C Dock Requirement Builder](https://cablechecklab.com/tools/dock-requirement-builder/)
 - [USB-C Hub and Dock Power Budget](https://cablechecklab.com/tools/hub-power-budget/)
+- [Direct vs Dock Isolation Matrix](https://cablechecklab.com/tools/direct-dock-isolation/)
 - [USB-C Troubleshooter](https://cablechecklab.com/tools/troubleshoot/)
 
 ## Guides and evidence
 
-- [USB-C Guides](https://cablechecklab.com/guides/)
-- [USB Power Delivery boundaries](https://cablechecklab.com/references/power-delivery/)
-- [USB and DisplayPort link payloads](https://cablechecklab.com/references/link-payloads/)
+- [Guides](https://cablechecklab.com/guides/)
+- [USB Power Delivery reference](https://cablechecklab.com/references/power-delivery/)
+- [USB and DisplayPort payload reference](https://cablechecklab.com/references/link-payloads/)
+- [USB4 and Thunderbolt tunnel reference](https://cablechecklab.com/references/usb4-tunneling/)
+- [Video conversion and feature reference](https://cablechecklab.com/references/video-conversion-features/)
 - [Technical references and method](https://cablechecklab.com/references/)
 
 ## Interpretation policy
 
-Tool results are calculations based on user-declared values, not live electrical measurements or certification. Cable Check Lab distinguishes calculated limits, plausible declared fit, and facts that require an exact product manual, certified marking, operating-system telemetry, or hardware test. It does not reproduce paid technical standards.
+Results are calculations and declared-capability screens, not live measurements, certification, or exact-model guarantees. Unknown claims remain unknown. Exact product manuals, certified markings, operating-system telemetry, or hardware tests are required where stated.

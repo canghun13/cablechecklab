@@ -420,7 +420,216 @@
     paint('info', 'Isolation plan', String(list.length) + ' checks', 'Work from the simplest known-good connection outward.', list, 'This flow narrows likely causes; it cannot inspect electrical safety, firmware, e-marker data, or negotiated link state. Stop using any component that is hot, damaged, swollen, wet, or intermittently arcing.');
   }
 
-  const calculators = { charge: chargeCheck, cable: cableDecode, display: displayPlan, multiport: multiportPlan, pps: ppsRangeCheck, pdrequirement: pdRequirement, cableselector: cableSelector, datapath: dataPathCheck, dsc: dscPlan, lanes: lanePlan, dockrequirement: dockRequirement, hubpower: hubPowerBudget, troubleshoot };
+  function usb4FeaturePath() {
+    const rates = ['u4Host', 'u4Cable', 'u4Device'].map(number);
+    const workload = value('u4Workload');
+    const source = value('u4SourceFeature');
+    const cable = value('u4CableClass');
+    const destination = value('u4DestinationFeature');
+    if (!rates.every((n) => Number.isFinite(n) && n > 0) || !workload || !source || !cable || !destination) {
+      paint('bad', 'Check input', '—', 'Choose a declared rate and capability state for every link.', ['Use “Unknown” when the exact specification is silent.'], 'No connector-only compatibility assumption is made.');
+      return;
+    }
+    const ceiling = Math.min(...rates);
+    const labels = { display: 'DisplayPort tunneling/output', pcie: 'PCIe tunneling', usb: 'USB data tunneling', mixed: 'the required mixed-workload features' };
+    const states = [['Source', source], ['Cable', cable], ['Destination', destination]];
+    const missing = states.filter(([, state]) => state === 'no').map(([name]) => name);
+    const unknown = states.filter(([, state]) => state === 'unknown').map(([name]) => name);
+    const list = [
+      'Weakest declared USB4/Thunderbolt link rate: ' + fmt(ceiling, 0) + ' Gbps.',
+      'Target workload requires ' + labels[workload] + '.',
+      ...states.map(([name, state]) => name + ': ' + (state === 'yes' ? 'required feature explicitly declared.' : state === 'no' ? 'required feature explicitly absent.' : 'required feature not verified.'))
+    ];
+    if (missing.length) list.push('Blocking segment: ' + missing.join(', ') + '.');
+    if (unknown.length) list.push('Verify before purchase: ' + unknown.join(', ') + '.');
+    const kind = missing.length ? 'bad' : unknown.length ? 'warn' : 'ok';
+    paint(kind, missing.length ? 'Feature path broken' : unknown.length ? 'Feature path unverified' : 'Declared feature path', fmt(ceiling, 0) + ' Gbps weakest link', missing.length ? 'At least one segment explicitly lacks the selected workload feature.' : unknown.length ? 'The entered rate fits a USB4-class path, but one or more required features remain unknown.' : 'Every entered segment explicitly declares the selected workload feature.', list, 'USB4 and Thunderbolt labels do not make every optional tunnel, display count, or accessory use case universal. This screen uses only the declarations you entered and does not observe negotiation, firmware, security authorization, or product certification.');
+  }
+
+  function usb4Budget() {
+    const rate = number('u4Rate');
+    const usable = number('u4Usable');
+    const demands = ['u4DisplayGbps', 'u4UsbGbps', 'u4PcieGbps'].map(number);
+    if (!Number.isFinite(rate) || rate <= 0 || !Number.isFinite(usable) || usable <= 0 || usable > 100 || !demands.every((n) => Number.isFinite(n) && n >= 0)) {
+      paint('bad', 'Check input', '—', 'Use a positive link rate, a usable share from 1–100%, and non-negative tunnel demands.', ['Zero is valid for an unused traffic class.'], 'No bandwidth allocation is inferred from invalid inputs.');
+      return;
+    }
+    const budget = rate * usable / 100;
+    const total = demands.reduce((sum, n) => sum + n, 0);
+    const remaining = budget - total;
+    const list = ['Planning budget: ' + fmt(rate, 0) + ' Gbps × ' + fmt(usable, 1) + '% = ' + fmt(budget, 2) + ' Gbps.', 'Display tunnels: ' + fmt(demands[0], 2) + ' Gbps.', 'USB traffic: ' + fmt(demands[1], 2) + ' Gbps.', 'PCIe traffic: ' + fmt(demands[2], 2) + ' Gbps.', 'Total entered demand: ' + fmt(total, 2) + ' Gbps.'];
+    const fits = remaining >= 0;
+    paint(fits ? (remaining < budget * .1 ? 'warn' : 'ok') : 'bad', fits ? (remaining < budget * .1 ? 'Tight planning budget' : 'Planning budget fits') : 'Planning shortfall', fits ? fmt(remaining, 2) + ' Gbps remaining' : fmt(-remaining, 2) + ' Gbps short', fits ? 'The entered traffic budgets fit inside the planning share.' : 'The entered traffic budgets exceed the selected planning share.', list, 'USB4 bandwidth is allocated dynamically and protocol overhead is not one universal percentage. The 90% default reflects a Windows USB4 planning limit for explicit allocation, not guaranteed application throughput. Real display, USB, and PCIe behavior depends on both routers, tunnels, drivers, and active traffic.');
+  }
+
+  function adapterDirection() {
+    const source = value('adapterSource');
+    const sink = value('adapterSink');
+    const dpplus = value('adapterDpplus');
+    if (!source || !sink || !dpplus) {
+      paint('bad', 'Check input', '—', 'Choose the source signal, display input, and DP++ evidence state.', ['Read the connection from the computer/output toward the display/input.'], 'Connector shape alone does not establish conversion direction.');
+      return;
+    }
+    const same = source === sink;
+    let label = 'Active conversion required';
+    let title = 'Protocol converter';
+    let kind = 'warn';
+    const list = ['Direction: ' + source.toUpperCase() + ' source → ' + sink.toUpperCase() + ' display input.'];
+    if (same) { label = 'No protocol conversion'; title = 'Same-signal path'; kind = 'ok'; list.push('Use a cable or adapter that preserves the same signal and supports the target mode.'); }
+    else if (source === 'usbc-dp' && sink === 'dp') { label = 'DP Alt Mode adapter'; title = 'Same DisplayPort protocol'; kind = 'ok'; list.push('A purpose-built USB-C-to-DisplayPort adapter/cable can expose the source DisplayPort signal without HDMI conversion.'); }
+    else if (source === 'dp' && (sink === 'hdmi' || sink === 'dvi')) {
+      if (dpplus === 'yes') { label = 'Passive path may work'; title = 'DP++ source required'; kind = 'warn'; list.push('A simple one-way DP-to-' + sink.toUpperCase() + ' adapter depends on explicit Dual-Mode DisplayPort (DP++) support and the adapter’s exact mode limits.'); }
+      else { list.push(dpplus === 'no' ? 'The source explicitly lacks DP++; use an active DisplayPort-to-' + sink.toUpperCase() + ' converter.' : 'DP++ is not verified; choose an active converter or verify the source manual.'); }
+    } else if (source === 'usbc-dp' && (sink === 'hdmi' || sink === 'dvi')) list.push('Use a one-way USB-C DisplayPort Alt Mode to ' + sink.toUpperCase() + ' protocol adapter rated for the exact mode and features.');
+    else if (source === 'usb-a') { label = 'USB graphics adapter'; title = 'Driver-based video'; kind = 'warn'; list.push('USB-A carries no DisplayPort Alt Mode. This requires a USB graphics chipset, supported driver, and suitable workload expectations.'); }
+    else if (sink === 'usbc-dp') { label = 'Specialized reverse converter'; title = 'Powered active path'; kind = 'bad'; list.push('A common USB-C-to-video cable is the wrong direction. Look for an explicitly powered ' + source.toUpperCase() + '-to-USB-C display converter and verify display compatibility.'); }
+    else list.push('Use an active, directional ' + source.toUpperCase() + '-to-' + sink.toUpperCase() + ' protocol converter rated for the exact mode.');
+    list.push('Verify resolution, refresh, color depth, HDR, HDCP, audio, DSC/VRR support, and direction on the exact adapter.');
+    paint(kind, label, title, 'The required product category follows from signal direction, not connector fit.', list, 'This tool classifies conversion categories; it does not validate an exact adapter chipset, EDID handling, protected-content support, or target timing. DP++ is relevant only to a DisplayPort source converting to HDMI/DVI.');
+  }
+
+  function mstChain() {
+    const os = value('mstOs');
+    const displays = number('mstDisplays');
+    const demand = number('mstDemand');
+    const capacity = number('mstCapacity');
+    const host = value('mstHost');
+    const chain = value('mstChain');
+    const mode = value('mstMode');
+    if (!os || !Number.isFinite(displays) || displays < 1 || displays > 6 || !Number.isFinite(demand) || demand <= 0 || !Number.isFinite(capacity) || capacity <= 0 || !host || !chain || !mode) {
+      paint('bad', 'Check input', '—', 'Complete the topology and use positive display-count and payload values.', ['Enter the combined payload for every display sharing this MST link.'], 'No MST verdict is produced from incomplete topology data.');
+      return;
+    }
+    const blockers = [];
+    const unknown = [];
+    if (displays > 1 && host === 'no') blockers.push('host/source MST support'); else if (displays > 1 && host === 'unknown') unknown.push('host/source MST support');
+    if (displays > 1 && chain === 'no') blockers.push('MST hub or intermediate DP-out support'); else if (displays > 1 && chain === 'unknown') unknown.push('MST hub or intermediate DP-out support');
+    if (os === 'macos' && mode === 'extended' && displays > 1) blockers.push('ordinary MST extended-desktop policy on macOS');
+    if (demand > capacity) blockers.push('combined link payload');
+    const list = ['Topology: ' + displays + ' display(s), ' + mode + ' mode, ' + os + '.', 'Combined entered payload: ' + fmt(demand, 2) + ' Gbps; usable link payload: ' + fmt(capacity, 2) + ' Gbps.', host === 'yes' ? 'Source explicitly declares MST.' : 'Source MST: ' + host + '.', chain === 'yes' ? 'The MST hub or every intermediate daisy-chain display explicitly declares the required DP output/MST role.' : 'Chain MST role: ' + chain + '.'];
+    if (blockers.length) list.push('Blocking condition(s): ' + blockers.join('; ') + '.');
+    if (unknown.length) list.push('Still verify: ' + unknown.join('; ') + '.');
+    const kind = blockers.length ? 'bad' : unknown.length ? 'warn' : 'ok';
+    paint(kind, blockers.length ? 'Topology blocked' : unknown.length ? 'Topology unverified' : 'Declared MST path', blockers.length ? blockers.length + ' blocker(s)' : fmt(capacity - demand, 2) + ' Gbps headroom', blockers.length ? 'The entered ordinary MST topology has at least one explicit blocker.' : unknown.length ? 'Payload fits, but a required MST declaration is unknown.' : 'Payload and the declared ordinary MST topology are consistent.', list, 'This screens an ordinary DisplayPort MST branch. It does not represent Thunderbolt/USB4 multi-stream tunneling or USB graphics, and it cannot prove GPU display count, exact timing, DSC, adapter behavior, or operating-system version behavior.');
+  }
+
+  function pdFixedProfile() {
+    const targetV = number('fixedTargetV');
+    const targetA = number('fixedTargetA');
+    const rows = [1, 2, 3, 4].map((i) => [number('fixedV' + i), number('fixedA' + i)]);
+    if (![targetV, targetA].every((n) => Number.isFinite(n) && n > 0)) {
+      paint('bad', 'Check input', '—', 'Enter a positive fixed-voltage request and current.', ['Use a documented fixed PDO request, not a PPS operating point.'], 'No profile is inferred from device wattage alone.');
+      return;
+    }
+    const partial = rows.some(([v, a]) => (Number.isFinite(v) && v > 0) !== (Number.isFinite(a) && a > 0));
+    const profiles = rows.filter(([v, a]) => Number.isFinite(v) && v > 0 && Number.isFinite(a) && a > 0);
+    if (partial || !profiles.length) {
+      paint('bad', 'Check input', '—', 'Enter voltage and current together for at least one charger fixed profile.', ['Leave both fields blank for an unused row.'], 'Profiles from different ports or active-port combinations must not be combined.');
+      return;
+    }
+    const exact = profiles.filter(([v]) => Math.abs(v - targetV) < .001);
+    const matches = exact.filter(([, a]) => a >= targetA);
+    const requestW = targetV * targetA;
+    const list = ['Requested fixed point: ' + fmt(targetV, 2) + ' V × ' + fmt(targetA, 2) + ' A = ' + fmt(requestW, 2) + ' W.', ...profiles.map(([v, a], i) => 'Entered profile ' + (i + 1) + ': ' + fmt(v, 2) + ' V × ' + fmt(a, 2) + ' A = ' + fmt(v * a, 2) + ' W.')];
+    if (!exact.length) list.push('No entered fixed profile uses the requested voltage.');
+    else if (!matches.length) list.push('The voltage exists, but every entered profile at that voltage has insufficient current.');
+    else list.push('Matching profile: ' + fmt(matches[0][0], 2) + ' V at up to ' + fmt(matches[0][1], 2) + ' A.');
+    paint(matches.length ? 'ok' : 'bad', matches.length ? 'Fixed profile match' : 'Fixed profile mismatch', fmt(requestW, 2) + ' W request', matches.length ? 'One entered fixed PDO covers both the requested voltage and current.' : 'The entered fixed PDO list does not cover the request.', list, 'A fixed-PDO match does not prove that the device asks for it, that the active charger port exposes it in the current multi-port state, or that the cable and product support the full path. PPS/APDOs are a separate check.');
+  }
+
+  function multiportCompare() {
+    const a = [1, 2, 3, 4].map((i) => number('scenarioA' + i));
+    const b = [1, 2, 3, 4].map((i) => number('scenarioB' + i));
+    if (![...a, ...b].every((n) => Number.isFinite(n) && n >= 0)) {
+      paint('bad', 'Check input', '—', 'Enter non-negative manufacturer-table outputs for all ports.', ['Use zero only when that port is disabled in that exact scenario.'], 'This comparator does not invent missing table values.');
+      return;
+    }
+    const totalA = a.reduce((s, n) => s + n, 0);
+    const totalB = b.reduce((s, n) => s + n, 0);
+    const changes = a.map((n, i) => b[i] - n);
+    const list = changes.map((delta, i) => 'Port ' + (i + 1) + ': ' + fmt(a[i], 1) + ' W → ' + fmt(b[i], 1) + ' W (' + (delta > 0 ? '+' : '') + fmt(delta, 1) + ' W).');
+    list.push('Declared scenario total: ' + fmt(totalA, 1) + ' W → ' + fmt(totalB, 1) + ' W (' + (totalB - totalA > 0 ? '+' : '') + fmt(totalB - totalA, 1) + ' W).');
+    const disabled = changes.filter((d, i) => a[i] > 0 && b[i] === 0).length;
+    paint(disabled ? 'warn' : 'info', disabled ? 'Port disabled in B' : 'Scenario comparison', fmt(changes.filter((d) => d !== 0).length, 0) + ' port changes', 'Compare exact occupied-port rows before moving a device or adding another cable.', list, 'These are declared table values, not measured allocations. Dynamic chargers may renegotiate when plugs change; port labels, total box wattage, and proportional division cannot substitute for the manufacturer row for each scenario.');
+  }
+
+  function directDockIsolation() {
+    const functions = ['Power', 'Data', 'Video'];
+    const direct = functions.map((name) => value('direct' + name));
+    const dock = functions.map((name) => value('dock' + name));
+    if ([...direct, ...dock].some((state) => !state)) {
+      paint('bad', 'Check input', '—', 'Record pass, fail, or not tested for every direct and dock path.', ['Use the same host, target device, mode, and known-good cable where practical.'], 'No isolation inference is made from missing A/B results.');
+      return;
+    }
+    const list = [];
+    let dockOnly = 0;
+    let directFail = 0;
+    functions.forEach((name, i) => {
+      if (direct[i] === 'pass' && dock[i] === 'fail') { dockOnly++; list.push(name + ': direct passes but dock path fails—inspect the dock function, upstream link, port, power budget, firmware, and adapter chain.'); }
+      else if (direct[i] === 'fail') { directFail++; list.push(name + ': direct path also fails—resolve the host/cable/target or requirement before blaming the dock.'); }
+      else if (direct[i] === 'pass' && dock[i] === 'pass') list.push(name + ': both paths pass in this control test.');
+      else list.push(name + ': not sufficiently tested for a comparison.');
+    });
+    const kind = dockOnly ? 'warn' : directFail ? 'bad' : 'info';
+    paint(kind, dockOnly ? 'Dock layer implicated' : directFail ? 'Direct baseline fails' : 'More isolation needed', dockOnly ? dockOnly + ' dock-only failure(s)' : directFail ? directFail + ' direct failure(s)' : 'No isolated failure', dockOnly ? 'At least one function passes directly and fails only through the dock.' : directFail ? 'A failing direct baseline prevents a dock-only diagnosis.' : 'The recorded comparison does not isolate a failing layer.', list, 'A/B results narrow the implicated layer; they do not identify an exact defective component. Control cable, port, mode, power source, device, and software variables, then add one dock function at a time.');
+  }
+
+  function portDecode() {
+    const data = number('portData');
+    const power = number('portPower');
+    const direction = value('portDirection');
+    const display = value('portDisplay');
+    const pcie = value('portPcie');
+    const usb4 = value('portUsb4');
+    if (!Number.isFinite(data) || data < 0 || !Number.isFinite(power) || power < 0 || !direction || !display || !pcie || !usb4) {
+      paint('bad', 'Check input', '—', 'Enter non-negative declared rates and choose every capability state.', ['Use zero and “Unknown” when the public specification does not declare a capability.'], 'No capability is inferred from the USB-C connector alone.');
+      return;
+    }
+    const known = [];
+    const unknown = [];
+    known.push(data > 0 ? 'Declared data ceiling: ' + fmt(data, 0) + ' Gbps.' : 'No high-speed data rate supplied.');
+    known.push(power > 0 ? 'Declared USB PD power: up to ' + fmt(power, 0) + ' W, direction ' + direction + '.' : 'No USB PD wattage supplied; direction ' + direction + '.');
+    [['Display output', display], ['PCIe tunneling', pcie], ['USB4/Thunderbolt class', usb4]].forEach(([label, state]) => state === 'unknown' ? unknown.push(label) : known.push(label + ': ' + (state === 'yes' ? 'declared.' : 'explicitly not declared/absent.')));
+    const contradictions = [];
+    if (usb4 === 'yes' && data > 0 && data < 20) contradictions.push('USB4-class claim conflicts with a supplied link ceiling below 20 Gbps; recheck whether the number describes another downstream USB port.');
+    if (power > 240) contradictions.push('The entered USB PD power exceeds the 240 W public USB PD ceiling.');
+    if (pcie === 'yes' && usb4 === 'no') contradictions.push('PCIe tunneling normally requires a USB4/Thunderbolt-class path; clarify the published wording.');
+    if (unknown.length) known.push('Still unknown: ' + unknown.join(', ') + '.');
+    const kind = contradictions.length ? 'bad' : unknown.length ? 'warn' : 'info';
+    paint(kind, contradictions.length ? 'Claims conflict' : unknown.length ? 'Incomplete port record' : 'Declared port record', known.filter((item) => !item.startsWith('Still unknown')).length + ' facts', contradictions.length ? 'At least one entered claim needs clarification.' : unknown.length ? 'The port record preserves unknowns instead of turning them into capabilities.' : 'The entered capabilities form a usable requirement record.', known.concat(contradictions), 'A port label may omit optional functions, and a computer can route different controllers to visually identical ports. Verify the exact model, port number, manual, operating-system telemetry, and certification record; this decoder cannot probe hardware.');
+  }
+
+  function videoFeatureChain() {
+    const features = [['HDR', 'Hdr'], ['VRR / Adaptive Sync', 'Vrr'], ['HDCP', 'Hdcp'], ['Audio', 'Audio'], ['DSC', 'Dsc']];
+    features.forEach(([, key]) => {
+      const sourceSelect = form.elements['featureSource' + key];
+      if (sourceSelect && !Array.from(sourceSelect.options).some((option) => option.value === 'skip')) {
+        sourceSelect.add(new Option('Not required', 'skip'), 0);
+      }
+    });
+    const missing = [];
+    const unknown = [];
+    const list = [];
+    for (const [label, key] of features) {
+      const states = [value('featureSource' + key), value('featureAdapter' + key), value('featureSink' + key)];
+      if (states[0] === 'skip') {
+        list.push(label + ': not required for this decision.');
+        continue;
+      }
+      if (states.some((state) => !state)) {
+        paint('bad', 'Check input', '—', 'Choose yes, no, or unknown for every required feature and segment.', ['Choose “Not required” in the source column to exclude an entire feature row.'], 'No end-to-end feature is inferred from a connector or bandwidth claim.');
+        return;
+      }
+      if (states.includes('no')) { missing.push(label); list.push(label + ': blocked by ' + ['source', 'adapter/dock', 'display'].filter((_, i) => states[i] === 'no').join(', ') + '.'); }
+      else if (states.includes('unknown')) { unknown.push(label); list.push(label + ': unverified at ' + ['source', 'adapter/dock', 'display'].filter((_, i) => states[i] === 'unknown').join(', ') + '.'); }
+      else list.push(label + ': explicitly declared across source, adapter/dock, and display.');
+    }
+    const kind = missing.length ? 'bad' : unknown.length ? 'warn' : 'ok';
+    const evaluated = list.filter((item) => !item.includes('not required')).length;
+    paint(kind, missing.length ? 'Feature chain blocked' : unknown.length ? 'Feature chain unverified' : 'Declared feature chain', missing.length ? missing.length + ' blocked feature(s)' : unknown.length ? unknown.length + ' unknown feature(s)' : evaluated + ' feature(s) declared', missing.length ? 'At least one requested video feature is explicitly absent in the chain.' : unknown.length ? 'No explicit blocker was entered, but one or more segment claims are unknown.' : evaluated ? 'Every evaluated feature is explicitly declared end to end.' : 'No video feature is selected for evaluation.', list, 'An end-to-end declaration is necessary but not sufficient. Exact resolution/refresh combinations, color format, EDID, firmware, operating-system policy, content protection version, app behavior, and adapter implementation can still limit a feature.');
+  }
+
+  const calculators = { charge: chargeCheck, cable: cableDecode, display: displayPlan, multiport: multiportPlan, pps: ppsRangeCheck, pdrequirement: pdRequirement, cableselector: cableSelector, datapath: dataPathCheck, dsc: dscPlan, lanes: lanePlan, dockrequirement: dockRequirement, hubpower: hubPowerBudget, troubleshoot, usb4path: usb4FeaturePath, usb4budget: usb4Budget, adapterdirection: adapterDirection, mstchain: mstChain, pdfixed: pdFixedProfile, multiportcompare: multiportCompare, directdock: directDockIsolation, portdecode: portDecode, videochain: videoFeatureChain };
   const calculate = calculators[tool.dataset.tool];
   if (!calculate) return;
   form.addEventListener('input', calculate);
