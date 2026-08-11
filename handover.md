@@ -206,8 +206,6 @@ Potential long-term models are contextual advertising, clearly disclosed affilia
 
 ## Pending work
 
-- Commit and push the first release to `main`.
-- Confirm GitHub Pages serves the pushed revision and custom domain.
 - After launch data exists, select the next tool from HOLD based on search impressions and tool engagement rather than page-count targets.
 
 ## QA
@@ -252,12 +250,15 @@ Required for every material release:
 - Start local HEAD: `059396612390f4f120b36c5a7a5204bb8904a68d`
 - Start `origin/main`: `059396612390f4f120b36c5a7a5204bb8904a68d`
 - Start actual remote `main`: `059396612390f4f120b36c5a7a5204bb8904a68d`
-- Final commit: pending
-- Push result: pending
-- Final local HEAD: pending
-- Final `origin/main`: pending
-- Final actual remote `main`: pending
-- Final working tree: pending
+- First-release implementation commit: `71b39011a71871f91f84836dff0a87e5d52bd374`
+- Push result: successful, `main` advanced from `0593966` to `71b3901`
+- Verified release local HEAD: `71b39011a71871f91f84836dff0a87e5d52bd374`
+- Verified release `origin/main`: `71b39011a71871f91f84836dff0a87e5d52bd374`
+- Verified release actual remote `main`: `71b39011a71871f91f84836dff0a87e5d52bd374`
+- GitHub Pages: `pages-build-deployment` run #3 (`31474780582`) completed successfully on 2026-08-11
+- Production verification: `https://cablechecklab.com/`, `/sitemap.xml`, and `/robots.txt` returned HTTP 200; the public Charge Check recalculated successfully with zero browser console errors
+- Post-release handover finalization: committed after the release commit; use `git log -1 --oneline` for the self-referential documentation commit hash
+- Final working tree target: clean and synchronized with `origin/main`
 
 ## Next real work after launch
 
