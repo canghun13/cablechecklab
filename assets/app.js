@@ -21,7 +21,10 @@
   const details = tool.querySelector('[data-details]');
   const evidence = tool.querySelector('[data-evidence]');
 
-  const number = (name) => Number(new FormData(form).get(name));
+  const number = (name) => {
+    const raw = new FormData(form).get(name);
+    return raw === null || String(raw).trim() === '' ? Number.NaN : Number(raw);
+  };
   const value = (name) => String(new FormData(form).get(name) || '');
   const checked = (name) => Boolean(form.elements[name]?.checked);
   const safe = (n, fallback = 0) => Number.isFinite(n) ? n : fallback;
@@ -184,6 +187,218 @@
     paint(kind, label, title, summaryText, rows, 'No per-device allocation is estimated. Real multi-port chargers may use fixed or dynamic rules, reserve power, or renegotiate when connections change. The exact manufacturer table for the occupied port combination is authoritative.');
   }
 
+  function ppsRangeCheck() {
+    const deviceV = number('deviceV');
+    const deviceA = number('deviceA');
+    const minV = number('minV');
+    const maxV = number('maxV');
+    const maxA = number('maxA');
+    const maxW = number('maxW');
+    if (![deviceV, deviceA, minV, maxV, maxA, maxW].every((n) => Number.isFinite(n) && n > 0) || minV > maxV) {
+      paint('bad', 'Check input', '—', 'Enter positive values and a PPS minimum no higher than its maximum.', ['Copy one APDO range from the charger specification; do not combine values from different APDOs.'], 'No range result is produced from invalid input.');
+      return;
+    }
+    const requestW = deviceV * deviceA;
+    const voltageFits = deviceV >= minV && deviceV <= maxV;
+    const currentFits = deviceA <= maxA;
+    const powerFits = requestW <= maxW;
+    const fits = voltageFits && currentFits && powerFits;
+    const list = [
+      'Requested operating point: ' + fmt(deviceV, 2) + ' V × ' + fmt(deviceA, 2) + ' A = ' + fmt(requestW, 2) + ' W.',
+      'Entered PPS APDO: ' + fmt(minV, 2) + '–' + fmt(maxV, 2) + ' V, up to ' + fmt(maxA, 2) + ' A and ' + fmt(maxW, 2) + ' W.',
+      voltageFits ? 'Voltage is inside the entered range.' : 'Voltage is outside the entered range.',
+      currentFits ? 'Requested current does not exceed the entered limit.' : 'Requested current exceeds the entered limit.',
+      powerFits ? 'Requested power does not exceed the entered APDO ceiling.' : 'Requested power exceeds the entered APDO ceiling.'
+    ];
+    paint(fits ? 'ok' : 'bad', fits ? 'Range match' : 'Range mismatch', fmt(requestW, 2) + ' W request', fits ? 'The requested point is inside the single declared PPS range.' : 'At least one boundary of the entered PPS range does not cover the request.', list, 'A range match does not prove that the device will request this point, that the charger sustains it thermally, or that a vendor-specific charging mode is available. Check the exact APDO, port combination, and cable requirement.');
+  }
+
+  function pdRequirement() {
+    const watts = number('targetW');
+    const volts = number('targetV');
+    if (![watts, volts].every((n) => Number.isFinite(n) && n > 0)) {
+      paint('bad', 'Check input', '—', 'Enter a positive target power and voltage.', ['Use a voltage profile the device is documented to request.'], 'This builder does not infer a Power Delivery profile from a product name.');
+      return;
+    }
+    const amps = watts / volts;
+    const beyondCurrent = amps > 5;
+    const beyondPower = watts > 240;
+    const sprOver = volts <= 20 && watts > 100;
+    const epr = volts > 20;
+    const possible = !beyondCurrent && !beyondPower && !sprOver;
+    const cable = amps <= 3 && watts <= 60 ? 'A declared 60 W / 3 A C-to-C cable covers this operating point.' : 'Use a 5 A electronically marked cable; current certified new-purchase marking is 240 W.';
+    const list = [
+      'Required current: ' + fmt(amps, 2) + ' A at ' + fmt(volts, 1) + ' V.',
+      epr ? 'Voltage is above 20 V, so the path requires USB PD Extended Power Range support.' : 'Voltage is within the Standard Power Range voltage boundary.',
+      cable
+    ];
+    if (sprOver) list.push('More than 100 W cannot be delivered at 20 V or below within the 5 A USB PD ceiling; choose a documented EPR voltage/profile.');
+    if (beyondCurrent) list.push('The requested point exceeds 5 A and is outside the USB PD cable-current ceiling.');
+    if (beyondPower) list.push('The requested power exceeds the 240 W USB PD ceiling.');
+    paint(possible ? (amps > 3 || epr ? 'warn' : 'ok') : 'bad', possible ? (epr ? 'EPR path required' : amps > 3 ? '5 A path required' : '3 A path sufficient') : 'Target outside PD boundary', fmt(amps, 2) + ' A required', possible ? 'This is the minimum electrical path implied by the entered operating point.' : 'The entered operating point cannot be represented by the standard USB PD limits used here.', list, 'This is a requirement builder, not a device compatibility verdict. The source, sink, cable, and any dock must all advertise a mutually supported profile; PPS and vendor-specific protocols are separate requirements.');
+  }
+
+  function cableSelector() {
+    const power = number('needPower');
+    const data = number('needData');
+    const video = checked('needVideo');
+    const tunneled = checked('needTunneled');
+    if (!Number.isFinite(power) || power <= 0 || !Number.isFinite(data) || data < 0) {
+      paint('bad', 'Check input', '—', 'Choose a positive charging target and a valid data target.', ['Select zero data only for a charging-only use case.'], 'No cable requirement is generated from invalid input.');
+      return;
+    }
+    const list = [];
+    const powerMark = power <= 60 ? '60 W' : power <= 240 ? '240 W / 5 A e-marked' : 'outside the USB PD 240 W ceiling';
+    list.push('Power requirement: ' + powerMark + '.');
+    if (data === 0) list.push('No high-speed USB data rate requested.');
+    else list.push('Require an explicit USB ' + fmt(data, data < 1 ? 2 : 0) + (data < 1 ? ' Gbps (USB 2.0 class)' : ' Gbps') + ' or faster data claim on the exact cable.');
+    if (video) list.push('Require a full-featured C-to-C cable explicitly suitable for the source/display path; power rating alone does not establish DisplayPort lanes.');
+    if (tunneled) list.push('Require a USB4 or Thunderbolt-certified cable at the needed link rate; a generic “video cable” claim is not enough for tunneled data/display traffic.');
+    const outside = power > 240;
+    const titleParts = [powerMark];
+    if (data >= 1) titleParts.push(fmt(data, 0) + ' Gbps+');
+    if (video) titleParts.push('video');
+    paint(outside ? 'bad' : 'info', outside ? 'Outside PD boundary' : 'Minimum claim set', titleParts.join(' · '), outside ? 'The charging target is outside the USB PD power range.' : 'Use these as minimum listing and packaging checks, then verify the exact model.', list, 'This selector cannot inspect cable construction, e-marker contents, certification, signal integrity, or active-cable compatibility. A cable that meets one requirement does not automatically meet the others.');
+  }
+
+  function dataPathCheck() {
+    const parts = ['hostData', 'cableData', 'hubData', 'deviceData'].map(number);
+    const loss = number('dataLoss');
+    if (!parts.every((n) => Number.isFinite(n) && n > 0) || !Number.isFinite(loss) || loss < 0 || loss >= 100) {
+      paint('bad', 'Check input', '—', 'Use positive declared link rates and an overhead below 100%.', ['For a direct path, choose “No hub / adapter” rather than zero.'], 'No throughput screen is produced from invalid inputs.');
+      return;
+    }
+    const ceiling = Math.min(...parts);
+    const labels = ['host port', 'cable', 'hub or adapter', 'device'];
+    const bottlenecks = labels.filter((_, i) => parts[i] === ceiling);
+    const estimate = ceiling * (1 - loss / 100);
+    const list = labels.map((label, i) => label.charAt(0).toUpperCase() + label.slice(1) + ': ' + fmt(parts[i], 2) + ' Gbps declared.');
+    list.push('Weakest declared link: ' + bottlenecks.join(' + ') + '.');
+    list.push('Planning throughput after ' + fmt(loss, 1) + '% user-selected overhead: ' + fmt(estimate, 2) + ' Gbps.');
+    paint('info', 'Declared bottleneck', fmt(ceiling, 2) + ' Gbps ceiling', 'The slowest declared component sets the link-rate ceiling.', list, 'This is not a file-transfer benchmark. Encoding, protocol tunneling, storage speed, controller design, shared hub traffic, thermals, drivers, and workload can reduce real throughput; USB marketing rates are signaling rates.');
+  }
+
+  function dscPlan() {
+    const width = number('dscWidth');
+    const height = number('dscHeight');
+    const refresh = number('dscRefresh');
+    const bpc = number('dscBpc');
+    const chroma = number('dscChroma');
+    const overhead = number('dscOverhead');
+    const capacity = number('dscCapacity');
+    if ([width, height, refresh, bpc, chroma, capacity].some((n) => !Number.isFinite(n) || n <= 0) || !Number.isFinite(overhead) || overhead < 0) {
+      paint('bad', 'Check input', '—', 'Use positive display values, capacity, and a non-negative timing estimate.', ['Exact timing totals are preferable when known.'], 'No compression estimate is produced from invalid input.');
+      return;
+    }
+    const demand = width * height * refresh * (bpc * 3) * chroma / 1e9 * (1 + overhead / 100);
+    const ratio = demand / capacity;
+    const required = Math.max(1, ratio);
+    const meter = output.querySelector('.meter span');
+    if (meter) meter.style.setProperty('--meter', Math.min(100, required / 3 * 100) + '%');
+    const list = [
+      'Estimated uncompressed payload: ' + fmt(demand, 2) + ' Gbps.',
+      'Selected usable link payload: ' + fmt(capacity, 2) + ' Gbps.',
+      ratio <= 1 ? 'The estimate fits without DSC.' : 'Minimum arithmetic compression ratio: ' + fmt(ratio, 2) + ':1.'
+    ];
+    if (ratio > 1) list.push('Both source and sink—and every dock or adapter that terminates or converts the stream—must support the required DSC path.');
+    const kind = ratio <= 1 ? 'ok' : ratio <= 3 ? 'warn' : 'bad';
+    const label = ratio <= 1 ? 'No compression required' : ratio <= 3 ? 'DSC required' : 'Beyond 3:1 planning range';
+    paint(kind, label, ratio <= 1 ? fmt(capacity - demand, 2) + ' Gbps headroom' : fmt(ratio, 2) + ':1 minimum', ratio <= 1 ? 'The estimate fits inside the selected payload without DSC.' : ratio <= 3 ? 'The arithmetic falls within the common VESA DSC planning range, but support is not established.' : 'The estimated requirement exceeds the 3:1 DSC planning boundary used by this tool.', list, 'This is a payload ratio screen, not a DSC encoder model or VESA timing compliance result. Exact blanking, slices, bits-per-pixel choices, FEC, color format, and hardware limits can change whether a mode is exposed.');
+  }
+
+  function lanePlan() {
+    const demand = number('laneDemand');
+    const perLane = number('perLane');
+    const keepUsb3 = checked('keepUsb3');
+    if (![demand, perLane].every((n) => Number.isFinite(n) && n > 0)) {
+      paint('bad', 'Check input', '—', 'Enter a positive video payload and per-lane payload.', ['Use the estimated payload from Display Link Planner or an exact timing calculation.'], 'No lane result is produced from invalid input.');
+      return;
+    }
+    const two = perLane * 2;
+    const four = perLane * 4;
+    const fitsTwo = demand <= two;
+    const fitsFour = demand <= four;
+    const list = [
+      'Two DP lanes: ' + fmt(two, 2) + ' Gbps usable payload; conventional DP Alt Mode can keep the other high-speed pair for USB 3 data.',
+      'Four DP lanes: ' + fmt(four, 2) + ' Gbps usable payload; conventional DP Alt Mode uses all high-speed lanes for video.',
+      'Entered video demand: ' + fmt(demand, 2) + ' Gbps.'
+    ];
+    let kind = 'ok';
+    let label = 'Two lanes fit';
+    let title = 'Video + USB 3 path';
+    let summaryText = 'The video estimate fits two DP lanes, leaving a conventional SuperSpeed USB lane pair available.';
+    if (!fitsTwo && fitsFour) {
+      kind = keepUsb3 ? 'warn' : 'ok';
+      label = 'Four lanes required';
+      title = keepUsb3 ? 'Tradeoff unresolved' : 'Video-first path';
+      summaryText = keepUsb3 ? 'Four conventional DP Alt Mode lanes fit video but conflict with the request to preserve native USB 3 data.' : 'The estimate fits only when all four conventional Alt Mode lanes carry DisplayPort.';
+      if (keepUsb3) list.push('Consider lower video demand or a verified USB4/Thunderbolt topology that tunnels both traffic types; do not assume a basic DP Alt Mode hub solves the conflict.');
+    } else if (!fitsFour) {
+      kind = 'bad';
+      label = 'Over four-lane payload';
+      title = fmt(demand - four, 2) + ' Gbps short';
+      summaryText = 'The entered demand exceeds even four lanes at the selected link rate.';
+      list.push('Lower the display payload, select a higher mutually supported link rate, or evaluate DSC separately.');
+    }
+    paint(kind, label, title, summaryText, list, 'Lane arithmetic does not prove that a source, cable, dock, or display supports the selected rate or lane assignment. USB4 and Thunderbolt use different tunneling and bandwidth-allocation behavior.');
+  }
+
+  function dockRequirement() {
+    const os = value('dockOs');
+    const displays = number('dockDisplays');
+    const charge = number('dockCharge');
+    const data = number('dockData');
+    const pcie = checked('dockPcie');
+    const usbGraphics = checked('dockUsbGraphics');
+    if (![displays, charge, data].every(Number.isFinite) || displays < 0 || displays > 4 || charge < 0 || data < 0) {
+      paint('bad', 'Check input', '—', 'Use valid display count, charging power, and data rate.', ['Use zero only when that function is not required.'], 'No dock checklist is produced from invalid input.');
+      return;
+    }
+    const list = [];
+    if (displays === 0) list.push('No external-display output required.');
+    else if (displays === 1) list.push('Require one host-supported display stream and enough link payload for the target mode.');
+    else if (os === 'windows') list.push('Require the host display count plus a verified MST, Thunderbolt, USB4, or USB-graphics topology for ' + displays + ' extended displays.');
+    else if (os === 'macos') list.push('Do not assume an ordinary MST dock creates ' + displays + ' independent extended displays on macOS; verify the exact Mac display limit and Thunderbolt/native or USB-graphics topology.');
+    else list.push('Verify the host GPU display count, desktop/session support, and the dock topology for ' + displays + ' displays.');
+    if (displays > 0) list.push('Add the combined display payload and confirm lane allocation, DSC support, and each physical output mode.');
+    if (charge === 0) list.push('No host charging pass-through required.');
+    else if (charge <= 60) list.push('Require at least ' + fmt(charge, 0) + ' W delivered to the host after dock reserve; a 3 A cable can cover up to 60 W.');
+    else if (charge <= 100) list.push('Require at least ' + fmt(charge, 0) + ' W delivered to the host after dock reserve and a 5 A e-marked host cable.');
+    else if (charge <= 240) list.push('Require an EPR-capable dock path, power supply, host, and 240 W cable; verify the dock’s delivered-host figure, not only PSU wattage.');
+    else list.push('Charging target exceeds the USB PD 240 W ceiling.');
+    if (data >= 80) list.push('Require a mutually supported USB 80Gbps or Thunderbolt 5 class path for the data target.');
+    else if (data >= 40) list.push('Require a mutually supported USB4 40Gbps or Thunderbolt 3/4/5 class path for the data target.');
+    else if (data > 0) list.push('Require at least USB ' + fmt(data, 0) + ' Gbps on host, dock upstream link, and the needed downstream port.');
+    if (pcie) list.push('Require explicit PCIe tunneling/enclosure support; connector shape and a generic USB4 label are not enough evidence for the exact accessory.');
+    if (usbGraphics) list.push('USB-graphics software is acceptable; verify OS/driver support, security policy, and workload limits separately from native display output.');
+    const impossible = charge > 240;
+    const complex = displays > 1 || charge > 60 || data >= 40 || pcie;
+    paint(impossible ? 'bad' : complex ? 'warn' : 'info', impossible ? 'Outside PD boundary' : complex ? 'Verify advanced path' : 'Baseline checklist', list.length + ' requirements', 'Use this checklist to reject docks whose exact specifications omit a required function.', list, 'This tool deliberately does not name a compatible model. Host firmware, GPU/display limits, OS policy, dock chipset, power reserve, cable, and exact occupied-port combination must all be verified.');
+  }
+
+  function hubPowerBudget() {
+    const supply = number('hubSupply');
+    const host = number('hubHost');
+    const reserve = number('hubReserve');
+    const devices = [1, 2, 3, 4].map((i) => number('hubDevice' + i));
+    if (!Number.isFinite(supply) || supply <= 0 || ![host, reserve, ...devices].every((n) => Number.isFinite(n) && n >= 0)) {
+      paint('bad', 'Check input', '—', 'Enter a positive supply and non-negative declared budgets.', ['Unused device rows can stay at zero.'], 'No power budget is produced from invalid input.');
+      return;
+    }
+    const peripheral = devices.reduce((a, b) => a + b, 0);
+    const required = host + reserve + peripheral;
+    const remaining = supply - required;
+    const list = [
+      'Power supply: ' + fmt(supply, 1) + ' W.',
+      'Host delivery target: ' + fmt(host, 1) + ' W.',
+      'Dock electronics/reserve: ' + fmt(reserve, 1) + ' W.',
+      'Entered downstream device budget: ' + fmt(peripheral, 1) + ' W.',
+      'Total declared budget: ' + fmt(required, 1) + ' W.'
+    ];
+    const fits = remaining >= 0;
+    paint(fits ? (remaining < supply * .1 ? 'warn' : 'ok') : 'bad', fits ? (remaining < supply * .1 ? 'Tight budget' : 'Budget fits') : 'Budget shortfall', fits ? fmt(remaining, 1) + ' W remaining' : fmt(-remaining, 1) + ' W short', fits ? 'The explicit host, reserve, and downstream budgets fit inside the entered supply.' : 'The entered supply cannot cover all declared budgets at once.', list, 'This arithmetic does not predict how a dock allocates power or whether every port can deliver its label simultaneously. Use the manufacturer’s host-delivery figure, downstream limits, reserve policy, and active-port table; do not substitute generic device averages.');
+  }
+
   function troubleshoot() {
     const symptom = value('symptom');
     const changed = value('changed');
@@ -205,7 +420,7 @@
     paint('info', 'Isolation plan', String(list.length) + ' checks', 'Work from the simplest known-good connection outward.', list, 'This flow narrows likely causes; it cannot inspect electrical safety, firmware, e-marker data, or negotiated link state. Stop using any component that is hot, damaged, swollen, wet, or intermittently arcing.');
   }
 
-  const calculators = { charge: chargeCheck, cable: cableDecode, display: displayPlan, multiport: multiportPlan, troubleshoot };
+  const calculators = { charge: chargeCheck, cable: cableDecode, display: displayPlan, multiport: multiportPlan, pps: ppsRangeCheck, pdrequirement: pdRequirement, cableselector: cableSelector, datapath: dataPathCheck, dsc: dscPlan, lanes: lanePlan, dockrequirement: dockRequirement, hubpower: hubPowerBudget, troubleshoot };
   const calculate = calculators[tool.dataset.tool];
   if (!calculate) return;
   form.addEventListener('input', calculate);

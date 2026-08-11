@@ -6,18 +6,34 @@ Primary URL: https://cablechecklab.com/
 Contact: canghun13@naver.com
 Language: English
 
-## Core tools
+## Tool workbenches
 
-- [USB-C Charge Check](https://cablechecklab.com/tools/charge-check/): Screens device demand, charger output, cable power, PPS, and proprietary protocol constraints.
-- [Cable Capability Decoder](https://cablechecklab.com/tools/cable-decoder/): Interprets declared cable power, data, length, marking, and intended display use.
-- [Display Link Planner](https://cablechecklab.com/tools/display-planner/): Estimates active display payload and compares it with a selected usable DP link budget.
-- [Multi-port Power Planner](https://cablechecklab.com/tools/multiport-planner/): Screens total device demand and per-port ceilings against a charger budget.
-- [USB-C Troubleshooter](https://cablechecklab.com/tools/troubleshoot/): Produces an ordered isolation plan for charging and display symptoms.
+- [Charging tools](https://cablechecklab.com/tools/charging/): USB PD requirements, PPS ranges, full-chain checks, shared charger budgets, and dock power.
+- [Cable and data tools](https://cablechecklab.com/tools/cables/): Requirement selection, claim decoding, and data-path bottlenecks.
+- [Display tools](https://cablechecklab.com/tools/displays/): Uncompressed payload, DSC, USB-C lanes, dock topology, and isolation.
+- [Dock and hub tools](https://cablechecklab.com/tools/docks/): Requirements, power budgets, data/display tradeoffs, and troubleshooting.
+
+## Thirteen interactive tools
+
+- [USB-C Charge Check](https://cablechecklab.com/tools/charge-check/)
+- [USB PD PPS Range Checker](https://cablechecklab.com/tools/pps-range-checker/)
+- [USB PD Requirement Builder](https://cablechecklab.com/tools/pd-requirement-builder/)
+- [Multi-port Power Planner](https://cablechecklab.com/tools/multiport-planner/)
+- [USB-C Cable Requirement Selector](https://cablechecklab.com/tools/cable-selector/)
+- [Cable Capability Decoder](https://cablechecklab.com/tools/cable-decoder/)
+- [USB Data Path Bottleneck Checker](https://cablechecklab.com/tools/data-path-checker/)
+- [Display Link Planner](https://cablechecklab.com/tools/display-planner/)
+- [DisplayPort DSC Requirement Planner](https://cablechecklab.com/tools/dsc-requirement-planner/)
+- [USB-C DisplayPort Lane Planner](https://cablechecklab.com/tools/usb-c-lane-planner/)
+- [USB-C Dock Requirement Builder](https://cablechecklab.com/tools/dock-requirement-builder/)
+- [USB-C Hub and Dock Power Budget](https://cablechecklab.com/tools/hub-power-budget/)
+- [USB-C Troubleshooter](https://cablechecklab.com/tools/troubleshoot/)
 
 ## Guides and evidence
 
-- [USB-C weakest-link rule](https://cablechecklab.com/guides/usb-c-chain/)
-- [DisplayPort Alt Mode guide](https://cablechecklab.com/guides/display-alt-mode/)
+- [USB-C Guides](https://cablechecklab.com/guides/)
+- [USB Power Delivery boundaries](https://cablechecklab.com/references/power-delivery/)
+- [USB and DisplayPort link payloads](https://cablechecklab.com/references/link-payloads/)
 - [Technical references and method](https://cablechecklab.com/references/)
 
 ## Interpretation policy

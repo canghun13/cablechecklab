@@ -351,3 +351,145 @@ Use Search Console queries and GA4 tool usage to decide between a curated dock/d
 2. Collect Search Console and GA4 evidence for the five existing tools.
 3. If device/model demand is real, define the source-provenance, update cadence, stable identifiers, uncertainty labels, correction workflow, and minimum viable record set before choosing a directory or exact compatibility checker.
 4. Re-review external technical sources when standards, operating-system behavior, or tool rules materially change.
+
+## 2026-08-11 structured expansion release
+
+### Start state
+
+- Repository path on this computer: `C:\Users\cangh\OneDrive\문서\ChatGPT\cablechecklab\repository`.
+- Branch: `main`; remote: `https://github.com/canghun13/cablechecklab.git`.
+- Start local HEAD: `7916830b0f987bd7b806ae7473171bc18ef02879`.
+- Start `origin/main`: `7916830b0f987bd7b806ae7473171bc18ef02879`.
+- Start actual GitHub `main` from `git ls-remote`: `7916830b0f987bd7b806ae7473171bc18ef02879`.
+- Start tree: clean and synchronized; no pull was required.
+- Verified starting inventory: 15 public HTML files, 14 indexable pages, five interactive tools, one Tools hub, two guides plus the Guides hub, and one References page.
+
+### Expansion decision
+
+- **GO:** expand around transparent user-entered requirements and bottlenecks, not an exact-model compatibility database.
+- **GO implemented:** PPS Range Checker, PD Requirement Builder, Cable Requirement Selector, USB Data Path Checker, DSC Requirement Planner, USB-C Lane Planner, Dock Requirement Builder, and Hub Power Budget.
+- **GO implemented:** four problem-centered workbenches for Charging, Cables & Data, Displays, and Docks & Hubs; four focused guides; two focused technical references.
+- **MERGE:** a 3 A/5 A calculator belongs inside the PD Requirement Builder; a generic charger selector belongs in the charging journey; a cable marking decoder remains part of Cable Capability Decoder; non-identical/multiple display arithmetic remains in Display Link Planner; a DP Alt Mode checker is represented by Lane Planner plus Dock Requirement Builder; slow charging and adapter-chain isolation remain in Troubleshooter.
+- **HOLD:** device/model charging database, exact dock compatibility checker, cable-length limit calculator, and product comparator. Public sources still do not provide complete, stable model-level data, topology, active/passive cable construction, update cadence, or product verification needed for safe verdicts.
+- **HOLD:** a generic file-transfer-time calculator and a standalone adapter-chain checker. The first is broadly generic and dominated by unknown workload efficiency; the second does not yet provide enough independent value beyond Cable Decoder, Dock Builder, and Troubleshooter.
+- **REJECT:** connector-shape compatibility checker, automatic missing-protocol fallback-wattage calculator, browser e-marker reader, unit-conversion pages, and keyword-variant copies of existing tools. These would create false certainty, require unavailable hardware access, or add thin duplication.
+
+### Research by requested family
+
+#### A. USB-C charging and Power Delivery
+
+- USB-IF public guidance supports current certified C-to-C power markings of 60 W or 240 W, a 5 A e-marked path above 60 W, USB PD up to 240 W, and PPS as a separate programmable capability.
+- Search results show standalone PD profile calculators, PPS tester workflows, and charger-budget calculators. This validates long-tail intent around voltage/current/profile matching, while leaving space for requirement-first and range-first tools that preserve negotiation uncertainty.
+- Result: PD current/cable requirements and one-APDO PPS range matching are independent from the existing whole-chain Charge Check and were promoted to GO.
+
+#### B. Cable, data-rate, and protocol capability
+
+- USB-IF now emphasizes explicit performance language (USB 5Gbps, 10Gbps, 20Gbps, 40Gbps, and 80Gbps) and separately marked cable power.
+- The recurring user problem splits into two intents: “what claims do I need?” and “what does this listing mean?” A full data path adds host, hub, and device limits that the existing cable-only decoder cannot answer.
+- Result: requirement-first Cable Selector and path-level Data Bottleneck Checker are GO; generation-name and cable-marking clones are MERGE.
+
+#### C. Display, DisplayPort Alt Mode, DSC, and MST
+
+- VESA documents two- versus four-lane DP over USB-C, DP payload up to 77.37 Gbps, DSC up to about 3:1 in public guidance, and separate adapter/MST/source/sink requirements.
+- Competing display bandwidth calculators establish demand, but many collapse uncompressed payload, DSC, lane allocation, and compatibility into one apparent verdict.
+- Result: keep the existing uncompressed Display Planner, add a minimum DSC ratio planner and a separate lane-tradeoff planner, and explain topology in a guide/reference.
+
+#### D. Docks, hubs, and adapters
+
+- Microsoft docking guidance explicitly models host delivery plus downstream power allocations and documents DP Alt Mode/dock requirements. Apple directs users to model-specific external-display limits. USB4 and Thunderbolt dynamically tunnel several protocols rather than behaving like a simple conventional Alt Mode lane split.
+- Search results and community posts show repeated pre-purchase dock-selection demand, but exact model selectors are catalog-limited and cannot infer missing host/GPU/OS/chipset facts.
+- Result: requirements and explicit power arithmetic are GO; an exact dock compatibility verdict remains HOLD.
+
+#### E. Troubleshooting
+
+- Recurring symptoms remain slow/no charge, no/low display mode, second-display failures, data bottlenecks, and intermittent disconnects.
+- Result: the existing path-aware Troubleshooter remains the central isolation tool. Charging/data/display workbenches link into it; symptom-specific copies are MERGE.
+
+#### F. Selection and pre-purchase decisions
+
+- The strongest safe selection pattern is requirement-first: derive a minimum specification checklist, reject missing claims, then verify an exact model manually.
+- Result: Cable Requirement Selector and Dock Requirement Builder are GO. Manufacturer/device databases and affiliate comparators remain HOLD pending provenance, identifiers, update cadence, and correction workflows.
+
+### Public sources and competition reviewed
+
+- USB-IF Cables and Connectors: `https://www.usb.org/cable_connector`
+- USB-IF cable compliance updates: `https://compliance.usb.org/index.asp?Format=Standard&UpdateFile=Cables+and+Connectors`
+- USB-IF USB4 overview: `https://www.usb.org/usb4`
+- USB-IF PPS public announcement: `https://www.usb.org/node/585`
+- VESA DisplayPort FAQ: `https://www.displayport.org/faq/`
+- Intel Thunderbolt Technology: `https://www.thunderbolttechnology.net/tech`
+- Microsoft Docking: `https://learn.microsoft.com/en-us/windows-hardware/design/device-experiences/docking`
+- Microsoft Display support: `https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/display`
+- Apple Connect displays to your Mac: `https://support.apple.com/en-us/102555`
+- Competition examples reviewed: Utilities Bunker USB PD Profiles Calculator, 3C Compass Charger Power Budget Calculator, EmbeddedCalc Display Bandwidth Calculator, and Club3D Bandwidth Calculator. These confirm intent and competition; technical rules in this release rely on primary sources above.
+
+### Implementation
+
+- Added eight independent interactive tools:
+  1. `tools/pps-range-checker/` — one requested voltage/current point against one PPS APDO range and power ceiling.
+  2. `tools/pd-requirement-builder/` — required current, 3 A/5 A cable class, and SPR/EPR boundary from a documented operating point.
+  3. `tools/cable-selector/` — minimum power, data, video, and USB4/Thunderbolt cable claims from the intended job.
+  4. `tools/data-path-checker/` — weakest declared link across host, cable, hub/adapter, and device with a visible user-selected overhead.
+  5. `tools/dsc-requirement-planner/` — minimum arithmetic DSC ratio and a clearly labeled 3:1 planning boundary.
+  6. `tools/usb-c-lane-planner/` — conventional two-/four-lane DP Alt Mode tradeoff and native USB 3 preservation.
+  7. `tools/dock-requirement-builder/` — OS-aware display topology, host power, data class, PCIe, and USB-graphics shopping checklist.
+  8. `tools/hub-power-budget/` — explicit supply, host, dock reserve, and downstream-device arithmetic without invented allocation.
+- Added four workbenches: `tools/charging/`, `tools/cables/`, `tools/displays/`, and `tools/docks/`.
+- Added four guides: `guides/usb-pd-pps/`, `guides/cable-labels/`, `guides/display-dsc-mst/`, and `guides/dock-buying-checklist/`.
+- Added two focused references: `references/power-delivery/` and `references/link-payloads/`.
+- Expanded Home, Tools, Guides, References, `llms.txt`, and sitemap navigation/inventory.
+- Extended shared `assets/app.js` with eight calculators and changed the shared numeric parser so an empty field is invalid rather than silently becoming zero.
+- Bumped the shared JavaScript query to `20260811d` on all public HTML pages.
+- Preserved static HTML/CSS/vanilla JavaScript, GitHub Pages, GA4 `G-8PFRRXPGEF`, contact `canghun13@naver.com`, current visual identity, and explicit confidence boundaries.
+
+### Changed files
+
+- Shared behavior: `assets/app.js`.
+- New tools: the eight directories listed above.
+- New workbenches: the four `tools/` cluster directories listed above.
+- New guides: the four `guides/` directories listed above.
+- New references: the two `references/` directories listed above.
+- Expanded hubs and entry points: `index.html`, `tools/index.html`, `guides/index.html`, `references/index.html`.
+- Discovery: `sitemap.xml`, `llms.txt`.
+- Cache-buster only: the remaining pre-existing public HTML files.
+- Operating record: `handover.md`.
+
+### Final inventory for this implementation
+
+- Public HTML files: **33** (up from 15).
+- Indexable/sitemap pages: **32** (up from 14); 404 remains non-indexable.
+- Interactive tools: **13** (five existing + eight new).
+- Problem workbenches: **4** plus the main Tools hub.
+- Standalone guides: **6** plus the Guides hub.
+- Focused reference pages: **2** plus the References/method hub.
+- Comparison/product pages: **0**; no thin affiliate or model-database layer was added.
+
+### Local QA
+
+- Automated verifier: PASS for 33 public HTML files and 32 indexable sitemap URLs.
+- Internal links/assets, unique titles, descriptions, canonical URLs, Open Graph, exactly one H1, parseable JSON-LD, duplicate IDs, and GA4 loader/config exactly once: PASS.
+- `robots.txt` allows crawling and names the sitemap; `CNAME` is `cablechecklab.com`: PASS.
+- Shared JavaScript syntax with the bundled Node runtime and `git diff --check`: PASS.
+- Eight new tools: default result, changed-input recalculation, boundary state, empty and zero handling, no NaN/Infinity, Reset, Copy, and Print control: PASS.
+- Boundary examples passed: PPS range mismatch; 3 A and outside-SPR PD points; >240 W cable target; data-path bottleneck; DSC no-compression and >3:1 states; two-lane and over-four-lane states; baseline and >240 W dock requirements; exact/tight and short dock power budgets.
+- Five existing tools: baseline, changed-input recalculation, empty invalid input where applicable, Reset, and no NaN/Infinity regression: PASS.
+- Copy clipboard output verified; shared Print action invoked without a JavaScript error or blocking dialog: PASS.
+- Horizontal overflow and mobile navigation: PASS on Home, Tools hub, PPS Range Checker, and Dock Requirement Builder at 390, 768, 900, 1024, 1280, and 1440 px.
+- Visual review: PASS for the Dock Requirement Builder at 390 px and DSC Requirement Planner at 1440 px.
+- Browser console: zero errors/warnings across all eight new tool routes after the final local code revision.
+
+### Git and deployment
+
+- Start commit: `7916830b0f987bd7b806ae7473171bc18ef02879`.
+- Implementation commit: pending immediately after this handover entry is staged.
+- Initial implementation push/deployment: pending.
+- Production verification: pending after GitHub Pages reports success.
+- Final handover commit: use `git log -1 --format=%H` after the final documentation commit because a commit cannot contain its own hash.
+
+### Next real work after this expansion
+
+1. Submit/confirm the expanded sitemap in Search Console and collect query/page data; use GA4 to compare workbench entry, tool starts, and copied results.
+2. Improve or merge tools only when behavioral data shows a journey problem; do not chase the eventual 25–35-tool range with keyword clones.
+3. If model-level demand becomes strong, first define provenance, stable identifiers, refresh cadence, manufacturer/manual source rules, uncertainty labels, and correction workflow before promoting the device database or exact dock checker from HOLD.
+4. Revisit the adapter-chain checker only if search and troubleshooting data show a distinct pre-purchase intent that cannot be served by Cable Decoder, Dock Builder, and Troubleshooter.
+5. Re-review USB-IF, VESA, Thunderbolt, Microsoft, and Apple public guidance when standards or OS display behavior materially changes.
