@@ -632,8 +632,11 @@ Use Search Console queries and GA4 tool usage to decide between a curated dock/d
 ### Git and deployment
 
 - Start commit: `9ffcf0721e7d7422d6a3f719b74a07fb24e610c9`.
-- Implementation commit: pending this local QA-complete commit.
-- Implementation push and GitHub Pages deployment: pending.
+- Implementation commit: `5f7897052d972c57adce74eb0eff7ad50107b32f` (`Expand USB4 and video planning tools`).
+- Implementation push: successful; GitHub `main` advanced from `9ffcf072` to `5f789705`.
+- GitHub Pages implementation deployment: `pages build and deployment` run #`31494778278` completed successfully for `5f7897052d972c57adce74eb0eff7ad50107b32f`.
+- Production HTTP verification: Home, sitemap, and robots returned 200; sitemap contained 49 URLs and every sitemap URL returned 200; Home referenced `app.js?v=20260811e` and displayed 22 tools.
+- Production browser verification: USB4 planning shortfall, DP++ passive path, fixed-profile current mismatch, direct-versus-dock isolation, Video Feature Chain Not required, and existing Charge Check bottleneck recalculated correctly. Tools hub mobile menu and horizontal overflow passed at 390 px; representative production console warnings/errors: zero.
 - Final handover commit: the commit containing the completed deployment record; resolve with `git log -1 --format=%H` after the documentation commit because a commit cannot contain its own hash.
 
 ### Next real work after this expansion
