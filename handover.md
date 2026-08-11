@@ -481,10 +481,13 @@ Use Search Console queries and GA4 tool usage to decide between a curated dock/d
 ### Git and deployment
 
 - Start commit: `7916830b0f987bd7b806ae7473171bc18ef02879`.
-- Implementation commit: pending immediately after this handover entry is staged.
-- Initial implementation push/deployment: pending.
-- Production verification: pending after GitHub Pages reports success.
-- Final handover commit: use `git log -1 --format=%H` after the final documentation commit because a commit cannot contain its own hash.
+- Implementation commit: `85c8b815891fa30b646a6ac912cbafb51df4df0e` (`Expand USB-C planning workbenches`).
+- Implementation push: successful; GitHub `main` advanced from `7916830b` to `85c8b815`.
+- GitHub Pages implementation deployment: `pages build and deployment` run #`31490502499` completed successfully for `85c8b815891fa30b646a6ac912cbafb51df4df0e`.
+- Production HTTP verification: Home, sitemap, and robots returned 200; sitemap contained 32 URLs and every URL returned 200; Home referenced `app.js?v=20260811d`.
+- Production browser verification: PPS range mismatch, DSC no-compression boundary, dock-power shortfall, and existing Charge Check bottleneck recalculated correctly; Tools hub mobile menu and horizontal overflow passed at 390 px; representative production console warnings/errors: zero.
+- Final handover commit: the commit containing this deployment record; resolve with `git log -1 --format=%H` after the final documentation commit because a commit cannot contain its own hash.
+- Finalization requirement: push the handover commit, wait for its Pages run, then verify local HEAD, `origin/main`, and actual remote `main` are identical and the working tree is clean. The resolved values belong in the final task report.
 
 ### Next real work after this expansion
 
