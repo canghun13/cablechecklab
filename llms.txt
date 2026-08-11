@@ -1,0 +1,25 @@
+# Cable Check Lab
+
+> Cable Check Lab provides free, browser-only tools for consumer USB-C cable, charger, port, dock, and display compatibility, selection, planning, and troubleshooting.
+
+Primary URL: https://cablechecklab.com/
+Contact: canghun13@naver.com
+Language: English
+
+## Core tools
+
+- [USB-C Charge Check](https://cablechecklab.com/tools/charge-check/): Screens device demand, charger output, cable power, PPS, and proprietary protocol constraints.
+- [Cable Capability Decoder](https://cablechecklab.com/tools/cable-decoder/): Interprets declared cable power, data, length, marking, and intended display use.
+- [Display Link Planner](https://cablechecklab.com/tools/display-planner/): Estimates active display payload and compares it with a selected usable DP link budget.
+- [Multi-port Power Planner](https://cablechecklab.com/tools/multiport-planner/): Screens total device demand and per-port ceilings against a charger budget.
+- [USB-C Troubleshooter](https://cablechecklab.com/tools/troubleshoot/): Produces an ordered isolation plan for charging and display symptoms.
+
+## Guides and evidence
+
+- [USB-C weakest-link rule](https://cablechecklab.com/guides/usb-c-chain/)
+- [DisplayPort Alt Mode guide](https://cablechecklab.com/guides/display-alt-mode/)
+- [Technical references and method](https://cablechecklab.com/references/)
+
+## Interpretation policy
+
+Tool results are calculations based on user-declared values, not live electrical measurements or certification. Cable Check Lab distinguishes calculated limits, plausible declared fit, and facts that require an exact product manual, certified marking, operating-system telemetry, or hardware test. It does not reproduce paid technical standards.
