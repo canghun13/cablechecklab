@@ -849,9 +849,12 @@ Use Search Console queries and GA4 tool usage to decide between a curated dock/d
 ### Git and deployment
 
 - Start commit: `823720d7cad5d0287093c71eea85469d79b52ea4`.
-- Audit implementation commit: pending until this record is committed.
-- Push and GitHub Pages deployment: pending.
-- Production HTTP and browser verification: pending.
+- Audit implementation commit: `343482292bdf1c42043de027468b468574828a27` (`Complete first-build final audit`).
+- Implementation push: successful; GitHub `main` advanced from `823720d7` to `34348229`.
+- GitHub Pages implementation deployment: `pages build and deployment` run #`31501206545` completed successfully for `343482292bdf1c42043de027468b468574828a27`.
+- Production HTTP verification: sitemap returned 200 with **59 URLs**, every sitemap URL returned 200, and robots, `favicon.svg`, `styles.css?v=20260811g`, and `app.js?v=20260811g` returned 200.
+- Production browser verification: all **60** public HTML routes loaded with one H1, the expected GA4 loader/config, favicon, canonical where indexable, and no console errors/warnings; all **28** Tools initialized to a finite non-Ready result. The four corrected Tool boundary scenarios returned the intended warning/invalid state. The same 42 representative viewport checks passed in production, and 404 mobile navigation opened with `aria-expanded=true` without overflow.
+- Final audit verdict: **PASS**. No unresolved release-blocking defect remains in the audited static site scope.
 - Final commit: the final `main` commit containing the completed deployment record; resolve in the final task report because a commit cannot contain its own hash.
 
 ### Next real work after the final audit
