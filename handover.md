@@ -864,3 +864,114 @@ Use Search Console queries and GA4 tool usage to decide between a curated dock/d
 3. Define a compact GA4 interaction taxonomy before adding calculate/change, Copy, Reset, or Guide/Reference transition events.
 4. Use evidence to deepen or merge current journeys. Keep device/model data, exact compatibility databases, cable-length prediction, and comparison/affiliate layers on HOLD until a maintainable evidence model exists.
 5. Re-audit public USB-IF/VESA/HDMI/Intel/Microsoft/Apple boundaries only when standards, certification, or operating-system behavior materially changes.
+
+## 2026-08-13 first-expansion gate review
+
+### Start state and inventory
+
+- Repository path: C:\Users\cangh\OneDrive\문서\ChatGPT\cablechecklab\repository.
+- Branch and remote: main at https://github.com/canghun13/cablechecklab.git.
+- Start local HEAD, origin/main, and actual GitHub main: 8c8f9f0b66b672dedabfc72a56fc513bc7483a9a.
+- Start tree: clean and synchronized after fetch; no pull was required.
+- Verified inventory: **60 public HTML files**, **59 indexable/sitemap pages**, **28 interactive Tools**, **6 workbenches**, **13 standalone Guides**, and **5 focused References**.
+- The production Tools hub independently exposed the same six workbenches and all 28 direct Tool entries.
+
+### Existing-Tool duplicate audit
+
+All 28 Tool pages and the complete shared controller were inspected before candidate research. Their core responsibilities remain:
+
+- Charging: complete-chain charge fit, fixed PDO matching, PPS range matching, PD requirement building, multi-port allocation, and two-row charger-table comparison.
+- Cable/data: requirement selection, cable and port claim decoding, weakest-link data paths, hub shared bandwidth, role matching, and hub power.
+- Display/adapters: raw payload, DSC ratio, USB-C lane allocation, MST topology, adapter direction, feature continuity, high-refresh isolation, and one-cable monitor planning.
+- USB4/docks: feature-path declarations, tunnel budget, fallback isolation, dock requirement building, direct-versus-dock isolation, dropout isolation, and general troubleshooting.
+
+The audit found no missing explanation severe enough to justify a duplicate landing Tool. The present results consistently distinguish declared/calculated fit from negotiation, exact topology, firmware, and model-specific proof.
+
+### Research scope and sources
+
+- Research date: **2026-08-13**.
+- Families searched: power/charging, USB data topology, display topology, USB-C monitors/KVM/switching, docks/hubs, adapters/conversion, troubleshooting, and specification interpretation.
+- Candidate set: **35 new workflow candidates**, deliberately excluding old model-database ideas from the count.
+- Primary and manufacturer evidence included USB-IF hub interoperability/test material, Microsoft USB topology and bandwidth documentation, Plugable upstream-port guidance, BenQ/Dell monitor-hub guidance, and current ATEN/StarTech/i-tec KVM product requirements.
+- Competition included Lightware USB Configurator, ATEN KVM Product Selector, 3C Compass dock/charging tools, existing display calculators, manufacturer selectors, and hardware USB test tools.
+- Recurring intent was checked against current support articles and community threads for USB-C KVM selection, monitor upstream/downstream confusion, hub depth, display loss under load, and SSD/Ethernet contention.
+- Representative sources:
+  - https://www.usb.org/sites/default/files/USB-IFTestProc1_3.pdf
+  - https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/usbioctl/ns-usbioctl-_usb_port_connector_properties
+  - https://learn.microsoft.com/en-us/windows-hardware/drivers/usbcon/usb-bandwidth-allocation
+  - https://www.lightware.com/en/products/Software/usb20-1gbe-configurator
+  - https://kb.plugable.com/en_US/which-usb-c-port-can-be-used-to-connect-to-my-computer
+  - https://www.benq.com/en-us/support/downloads-faq/faq/product/application/monitor-faq-kn-00017.html
+  - https://www.dell.com/support/kbdoc/en-us/000189810/usb-downstream-ports-on-a-dell-monitor-do-not-work
+  - https://eservice.aten.com/eSupport/Common/supportHome/wizard/list.do?lang=en_US&linkId=customerProductWizard
+
+### Candidate decisions
+
+The compact records below cover the required problem/user, inputs/output, intent/competition, difference from existing Tools, technical/maintenance basis, and decision.
+
+| # | Candidate | Problem and user | Inputs → useful output | Intent / competition | Existing difference; basis / maintenance | Decision and reason |
+|---:|---|---|---|---|---|---|
+| 1 | Charger port-table interpreter | Multi-device buyers reading mode tables | Declared table + loads → viable row | Clear; 3C Compass and charger calculators | Same evidence and result as Multi-port Scenario Comparator; low maintenance | **MERGE** — add parsing help only when evidence warrants it |
+| 2 | Power-sharing mode selector | Users choosing which devices occupy which ports | Port modes + device targets → assignment | Repeated buyer intent; strong charger tools | Multi-port Planner already performs the decision; public tables vary | **MERGE** — no independent output |
+| 3 | EPR path preflight | Buyers planning >100 W | source/sink/cable voltage-current claims → missing link | Clear EPR intent; many guides | PD Requirement Builder, Cable Selector, and Charge Check already form this chain | **MERGE** — surface a cross-link, not a fourth calculator |
+| 4 | AVS range matcher | Advanced PD users checking AVS | requested V/A + APDO bounds → declared fit | Niche technical intent; compliance tools dominate | Natural sibling input mode to PPS Range Checker; public declared bounds suffice | **MERGE** — same range logic |
+| 5 | Monitor PD plus peripheral budget | One-cable monitor users | monitor input/output and device loads → power headroom | Clear support intent | One-Cable Monitor Planner plus Hub Power Budget already cover it | **MERGE** — combine journey, not URL |
+| 6 | Upstream/downstream power-role conflict | Users confused by powered but inactive ports | port roles + intended power flow → role mismatch | Recurring monitor/dock support issue | USB-C Role Match already returns the mismatch | **MERGE** — add monitor wording |
+| 7 | Cable voltage-drop estimator | Long/high-current cable buyers | resistance or AWG/length/current → estimated drop | Calculator competition and lab testers exist | User rarely has conductor resistance; negotiated charging and cable construction prevent safe consumer verdicts | **HOLD** — false precision risk |
+| 8 | USB hub tier-depth preflight | AV/desk users chaining hubs/docks/monitors | known intervening hub stages + unknown flags → within five-hub path or cannot determine | Real failures; Lightware visualizes exact topology | Distinct from bandwidth/power; USB-IF supports the limit; hidden internal hubs must remain unknown | **GO candidate** — independent, safe preflight with explicit unknowns |
+| 9 | USB2/SuperSpeed dual-bus planner | Users mixing slow and fast peripherals | per-device bus class/demand → two pool summaries | Technical intent; topology viewers compete | Microsoft documents separate USB2 and SuperSpeed hub implementations; best as Hub Shared Bandwidth expansion | **MERGE** — one existing tool should model both pools |
+| 10 | Transaction-translator planner | Audio/HID users behind USB2 hubs | speed, periodic load, TT mode/topology → risk note | Low search intent; specialist material | Exact scheduling needs descriptors/topology; Microsoft notes prediction difficulty | **HOLD** — too telemetry-dependent |
+| 11 | Multi-hub branch bottleneck | Users with nested branches | tree branches + rates → weakest shared segment | Repeated topology problem | Extension of Data Path + Shared Bandwidth; a separate page would repeat bottleneck math | **MERGE** |
+| 12 | Camera + SSD + Ethernet workload planner | Dock users under simultaneous load | three demands + upstream → headroom | Strong problem wording and calculators | Merely a preset for Hub Shared Bandwidth | **MERGE** — keyword scenario, not independent logic |
+| 13 | Host-controller topology planner | Power users asking which ports share a controller | live controller/route data → actual shared roots | Real but OS/hardware-specific | Browser cannot inspect it; exact answer needs OS telemetry or maintained model data | **HOLD** |
+| 14 | USB endpoint/device-count checker | Users fearing the 127-device ceiling | counts → theoretical limit | Weak consumer decision intent | Simple threshold ignores hubs/endpoints/controller policy | **REJECT** — trivia-level output and misleading confidence |
+| 15 | Mixed resolution/refresh payload planner | Multi-monitor users | per-display timing → aggregate demand | Strong; many display calculators | Display Link Planner already supports multiple streams | **MERGE** — improve row inputs if data supports it |
+| 16 | MST per-branch allocator | Daisy-chain users | displays per branch + link payload → branch fit | Clear MST intent; strong calculators | MST Checker already consumes display demand and topology | **MERGE** |
+| 17 | Ultrawide link planner | Ultrawide buyers | resolution/refresh/bpc/chroma → payload | Clear but crowded | Exact same Display Link equation | **MERGE** — preset/guide wording only |
+| 18 | Mirror-versus-extend planner | Users choosing duplicate or extended displays | OS/mode/count → topology requirements | Repeated support question | MST Checker already distinguishes OS/topology; no new calculation | **MERGE** |
+| 19 | USB-and-display coexistence planner | USB-C users trading lanes | display demand + USB preservation → lane plan | Strong intent | USB-C Lane Planner is this decision | **MERGE** |
+| 20 | HDR/bit-depth/chroma requirement builder | HDR users | mode attributes → bandwidth and feature needs | Strong, crowded | Display Planner plus Video Feature Chain already cover both parts | **MERGE** |
+| 21 | DP-to-HDMI feature-loss checker | Adapter buyers | source/adapter/sink features → missing feature | Clear support intent | Video Adapter Direction + Feature Chain already provide the answer | **MERGE** |
+| 22 | Chained-adapter planner | Users with conversion chains | ordered adapter claims → direction/feature gaps | Recurring but model claims vary | Add repeatable rows to the existing two adapter Tools if warranted | **MERGE** |
+| 23 | USB-C KVM requirement builder | Two-host users sharing displays, USB, and charging | two hosts, displays, peripherals, PD, OS → requirement checklist and unknowns | Strong current community intent; ATEN selector and buying guides compete, but neutral pre-purchase gap remains | Combines two-host switching as a new primary output; public specs can build requirements without naming a compatible model | **GO candidate** — independent requirement workflow, low data maintenance |
+| 24 | Dual-host monitor switching planner | Built-in KVM monitor users | host A/B video/data paths → cabling checklist | Clear monitor intent | Subset of candidate 23 plus Role Match/One-Cable Monitor | **MERGE** |
+| 25 | KVM EDID/hot-plug behavior checker | Users with rearranged windows/blanking | claimed EDID/HPD behavior + symptoms → evidence state | Real problem; KVM vendors compete on proprietary behavior | Reliable result needs exact implementation/firmware testing | **HOLD** |
+| 26 | Monitor upstream requirement checker | Users whose monitor USB ports do not work | video cable + upstream data path → missing connection | Very strong support intent; BenQ/Dell/Plugable articles | Role Match, One-Cable Monitor, and Troubleshooter already solve it | **MERGE** |
+| 27 | Monitor downstream USB constraint planner | Monitor-hub users | upstream mode/rate + peripherals → data/power constraint | Recurring support intent | Hub Bandwidth + Hub Power with monitor framing | **MERGE** |
+| 28 | Bus-versus-self-powered hub feasibility | Mobile hub users | upstream supply, reserve, loads → feasibility | Strong support intent | Hub Power Budget already produces the decision | **MERGE** |
+| 29 | Second downstream hub impact | Users adding another hub | declared stages/pools/loads → added risk | Real topology intent | Tier depth belongs to candidate 8; traffic belongs to existing bandwidth planner | **MERGE** |
+| 30 | Display drops under USB load | Dock users with intermittent video | load/direct/dock/reduced-mode evidence → isolation step | Repeated support issue | High-Refresh and Direct/Dock isolators already cover it | **MERGE** |
+| 31 | Monitor charges but peripherals fail | One-cable monitor users | power/video/data observations → missing data path | Strong recurring support issue | One-Cable Monitor, Role Match, and Troubleshooter already return it | **MERGE** |
+| 32 | Dock works only with external power | Bus-powered dock users | powered/unpowered comparison + load → power evidence | Repeated support issue | Hub Power + Dropout Isolator already cover it | **MERGE** |
+| 33 | Ethernet drops during SSD transfer | Dock users with shared-link contention | concurrent demands + isolation evidence → bottleneck test | Clear community/support issue | Hub Shared Bandwidth + Dropout Isolator already solve it | **MERGE** |
+| 34 | DisplayLink workload suitability | Users comparing USB graphics with native display paths | OS/workload/content/driver constraints → suitability caveats | Meaningful intent; vendor tools/guides strong | Performance and DRM/latency behavior are workload, OS, driver, and model dependent | **HOLD** |
+| 35 | Browser auto-read of cable/port/e-marker | Users wanting automatic detection | browser hardware inspection → exact negotiated facts | Appealing intent | Ordinary browser APIs cannot read cable e-markers or complete negotiated paths | **REJECT** — technically unavailable and unsafe to simulate |
+
+### Gate result and rationale
+
+- Counts: **2 GO candidates / 26 MERGE / 5 HOLD / 2 REJECT = 35**.
+- Strong independent Tool count: **2**, below the mandatory minimum of four.
+- The two strongest candidates are not a coherent four-Tool cluster by themselves. Manufacturing two more pages from dual-bus bandwidth, monitor upstream checks, or KVM subcases would duplicate existing Tools.
+- Existing maintained-data HOLD items remain unchanged: model-specific charger/device, exact dock/KVM/MST/adapter/eGPU compatibility, cable-length prediction, comparison/affiliate, and other product databases were not recycled to satisfy the gate.
+- Final first-expansion decision: **NO-GO**.
+
+### Implementation, QA, and inventory
+
+- No Tool, Guide, Reference, Workbench, or public landing page was added.
+- No production HTML, CSS, JavaScript, sitemap, robots, metadata, structured data, GA4, or asset file changed. Only this operating record changed.
+- Automated verifier: PASS for 60 public HTML files, 59 indexable/sitemap URLs, internal targets, duplicate IDs, metadata, canonical/Open Graph, H1, JSON-LD, and GA4 exactly once. Shared JavaScript syntax and git diff whitespace checks also passed.
+- Documentation QA: candidate count/classification arithmetic, 28-Tool inventory comparison, and source-link formatting passed.
+- Production read-only verification: the Tools hub returned the expected title, one H1, six workbenches, all 28 direct Tool entries, and zero console errors/warnings. No production rollout was required for a product change.
+- Final inventory remains **60 HTML / 59 indexable / 28 Tools / 6 workbenches / 13 Guides / 5 References**.
+
+### Git, deployment, and next real work
+
+- Start commit: 8c8f9f0b66b672dedabfc72a56fc513bc7483a9a.
+- Research-decision commit: resolve after committing this record.
+- Production deployment: **not applicable for product code**; the existing audited release remains live. A documentation-only Pages rebuild may occur after push and will be recorded if observable.
+- Final commit: the final main commit containing the completed push/deployment record; its exact hash is reported externally because a commit cannot contain its own hash.
+- Next work:
+  1. Collect Search Console query/landing evidence and GA4 journey evidence before reopening expansion.
+  2. Define the compact GA4 interaction taxonomy already pending.
+  3. Reconsider the two GO candidates only alongside at least two additional independent, evidence-backed workflows; do not split their subcases into separate Tools.
+  4. If user/support data strongly selects a MERGE item, deepen the named existing Tool instead of adding another URL.
