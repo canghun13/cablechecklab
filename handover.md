@@ -967,8 +967,9 @@ The compact records below cover the required problem/user, inputs/output, intent
 ### Git, deployment, and next real work
 
 - Start commit: 8c8f9f0b66b672dedabfc72a56fc513bc7483a9a.
-- Research-decision commit: resolve after committing this record.
-- Production deployment: **not applicable for product code**; the existing audited release remains live. A documentation-only Pages rebuild may occur after push and will be recorded if observable.
+- Research-decision commit: 8c5619d211533ac53a2fe8fb3226ac189dace742 (Record first expansion no-go review).
+- Product-code deployment: **not applicable**; the existing audited release remains live and unchanged.
+- Documentation-only GitHub Pages rebuild: run #31703437581 completed successfully for 8c5619d211533ac53a2fe8fb3226ac189dace742.
 - Final commit: the final main commit containing the completed push/deployment record; its exact hash is reported externally because a commit cannot contain its own hash.
 - Next work:
   1. Collect Search Console query/landing evidence and GA4 journey evidence before reopening expansion.
