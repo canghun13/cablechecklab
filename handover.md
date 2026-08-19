@@ -976,3 +976,8 @@ The compact records below cover the required problem/user, inputs/output, intent
   2. Define the compact GA4 interaction taxonomy already pending.
   3. Reconsider the two GO candidates only alongside at least two additional independent, evidence-backed workflows; do not split their subcases into separate Tools.
   4. If user/support data strongly selects a MERGE item, deepen the named existing Tool instead of adding another URL.
+
+
+## 2026-08-19
+
+- 메인 페이지 푸터 아래의 디렉토리 뱃지 영역은 사용자가 직접 관리하는 영역이므로 수정·삭제·리팩터링하지 않는다.- https://findly.tools/ 에 등록 (내가 직접함)
