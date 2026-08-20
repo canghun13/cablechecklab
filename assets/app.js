@@ -10,6 +10,28 @@
     });
   }
 
+  const workbenchIds = new Set(['charging', 'cables', 'displays', 'docks', 'usb4-thunderbolt', 'video-adapters']);
+  const pathParts = window.location.pathname.split('/').filter(Boolean);
+  const pageWorkbench = pathParts[0] === 'tools' && pathParts.length === 2 && workbenchIds.has(pathParts[1]) ? pathParts[1] : '';
+  const track = (eventName, parameters = {}) => {
+    if (typeof window.gtag !== 'function') return;
+    const safeParameters = Object.fromEntries(Object.entries(parameters).filter(([, parameter]) => parameter !== '' && parameter !== undefined));
+    window.gtag('event', eventName, safeParameters);
+  };
+
+  if (pageWorkbench) {
+    document.querySelectorAll('a[href^="/tools/"]').forEach((link) => {
+      const match = link.getAttribute('href')?.match(/^\/tools\/([^/]+)\/$/);
+      const destination = match?.[1] || '';
+      if (!destination || workbenchIds.has(destination)) return;
+      link.addEventListener('click', () => track('workbench_to_tool_click', {
+        tool_id: destination,
+        workbench: pageWorkbench,
+        source_context: 'workbench_card'
+      }));
+    });
+  }
+
   const tool = document.querySelector('[data-tool]');
   if (!tool) return;
 
@@ -20,6 +42,11 @@
   const summary = tool.querySelector('[data-summary]');
   const details = tool.querySelector('[data-details]');
   const evidence = tool.querySelector('[data-evidence]');
+  const toolId = pathParts[0] === 'tools' && pathParts.length >= 2 ? pathParts[1] : tool.dataset.tool;
+  const parentWorkbenchPath = Array.from(tool.querySelectorAll('.breadcrumbs a')).map((link) => link.getAttribute('href') || '').find((href) => /^\/tools\/[^/]+\/$/.test(href) && workbenchIds.has(href.split('/')[2]));
+  const toolWorkbench = parentWorkbenchPath ? parentWorkbenchPath.split('/')[2] : '';
+  const analyticsContext = { tool_id: toolId, workbench: toolWorkbench };
+  const resultState = () => ['ok', 'warn', 'bad', 'info'].find((stateName) => status.classList.contains(stateName)) || 'unknown';
 
   const number = (name) => {
     const raw = new FormData(form).get(name);
@@ -807,13 +834,29 @@
   if (!calculate) return;
   form.addEventListener('input', calculate);
   form.addEventListener('change', calculate);
-  form.addEventListener('submit', (event) => { event.preventDefault(); calculate(); });
-  form.addEventListener('reset', () => setTimeout(calculate, 0));
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    calculate();
+    track('tool_run', { ...analyticsContext, source_context: 'explicit_submit' });
+    track('tool_result', { ...analyticsContext, result_state: resultState(), source_context: 'explicit_submit' });
+  });
+  form.addEventListener('reset', () => {
+    track('reset_tool', { ...analyticsContext, source_context: 'tool_controls' });
+    setTimeout(calculate, 0);
+  });
   tool.querySelector('[data-copy]')?.addEventListener('click', async (event) => {
     const button = event.currentTarget;
     const text = [status.textContent, headline.textContent, summary.textContent, ...Array.from(details.querySelectorAll('li')).map((li) => li.textContent)].join('\n');
-    try { await navigator.clipboard.writeText(text); button.textContent = 'Copied'; setTimeout(() => button.textContent = 'Copy result', 1500); } catch { button.textContent = 'Copy unavailable'; }
+    try {
+      await navigator.clipboard.writeText(text);
+      track('copy_result', { ...analyticsContext, result_state: resultState(), source_context: 'result_panel' });
+      button.textContent = 'Copied';
+      setTimeout(() => button.textContent = 'Copy result', 1500);
+    } catch { button.textContent = 'Copy unavailable'; }
   });
-  tool.querySelector('[data-print]')?.addEventListener('click', () => window.print());
+  tool.querySelector('[data-print]')?.addEventListener('click', () => {
+    track('print_result', { ...analyticsContext, result_state: resultState(), source_context: 'result_panel' });
+    window.print();
+  });
   calculate();
 })();

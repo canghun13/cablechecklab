@@ -1104,3 +1104,59 @@ Each row records the user/problem, meaningful inputs and output, demand/competit
 3. If the capture family later produces genuinely independent needs beyond the one composite preflight, it is the closest cluster to reconsider; HDCP/pass-through/UVC-format rows alone do not count separately.
 4. Treat filesystem selection and active/passive audio as isolated future candidates until each has at least three additional coherent peers.
 5. Prefer a focused Guide or a MERGE into the named existing Tool when the output is a checklist, preset, or terminology translation rather than new calculation/decision logic.
+
+## 2026-08-20 search-signal USB4 optimization and interaction measurement
+
+### Start state and evidence boundary
+
+- Working copy used for this session: `C:\Users\cangh\OneDrive\문서\ChatGPT\cablechecklab\repository`.
+- Branch and remote: `main` at `https://github.com/canghun13/cablechecklab.git`.
+- Initial local HEAD was `f17c48a`; live GitHub `main` was newer at `157477c257e97780e995fc56fea351afa9ba4083`. The initial tree was clean, so `git fetch origin main` and `git pull --ff-only` safely synchronized local HEAD and `origin/main` to the live remote. No reset, restore, force operation, or user-file deletion was used.
+- Synchronized start commit: `157477c257e97780e995fc56fea351afa9ba4083`.
+- Verified start inventory: **60 public HTML files / 59 indexable sitemap pages / 28 Tools / 6 workbenches / 13 Guides / 5 References / 0 comparisons**.
+- No Search Console or GA4 export was present in the repository, surrounding workspace, or supplied attachments. The available in-app Search Console session was not authenticated, so no current numeric impression, click, CTR, position, or event-volume claim was made.
+- The latest recorded small search signal was the query group `usb4 pcie tunneling`, `pcie tunneling`, `what is pcie tunneling`, and `pcie tunneling over usb4` landing on `/references/usb4-tunneling/`. A much smaller Charge Check/cable-bottleneck hint was not strong enough to justify another edit.
+
+### Decision and current research check
+
+- **GO — strengthen the existing USB4 tunneling Reference.** Its old H1, “USB4 rates, tunnels, and confidence boundaries,” did not answer the recorded query directly. This was a search-intent and answer-depth issue on an existing relevant URL, not evidence for a new page or Tool.
+- **GO — add a minimal common interaction taxonomy.** The repeated measurement gap could be closed safely in shared JavaScript with stable route-derived identifiers and no user-entered values.
+- **HOLD — Charge Check content/title changes.** The recorded sample is too small to distinguish a durable intent from noise.
+- **NO CHANGE — new PCIe tunneling page/Tool, canonical/URL migration, new cluster, or design overhaul.** The existing Reference, USB4 workbench, Feature Path Checker, Tunnel Budget Planner, and planning Guide already form the correct journey.
+- Current primary-source checks supported the revised boundary: USB-IF describes PCIe protocol traffic tunneled over the USB4 fabric while the PCIe topology remains visible to software; Microsoft documents PCIe tunneling support requirements and uses such as external graphics and high-performance storage. The page continues to treat link rate, tunnel support, device function, authorization, and application throughput as separate claims.
+- Sources used: `https://www.usb.org/sites/default/files/D1T1-3%20-%20USB4%20System%20Overview.pdf`, `https://www.usb.org/document-library/usb4tm-configuration-layer-usb3-tunneling-dp-tunneling-and-pcie-tunneling`, `https://learn.microsoft.com/en-us/windows-hardware/test/hlk/testref/7d627bf0-25f3-4564-b554-b2a3450e2bcf`, and `https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/usb4-intro-to-connection-manager`.
+
+### Implementation
+
+- Reworked `/references/usb4-tunneling/` around the direct H1 **“What is PCIe tunneling over USB4?”**, a short answer, PCIe-versus-USB distinction, common uses, four separate claim types, an end-to-end verification sequence, 40 Gbps/performance limits, absent-device troubleshooting, and explicit fallback language.
+- Updated that page's title, description, Open Graph copy, TechArticle headline, and `dateModified` while preserving its URL and canonical.
+- Strengthened the route into and out of the Reference from the References hub, USB4 & Thunderbolt workbench, USB4 Feature Path Checker, USB4 Tunnel Budget Planner, and USB4 planning Guide.
+- Added common GA4 events in `assets/app.js`: `tool_run`, `tool_result`, `reset_tool`, `copy_result`, `print_result`, and `workbench_to_tool_click`.
+- Event parameters are limited to stable context: `tool_id`, `workbench`, `result_state`, and `source_context`. No form field, numeric input, free text, clipboard content, email, or other user-entered value is sent. Copy is recorded only after clipboard success; passive input/change recalculation is deliberately not recorded.
+- Advanced the shared `app.js` cache key from `20260811g` to `20260820a` on all 60 public HTML files. The stylesheet and all other assets were unchanged.
+- No public page, Tool, Guide, Reference, Workbench, comparison, sitemap URL, robots rule, framework, backend, or database was added. The user-managed directory-badge area below the home-page footer was not modified.
+
+### Changed files and QA
+
+- Semantic changes: `assets/app.js`, `references/usb4-tunneling/index.html`, `references/index.html`, `tools/usb4-thunderbolt/index.html`, `tools/usb4-feature-path/index.html`, `tools/usb4-tunnel-budget/index.html`, and `guides/usb4-thunderbolt-planning/index.html`.
+- Mechanical cache-key change: all 60 public HTML files. This operating record adds `handover.md`.
+- Repository verifier: PASS for **60 public HTML files** and **59 indexable sitemap URLs**, including internal targets, duplicate IDs, canonical, title/description, Open Graph, one H1, JSON-LD, sitemap parity, and one GA4 loader/config per page.
+- JavaScript syntax, `git diff --check`, exact GA4 ID scan (`G-8PFRRXPGEF` only), cache-key coverage (60/60), and removal of temporary QA hooks/files: PASS.
+- Isolated event fixture: PASS for all six events and their expected stable parameters. The event payload contained no form values. Workbench-to-Tool attribution recorded the destination Tool and source workbench.
+- Full Tool browser regression: all **28 Tools** loaded and initialized, explicit submit worked, input changes recalculated, numeric invalid input returned the invalid/bad state where applicable, Reset recalculated, Copy succeeded, Print invoked, no NaN/Infinity appeared, no horizontal overflow appeared at 390 px, and no page JavaScript error occurred.
+- Changed Reference and representative USB4 Tool: PASS at **390 / 768 / 900 / 1024 / 1280 / 1440** with no horizontal overflow or H1/header collision. Mobile navigation opened with `aria-expanded=true`. Local in-app browser inspection found the new direct answer and no site-script console error.
+
+### Git and deployment
+
+- Start commit: `157477c257e97780e995fc56fea351afa9ba4083`.
+- Implementation commit: pending at the time this section was written.
+- Push and GitHub Pages deployment: pending at the time this section was written.
+- Final commit: the final `main` commit containing this record; resolve in the final task report because a commit cannot contain its own hash.
+
+### Current state and next real work
+
+- Inventory remains **60 HTML / 59 indexable / 28 Tools / 6 workbenches / 13 Guides / 5 References / 0 comparisons**.
+- Treat this as an optimization and measurement release, not a new cluster release.
+- After enough impressions and interactions accumulate, compare the PCIe-tunneling query group's landing performance and the six event families by Tool/workbench. Do not infer meaningful demand from one or two events.
+- Revisit Charge Check wording only if a larger query set establishes a durable cable-bottleneck intent.
+- Keep the three isolated GO candidates from the fresh cluster review on HOLD unless their own coherent families meet the established launch gate; do not split subcases into thin Tools.

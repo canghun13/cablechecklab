@@ -1,1 +1,141 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><title>USB4 & Thunderbolt Tunnel Reference — Rates and Limits</title><meta name="description" content="Reference USB4 and Thunderbolt planning boundaries for link rates, display, USB and PCIe tunnels, Windows allocation behavior, cable evidence, and unknowns."><link rel="canonical" href="https://cablechecklab.com/references/usb4-tunneling/"><meta property="og:title" content="USB4 & Thunderbolt Tunnel Reference"><meta property="og:description" content="Public planning boundaries for rates, features, tunnels, and evidence."><meta property="og:type" content="article"><meta property="og:url" content="https://cablechecklab.com/references/usb4-tunneling/"><link rel="stylesheet" href="/assets/styles.css?v=20260811g"><script async src="https://www.googletagmanager.com/gtag/js?id=G-8PFRRXPGEF"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-8PFRRXPGEF');</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"USB4 and Thunderbolt Tunnel Reference","url":"https://cablechecklab.com/references/usb4-tunneling/","dateModified":"2026-08-11"}</script></head><body><a class="skip-link" href="#main">Skip to content</a><header class="site-header"><div class="nav-shell"><a class="brand" href="/"><span class="brand-mark"></span>Cable Check Lab</a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button><nav class="main-nav" id="main-nav"><a href="/tools/">Tools</a><a href="/guides/">Guides</a><a href="/references/" aria-current="page">References</a><a href="/about/">About</a></nav></div></header><main id="main"><section class="page-hero"><div class="narrow"><div class="breadcrumbs"><a href="/">Home</a> / <a href="/references/">References</a> / USB4 Tunneling</div><p class="eyebrow">Technical reference</p><h1>USB4 rates, tunnels, and confidence boundaries.</h1><p class="lede">Use these figures to form requirements, not to claim undisclosed product behavior or application throughput.</p></div></section><article class="section narrow prose"><h2>Public link classes</h2><table><thead><tr><th>Class</th><th>Public planning meaning</th><th>Do not infer</th></tr></thead><tbody><tr><td>USB4 20 Gbps</td><td>USB4-class link with a 20 Gbps headline rate.</td><td>Exact optional features, display count, or application speed.</td></tr><tr><td>USB4 / Thunderbolt 40 Gbps</td><td>40 Gbps class when mutually supported. Thunderbolt 4 certification adds documented minimum requirements.</td><td>That every generic USB4 accessory meets Thunderbolt minimums.</td></tr><tr><td>USB 80 Gbps / Thunderbolt 5</td><td>Higher bidirectional class when host, cable, and device all support it.</td><td>Compatibility through a 40 Gbps segment.</td></tr><tr><td>Thunderbolt 5 Bandwidth Boost</td><td>Up to 120 Gbps transmit with 40 Gbps receive for display-heavy conditions.</td><td>120 Gbps symmetric data or universal activation.</td></tr></tbody></table><h2>Feature evidence</h2><table><thead><tr><th>Requirement</th><th>Evidence to collect</th></tr></thead><tbody><tr><td>Display</td><td>Host display output/tunnel support, GPU display count, device outputs, mode payload, cable, and OS policy.</td></tr><tr><td>PCIe accessory</td><td>Explicit PCIe tunneling/enclosure support at host and device, security authorization, driver, and cable.</td></tr><tr><td>USB data</td><td>Mutual link rate plus exact downstream port rate and device interface; the fabric may carry other traffic at the same time.</td></tr><tr><td>Mixed dock</td><td>Every required feature above plus a transparent workload budget and exact dock topology.</td></tr></tbody></table><h2>Windows bandwidth planning</h2><p>Microsoft’s USB4 design guidance documents explicit allocation behavior, including a maximum reservation of 90% of the link in its connection-manager planning model (for example 18 Gbps on a 20 Gbps link and 36 Gbps on 40 Gbps). DisplayPort bandwidth can be adjusted dynamically, and USB plus PCIe use a shared pool. Cable Check Lab exposes the planning percentage so it is never mistaken for a universal throughput constant.</p><h2>Primary sources</h2><ul class="source-list"><li><a href="https://www.usb.org/usb4">USB-IF — USB4 overview</a><small>Concurrent USB, data, and display protocol transport; dynamic sharing; mutual-capability scaling.</small></li><li><a href="https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/usb4-intro-to-connection-manager">Microsoft Learn — USB4 connection manager</a><small>Windows tunnel and bandwidth management.</small></li><li><a href="https://learn.microsoft.com/en-us/windows-hardware/test/hlk/testref/7d627bf0-25f3-4564-b554-b2a3450e2bcf">Microsoft Learn — USB4 PCIe tunneling support test</a><small>Windows-exposed USB4 connector PCIe tunneling requirement context.</small></li><li><a href="https://www.thunderbolttechnology.net/sites/default/files/Thunderbolt_5_TechBrief_2023_09_12.pdf">Intel — Thunderbolt 5 technology brief</a><small>80 Gbps bidirectional link and Bandwidth Boost context.</small></li></ul><p><a href="/tools/usb4-feature-path/">Use Feature Path Checker</a> · <a href="/tools/usb4-tunnel-budget/">Use Tunnel Budget Planner</a></p></article></main><footer class="site-footer"><div class="shell"><div class="footer-bottom"><span>© 2026 Cable Check Lab</span><span>Reviewed August 11, 2026 · <a href="mailto:canghun13@naver.com">Corrections</a></span></div></div></footer><script src="/assets/app.js?v=20260811g" defer></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<title>What Is PCIe Tunneling over USB4? Requirements & Limits</title>
+<meta name="description" content="Learn what PCIe tunneling over USB4 means, which external devices use it, how to verify host, cable and device support, and why link rate is not throughput.">
+<link rel="canonical" href="https://cablechecklab.com/references/usb4-tunneling/">
+<meta property="og:title" content="What Is PCIe Tunneling over USB4?">
+<meta property="og:description" content="A practical reference for PCIe tunneling requirements, evidence, shared bandwidth, and limits.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://cablechecklab.com/references/usb4-tunneling/">
+<link rel="stylesheet" href="/assets/styles.css?v=20260811g">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8PFRRXPGEF">
+</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-8PFRRXPGEF');</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"What Is PCIe Tunneling over USB4?","url":"https://cablechecklab.com/references/usb4-tunneling/","dateModified":"2026-08-20"}</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="nav-shell">
+<a class="brand" href="/">
+<span class="brand-mark">
+</span>Cable Check Lab</a>
+<button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+<nav class="main-nav" id="main-nav">
+<a href="/tools/">Tools</a>
+<a href="/guides/">Guides</a>
+<a href="/references/" aria-current="page">References</a>
+<a href="/about/">About</a>
+</nav>
+</div>
+</header>
+<main id="main">
+<section class="page-hero">
+<div class="narrow">
+<div class="breadcrumbs">
+<a href="/">Home</a> / <a href="/references/">References</a> / USB4 Tunneling</div>
+<p class="eyebrow">Technical reference</p>
+<h1>What is PCIe tunneling over USB4?</h1>
+<p class="lede">PCIe tunneling carries PCI Express transactions through a USB4 fabric so compatible external PCIe devices can appear to the host as PCIe functions. It is different from ordinary USB data and does not turn a headline Gbps rate into a performance guarantee.</p>
+</div>
+</section>
+<article class="section narrow prose">
+<div class="callout">
+<strong>Short answer:</strong> a USB4 router packages PCIe traffic into tunnel packets, transports it across the USB4 link, and presents it to a PCIe-capable endpoint on the other side. The operating system can then enumerate that external function in its PCIe tree instead of treating it as an ordinary USB mass-storage or USB graphics device.
+</div>
+<h2>What PCIe tunneling changes</h2>
+<p>Traditional USB peripherals speak a USB device protocol to a USB host controller. A PCIe-tunneled accessory instead exposes a PCIe function through USB4 routers and adapters. The USB-IF system overview describes the PCIe protocol being carried over the USB4 fabric while the PCIe tree remains recognizable to PCIe software.</p>
+<p>This transport is useful when an accessory is fundamentally a PCIe device. Examples include external GPU enclosures, high-performance NVMe enclosures that expose a PCIe path, and some dock functions built around PCIe controllers. A different enclosure may use a USB-to-storage bridge instead; the connector and the fact that an NVMe drive is inside do not establish which transport it uses.</p>
+<h2>Four claims that must stay separate</h2>
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>What it establishes</th>
+<th>What still needs evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>USB4 or Thunderbolt link rate</td>
+<td>The highest declared fabric class when host, cable, and device mutually support it.</td>
+<td>PCIe tunneling, the accessory function, protocol overhead, and application throughput.</td>
+</tr>
+<tr>
+<td>PCIe tunneling support</td>
+<td>The host and destination can establish a PCIe protocol tunnel when the complete path permits it.</td>
+<td>PCIe generation, lane width, enclosure controller, driver, security policy, and performance.</td>
+</tr>
+<tr>
+<td>External PCIe device support</td>
+<td>The exact enclosure or dock declares the required PCIe function and host interface.</td>
+<td>GPU, storage, firmware, operating-system, hot-plug, and vendor support.</td>
+</tr>
+<tr>
+<td>Cable support</td>
+<td>The cable declares the required USB4 or Thunderbolt class for the intended length.</td>
+<td>That both endpoints expose PCIe tunneling or that the cable proves a device-specific pairing.</td>
+</tr>
+</tbody>
+</table>
+<h2>How to verify a PCIe tunneling path</h2>
+<ol>
+<li><strong>Start with the exact host port.</strong> Confirm the numbered port is USB4 or Thunderbolt and look for an explicit PCIe tunneling, external PCIe, eGPU, or enclosure statement. On Windows USB4 systems, Microsoft’s hardware test requirement states that systems with a USB4 host router and externally connectable USB4 ports must support PCIe tunneling on exposed USB4 connectors. Do not extend that Windows requirement to an unrelated product from its connector shape alone.</li>
+<li><strong>Identify the accessory transport.</strong> Confirm that the enclosure or dock actually presents the required PCIe function. “USB4 enclosure,” “NVMe,” and “40 Gbps” are not interchangeable evidence.</li>
+<li><strong>Verify every intermediate segment.</strong> Use a cable rated for the intended USB4 or Thunderbolt link and remove docks, adapters, and hubs for the first control test.</li>
+<li><strong>Check platform authorization.</strong> Firmware settings, USB4 or Thunderbolt security, device authorization, drivers, and operating-system policy can prevent enumeration even when the electrical link is present.</li>
+<li><strong>Confirm enumeration before benchmarking.</strong> First prove that the expected PCIe device or controller appears to the operating system. Only then investigate throughput, thermal behavior, workload, or shared-link contention.</li>
+</ol>
+<h2>Why 40 Gbps does not mean 40 Gbps of PCIe throughput</h2>
+<p>The USB4 link is a shared fabric. Display, USB, and PCIe traffic can coexist, and routing, protocol overhead, active traffic, the PCIe function itself, the enclosure controller, and the host all affect delivered performance. A 40 Gbps path is therefore a link-class statement, not a promise of 40 Gbps for storage or an eGPU.</p>
+<p>Microsoft’s connection-manager guidance documents a Windows planning model with explicit allocation limits and dynamic DisplayPort bandwidth behavior. Cable Check Lab exposes a planning share in the Tunnel Budget Planner so the assumption remains visible; it is not a universal efficiency factor.</p>
+<h2>If the PCIe device does not appear</h2>
+<ul>
+<li>Connect the accessory directly with one known-good USB4 or Thunderbolt cable.</li>
+<li>Confirm the exact host port and accessory both declare the required transport.</li>
+<li>Check operating-system USB4/Thunderbolt device information and PCIe enumeration.</li>
+<li>Review firmware, security authorization, drivers, and vendor support before assuming a bandwidth problem.</li>
+<li>Add the dock, hub, or adapter back one segment at a time after the direct path works.</li>
+</ul>
+<p>A failed tunnel may prevent the device from enumerating at all. A fallback to ordinary USB occurs only if the exact accessory separately implements a USB transport; PCIe tunneling itself does not guarantee a USB fallback mode.</p>
+<h2>Primary sources</h2>
+<ul class="source-list">
+<li>
+<a href="https://www.usb.org/sites/default/files/D1T1-3%20-%20USB4%20System%20Overview.pdf">USB-IF — USB4 System Overview</a>
+<small>USB4 router architecture, PCIe adapters and switches, tunnel packets, and the preserved PCIe tree.</small>
+</li>
+<li>
+<a href="https://www.usb.org/document-library/usb4tm-configuration-layer-usb3-tunneling-dp-tunneling-and-pcie-tunneling">USB-IF — USB4 configuration and tunneling presentation</a>
+<small>Public technical presentation covering USB3, DisplayPort, and PCIe tunneling.</small>
+</li>
+<li>
+<a href="https://learn.microsoft.com/en-us/windows-hardware/design/component-guidelines/usb4-intro-to-connection-manager">Microsoft Learn — USB4 connection manager</a>
+<small>Windows tunnel creation, bandwidth management, and dynamic DisplayPort allocation.</small>
+</li>
+<li>
+<a href="https://learn.microsoft.com/en-us/windows-hardware/test/hlk/testref/7d627bf0-25f3-4564-b554-b2a3450e2bcf">Microsoft Learn — USB4 PCIe tunneling support test</a>
+<small>Windows hardware requirement and external GPU or high-performance storage examples.</small>
+</li>
+</ul>
+<div class="callout">
+<strong>Next step:</strong> <a href="/tools/usb4-feature-path/">check whether the host, cable, and accessory declare a PCIe tunneling path</a>. If the feature path is established, <a href="/tools/usb4-tunnel-budget/">plan the shared display, USB, and PCIe demand</a>. For a failed setup, use the <a href="/tools/direct-dock-isolation/">Direct vs Dock Isolation Matrix</a>.
+</div>
+</article>
+</main>
+<footer class="site-footer">
+<div class="shell">
+<div class="footer-bottom">
+<span>© 2026 Cable Check Lab</span>
+<span>Reviewed August 20, 2026 · <a href="mailto:canghun13@naver.com">Corrections</a>
+</span>
+</div>
+</div>
+</footer>
+<script src="/assets/app.js?v=20260820a" defer>
+</script>
+</body>
+</html>
