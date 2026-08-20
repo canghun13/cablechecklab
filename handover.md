@@ -1076,6 +1076,15 @@ Each row records the user/problem, meaningful inputs and output, demand/competit
 - Production read-only regression before the documentation commit: home, Tools hub, and sitemap returned HTTP 200; all **59 sitemap URLs** returned HTTP 200; the live Tools hub exposed **6 workbenches** and **28 direct Tools**, contained one H1 and the expected GA4 loader/config occurrences.
 - Pre-commit remote race check: local HEAD, `origin/main`, and live GitHub `main` still matched at `bd35be6e382c1f8aa05bb67f7fe6bb575bc25e6c`; local versus `origin/main` was `0 0` before staging.
 
+### Git and deployment
+
+- Synchronized start commit: `bd35be6e382c1f8aa05bb67f7fe6bb575bc25e6c`.
+- Research-decision commit: `03178353d7b2b06d2af7f8699225632f9fc2a6df` (`Record fresh workflow cluster no-go review`).
+- The research-decision push succeeded; local HEAD, `origin/main`, and live GitHub `main` all matched `03178353d7b2b06d2af7f8699225632f9fc2a6df` immediately after the push.
+- GitHub Pages documentation rebuild: `pages build and deployment` run `32347129762` completed with `success` for `03178353d7b2b06d2af7f8699225632f9fc2a6df`: `https://github.com/canghun13/cablechecklab/actions/runs/32347129762`.
+- Product-code deployment: **not applicable**. The audited public release stayed unchanged; the Pages run only published the documentation commit.
+- Final handover-record commit: the final `main` commit that adds this deployment record. Its exact hash and final Pages status are reported externally because a commit cannot contain its own hash/status.
+
 ### Work-environment independence rules
 
 1. Never assume the repository path from a previous computer. Discover it with the current working directory and `git rev-parse --show-toplevel`; record the resolved path for that session only.
