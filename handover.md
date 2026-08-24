@@ -1152,8 +1152,19 @@ Each row records the user/problem, meaningful inputs and output, demand/competit
 - Implementation commit: `186f8cbfe8d1159ff0fc339ceca6d0ee0be61727` (`Improve USB4 search journey and analytics`).
 - The implementation push succeeded; GitHub `main` advanced from `157477c257e97780e995fc56fea351afa9ba4083` to `186f8cbfe8d1159ff0fc339ceca6d0ee0be61727`.
 - GitHub Pages `pages build and deployment` run `32370771827` completed with `success` for the implementation commit: `https://github.com/canghun13/cablechecklab/actions/runs/32370771827`.
-- Post-deployment production HTTP/browser inspection could not be completed because the execution environment's security auto-review blocked further access to `https://cablechecklab.com` after the Pages run. This is recorded as an environment-limited verification gap, not represented as a production-browser PASS. The successful Pages run, full local static verifier, local all-Tool browser regression, and pre-change production baseline are the available deployment evidence.
-- Final commit: the final `main` commit containing this record; resolve in the final task report because a commit cannot contain its own hash.
+- The original 2026-08-20 session could not complete post-deployment production inspection because its execution environment blocked further domain access. The 2026-08-24 follow-up below closed that verification gap.
+- Final implementation-record commit: `d6e4459f6b497b7cd79fe239f8196a656245ba8e` (`Record USB4 optimization deployment`).
+- The final implementation-record push succeeded, and GitHub Pages run `32722241665` completed with `success` for `d6e4459f6b497b7cd79fe239f8196a656245ba8e`: `https://github.com/canghun13/cablechecklab/actions/runs/32722241665`.
+- Final closeout commit: the final `main` commit containing the follow-up production record; resolve in the final task report because a commit cannot contain its own hash.
+
+### 2026-08-24 follow-up closure
+
+- Before the follow-up push, the working tree was clean; local `main` was exactly one commit ahead of `origin/main`, and live GitHub `main` still matched `186f8cbfe8d1159ff0fc339ceca6d0ee0be61727`. The pending `d6e4459` commit was therefore a safe fast-forward push.
+- Production Reference inspection: PASS for the title **“What Is PCIe Tunneling over USB4? Requirements & Limits”**, direct H1, short answer, canonical, one GA4 loader/config, and `app.js?v=20260820a`. Browser console warnings/errors: zero.
+- Production responsive inspection: `/references/usb4-tunneling/` and `/tools/usb4-feature-path/` passed at **390 / 768 / 900 / 1024 / 1280 / 1440** with no horizontal overflow or H1/header collision.
+- Production representative Tool behavior: PCIe workload input change, explicit result, Copy, Reset, Print, finite output, and 390 px mobile navigation all passed. The mobile menu opened with `aria-expanded=true`.
+- Production crawl: sitemap returned HTTP 200 with **59 URLs**; all 59 returned HTTP 200. `robots.txt` returned HTTP 200 and referenced the canonical sitemap.
+- Immediately before this closeout documentation change, local HEAD, `origin/main`, and live GitHub `main` all matched `d6e4459f6b497b7cd79fe239f8196a656245ba8e`; the working tree was clean and branch divergence was `0 0`.
 
 ### Current state and next real work
 
