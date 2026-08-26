@@ -1,12 +1,12 @@
 # Cable Check Lab
 
-> Cable Check Lab provides 28 free, browser-only tools for USB-C, USB Power Delivery, USB4, Thunderbolt, video adapters, DisplayPort, docks, and troubleshooting.
+> Cable Check Lab provides 33 free, browser-only tools for USB-C, USB Power Delivery, USB4, Thunderbolt, video adapters, DisplayPort, docks, HDMI routing, and troubleshooting.
 
 Primary URL: https://cablechecklab.com/
 Contact: canghun13@naver.com
 Language: English
 
-## Six workbenches
+## Seven workbenches
 
 - [Charging](https://cablechecklab.com/tools/charging/): Fixed PDOs, PPS, requirements, full-chain checks, port-table comparison, shared budgets.
 - [Cables and data](https://cablechecklab.com/tools/cables/): Cable selection, cable/port decoding, data paths, USB4 features.
@@ -14,8 +14,9 @@ Language: English
 - [Video adapters](https://cablechecklab.com/tools/video-adapters/): Direction, active/passive conversion, feature chains, payload, MST.
 - [Displays](https://cablechecklab.com/tools/displays/): Payload, HDR/VRR/HDCP/audio/DSC, lanes, MST, dock topology.
 - [Docks and hubs](https://cablechecklab.com/tools/docks/): Requirements, power, USB4, data/display tradeoffs, A/B isolation.
+- [HDMI routing and distribution](https://cablechecklab.com/tools/hdmi-routing/): Switch/splitter/matrix selection, capacity, EDID/downscaling, audio routes, and isolation.
 
-## Twenty-eight interactive tools
+## Thirty-three interactive tools
 
 - [USB-C Charge Check](https://cablechecklab.com/tools/charge-check/)
 - [USB PD Fixed Profile Matcher](https://cablechecklab.com/tools/pd-fixed-profile-matcher/)
@@ -45,6 +46,11 @@ Language: English
 - [High-Refresh Display Failure Isolator](https://cablechecklab.com/tools/high-refresh-display-isolator/)
 - [USB Peripheral Dropout Isolator](https://cablechecklab.com/tools/usb-peripheral-dropout-isolator/)
 - [One-Cable USB-C Monitor Planner](https://cablechecklab.com/tools/one-cable-monitor-planner/)
+- [HDMI Routing Device Selector](https://cablechecklab.com/tools/hdmi-routing-selector/)
+- [HDMI Matrix Size Planner](https://cablechecklab.com/tools/hdmi-matrix-size-planner/)
+- [HDMI Mixed-Display EDID Checker](https://cablechecklab.com/tools/hdmi-mixed-display-checker/)
+- [HDMI Audio Route Planner](https://cablechecklab.com/tools/hdmi-audio-route-planner/)
+- [HDMI Distribution Failure Isolator](https://cablechecklab.com/tools/hdmi-distribution-isolator/)
 
 ## Guides and evidence
 
@@ -54,6 +60,7 @@ Language: English
 - [USB4 and Thunderbolt tunnel reference](https://cablechecklab.com/references/usb4-tunneling/)
 - [Video conversion and feature reference](https://cablechecklab.com/references/video-conversion-features/)
 - [USB data pools, roles, and fallback reference](https://cablechecklab.com/references/usb-data-roles-fallback/)
+- [HDMI routing, EDID, and eARC reference](https://cablechecklab.com/references/hdmi-routing-distribution/)
 - [Technical references and method](https://cablechecklab.com/references/)
 
 ## Interpretation policy

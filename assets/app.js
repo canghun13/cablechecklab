@@ -10,7 +10,7 @@
     });
   }
 
-  const workbenchIds = new Set(['charging', 'cables', 'displays', 'docks', 'usb4-thunderbolt', 'video-adapters']);
+  const workbenchIds = new Set(['charging', 'cables', 'displays', 'docks', 'usb4-thunderbolt', 'video-adapters', 'hdmi-routing']);
   const pathParts = window.location.pathname.split('/').filter(Boolean);
   const pageWorkbench = pathParts[0] === 'tools' && pathParts.length === 2 && workbenchIds.has(pathParts[1]) ? pathParts[1] : '';
   const track = (eventName, parameters = {}) => {
@@ -829,7 +829,187 @@
     paint(blockers.length ? 'bad' : unknown.length ? 'warn' : 'ok', blockers.length ? 'One-cable plan blocked' : unknown.length ? 'One-cable plan unverified' : 'Declared one-cable fit', blockers.length ? blockers.length + ' blocker(s)' : unknown.length ? unknown.length + ' unknown(s)' : 'Video + power + USB', blockers.length ? 'At least one entered requirement cannot pass through this one-cable plan.' : unknown.length ? 'The numeric budgets fit, but a required video declaration is unknown.' : 'The entered video, charging, and USB requirements fit on paper.', list, 'This combines declared requirements; it does not prove an exact host/monitor pairing. Lane sharing, DSC, display timing, monitor KVM behavior, Ethernet/audio, wake/sleep, firmware, cable construction, and power negotiation still require exact-model verification.');
   }
 
-  const calculators = { charge: chargeCheck, cable: cableDecode, display: displayPlan, multiport: multiportPlan, pps: ppsRangeCheck, pdrequirement: pdRequirement, cableselector: cableSelector, datapath: dataPathCheck, dsc: dscPlan, lanes: lanePlan, dockrequirement: dockRequirement, hubpower: hubPowerBudget, troubleshoot, usb4path: usb4FeaturePath, usb4budget: usb4Budget, adapterdirection: adapterDirection, mstchain: mstChain, pdfixed: pdFixedProfile, multiportcompare: multiportCompare, directdock: directDockIsolation, portdecode: portDecode, videochain: videoFeatureChain, hubbandwidth: hubBandwidth, rolematch: roleMatch, usb4fallback: usb4Fallback, highrefresh: highRefreshIsolation, dropout: peripheralDropout, onecablemonitor: oneCableMonitor };
+  function hdmiRoutingSelector() {
+    const sources = number('hrSources');
+    const displays = number('hrDisplays');
+    const behavior = value('hrBehavior');
+    if (![sources, displays].every((n) => Number.isInteger(n) && n >= 1 && n <= 64)) {
+      paint('bad', 'Check input', '—', 'Enter whole source and display counts from 1 to 64.', ['Count physical sources and independently connected display destinations.'], 'No device class is selected from invalid counts.');
+      return;
+    }
+    let device = 'Direct HDMI link';
+    let kind = 'ok';
+    const list = ['Inventory: ' + sources + ' source(s), ' + displays + ' display destination(s).'];
+    if (behavior === 'multiview') {
+      device = 'HDMI multiviewer';
+      list.push('The defining requirement is simultaneous composition of multiple sources on one screen.');
+      if (displays > 1) list.push('If each destination needs independent multiview layouts, verify one processed output per destination or add a matrix after the multiview stage.');
+    } else if (behavior === 'independent') {
+      if (sources > 1 && displays > 1) device = 'HDMI matrix';
+      else if (sources > 1) device = 'HDMI switch';
+      else if (displays > 1) device = 'HDMI splitter';
+      else device = 'Direct HDMI link';
+      list.push('Independent crosspoint choice is only meaningful when both source and destination counts exceed one.');
+    } else if (behavior === 'mirror') {
+      if (displays > 1) device = sources > 1 ? 'HDMI switch + splitter, or matrix' : 'HDMI splitter';
+      else device = sources > 1 ? 'HDMI switch' : 'Direct HDMI link';
+      list.push('Every active display receives the same selected source.');
+    } else {
+      if (displays > 1) {
+        device = sources > 1 ? 'HDMI matrix or switched distribution' : 'HDMI splitter';
+        kind = 'warn';
+        list.push('Clarify whether all displays mirror one selected source or each display needs its own selection.');
+      } else device = sources > 1 ? 'HDMI switch' : 'Direct HDMI link';
+    }
+    list.push('Minimum physical capacity: ' + sources + ' input(s) and ' + displays + ' output(s), before spare ports.');
+    paint(kind, kind === 'ok' ? 'Topology selected' : 'Behavior clarification needed', device, 'The entered viewing behavior maps to this routing class.', list, 'This selects a functional device class only. Verify exact resolution/refresh, EDID, scaling, HDR, VRR, audio, ARC/eARC, CEC, HDCP, cable, and extender declarations separately.');
+  }
+
+  function hdmiMatrixSize() {
+    const sources = number('hmSources');
+    const displays = number('hmDisplays');
+    const spareInputs = number('hmSpareInputs');
+    const spareOutputs = number('hmSpareOutputs');
+    const audioZones = number('hmAudioZones');
+    if (![sources, displays, spareInputs, spareOutputs, audioZones].every((n) => Number.isInteger(n) && n >= 0) || sources < 1 || displays < 1 || [sources, displays].some((n) => n > 64) || [spareInputs, spareOutputs, audioZones].some((n) => n > 32)) {
+      paint('bad', 'Check input', '—', 'Use whole, non-negative counts within the displayed limits.', ['At least one source and one display zone are required.'], 'No capacity is calculated from invalid counts.');
+      return;
+    }
+    const inputs = sources + spareInputs;
+    const outputs = displays + audioZones + spareOutputs;
+    const tiers = [2, 4, 8, 16, 32, 64, 128];
+    const inputTier = tiers.find((tier) => tier >= inputs) || inputs;
+    const outputTier = tiers.find((tier) => tier >= outputs) || outputs;
+    const crosspoints = inputs * outputs;
+    const list = [
+      sources + ' active source(s) + ' + spareInputs + ' spare input(s) = ' + inputs + ' required inputs.',
+      displays + ' display zone(s) + ' + audioZones + ' audio-only zone(s) + ' + spareOutputs + ' spare output(s) = ' + outputs + ' required outputs.',
+      'The minimum route table contains ' + crosspoints.toLocaleString() + ' possible input-to-output crosspoints.',
+      'A common power-of-two planning tier would be ' + inputTier + '×' + outputTier + '; actual product sizes vary.'
+    ];
+    paint('ok', 'Capacity planned', inputs + '×' + outputs + ' minimum', 'This is the smallest entered input/output capacity before product-specific feature checks.', list, 'An audio extractor does not always consume a matrix output, and some audio-only outputs follow rather than independently select a video route. Count only independently routable zones and verify the exact architecture.');
+  }
+
+  function hdmiMixedDisplay() {
+    const source = number('hdSource');
+    const target = number('hdTarget');
+    const displayA = number('hdA');
+    const displayB = number('hdB');
+    const edid = value('hdEdid');
+    const scaler = value('hdScaler');
+    const labels = { 1: '1080p60', 2: '4K30', 3: '4K60', 4: '4K120' };
+    if (![source, target, displayA, displayB].every((n) => Number.isInteger(n) && n >= 1 && n <= 4) || !['lowest', 'copyA', 'copyB', 'fixed'].includes(edid) || !['none', 'b', 'both'].includes(scaler)) {
+      paint('bad', 'Check input', '—', 'Choose a valid mode, EDID policy, and scaler declaration.', ['No display behavior is inferred from an incomplete plan.'], 'The mode ladder is a planning simplification, not a timing database.');
+      return;
+    }
+    if (target > source) {
+      paint('bad', 'Source ceiling', labels[source] + ' maximum', 'The requested mode exceeds the entered source maximum.', ['Lower the target or verify a higher source output claim.'], 'A downstream scaler cannot make the source emit a mode above its declared output ceiling.');
+      return;
+    }
+    const advertised = edid === 'lowest' ? Math.min(displayA, displayB) : edid === 'copyA' ? displayA : edid === 'copyB' ? displayB : target;
+    const selected = Math.min(target, source, advertised);
+    const aNeeds = selected > displayA;
+    const bNeeds = selected > displayB;
+    const aScaled = aNeeds && scaler === 'both';
+    const bScaled = bNeeds && (scaler === 'b' || scaler === 'both');
+    const unresolved = (aNeeds && !aScaled) || (bNeeds && !bScaled);
+    const targetCapped = selected < target;
+    const list = [
+      'Requested source mode: ' + labels[target] + '; planned upstream mode: ' + labels[selected] + '.',
+      'EDID policy presents up to ' + labels[advertised] + ' in this simplified mode ladder.',
+      aNeeds ? (aScaled ? 'Display A needs and has declared per-output downscaling.' : 'Display A cannot accept the planned upstream mode and lacks declared downscaling.') : 'Display A accepts the planned upstream mode.',
+      bNeeds ? (bScaled ? 'Display B needs and has declared per-output downscaling.' : 'Display B cannot accept the planned upstream mode and lacks declared downscaling.') : 'Display B accepts the planned upstream mode.'
+    ];
+    let kind = 'ok';
+    let statusText = 'Declared shared-mode fit';
+    let summaryText = 'Both displays can accept the planned upstream mode without undeclared processing.';
+    if (unresolved) {
+      kind = 'bad'; statusText = 'Mixed-mode conflict'; summaryText = 'At least one output cannot accept the planned upstream mode.';
+    } else if (targetCapped) {
+      kind = 'warn'; statusText = 'Common-mode fallback'; summaryText = 'Both displays fit, but the EDID policy lowers the requested mode.';
+    } else if (aScaled || bScaled) {
+      kind = 'warn'; statusText = 'Scaler required'; summaryText = 'The plan depends on exact declared per-output scaling behavior.';
+    }
+    paint(kind, statusText, labels[selected] + ' upstream', summaryText, list, 'This ordinal mode screen does not calculate pixel payload or prove timing, refresh conversion, HDR, VRR, chroma, bit depth, audio, HDCP, or scaler quality. Verify the exact router manual and each display input specification.');
+  }
+
+  function hdmiAudioRoute() {
+    const source = value('haSource');
+    const sink = value('haSink');
+    const format = value('haFormat');
+    const tvReturn = value('haTvReturn');
+    const extractor = value('haExtractor');
+    const formatName = { stereo: 'stereo PCM', compressed: 'compressed 5.1', ddp: 'Dolby Digital Plus / lossy Atmos', lossless: 'lossless multichannel' }[format];
+    if (!formatName || !['tv', 'external'].includes(source) || !['earc', 'arc', 'hdmi', 'optical', 'analog'].includes(sink)) {
+      paint('bad', 'Check input', '—', 'Choose every audio path field.', ['No route is produced from incomplete declarations.'], 'Connector names do not establish codec support.');
+      return;
+    }
+    let route = '';
+    let transport = '';
+    const list = [];
+    if (sink === 'earc' && (tvReturn === 'earc' || extractor === 'earc')) {
+      route = tvReturn === 'earc' ? 'TV eARC → sound system' : 'Router eARC output → sound system';
+      transport = 'earc';
+    } else if (sink === 'arc' && (tvReturn === 'arc' || tvReturn === 'earc')) {
+      route = 'TV ARC/eARC port → sound system ARC port'; transport = 'arc';
+    } else if (sink === 'hdmi' && (source === 'external' || extractor === 'hdmi')) {
+      route = extractor === 'hdmi' ? 'Router HDMI audio output → receiver HDMI input' : 'Source → receiver HDMI input → display'; transport = 'hdmi';
+    } else if (sink === 'optical' && (tvReturn === 'optical' || extractor === 'optical')) {
+      route = tvReturn === 'optical' ? 'TV optical output → sound system' : 'Router optical extraction → sound system'; transport = 'optical';
+    } else if (sink === 'analog' && extractor === 'analog') {
+      route = 'Router analog extraction → sound system'; transport = 'analog';
+    }
+    if (!route) {
+      paint('bad', 'Missing route', 'No declared connector path', 'The entered source, return/extractor, and sound-system inputs do not form a complete declared route.', ['Choose an output the TV or router explicitly provides and an input the sound system accepts.', 'Do not treat an eARC-only soundbar port as a regular HDMI input.'], 'A purpose-built converter may bridge some paths, but its exact input direction, output type, codec support, CEC behavior, and video pass-through must be declared.');
+      return;
+    }
+    list.push('Planned route: ' + route + '.');
+    list.push('Requested audio class: ' + formatName + '.');
+    let kind = 'warn';
+    let label = 'Verify codec chain';
+    let summaryText = 'The connector path is plausible; exact format support remains an end-to-end check.';
+    const formatBlocked = (format === 'lossless' && !['earc', 'hdmi'].includes(transport)) || (format === 'ddp' && ['optical', 'analog'].includes(transport)) || (format === 'compressed' && transport === 'analog');
+    if (formatBlocked) {
+      kind = 'bad'; label = 'Transport mismatch'; summaryText = 'The selected transport is not a safe path for the requested audio class.';
+      list.push('Use eARC or a declared HDMI audio path for lossless multichannel; verify the exact codec at every device.');
+    } else {
+      list.push('Transport class: ' + transport.toUpperCase() + '. Confirm source output, TV pass-through, router/extractor, and sink decode support.');
+      if (format === 'stereo') { kind = 'ok'; label = 'Declared stereo route'; }
+    }
+    if (source === 'tv') list.push('TV-originated audio must leave through the TV return/output path; an upstream source extractor cannot capture a TV app by itself.');
+    paint(kind, label, route, summaryText, list, 'This planner does not decode media, inspect EDID, or observe negotiated audio. ARC/eARC port assignment, CEC volume control, lip sync, codec licensing, app policy, and transcoding are exact-device behaviors.');
+  }
+
+  function hdmiDistributionIsolation() {
+    const direct = value('hiDirect');
+    const scope = value('hiScope');
+    const lower = value('hiLower');
+    const swap = value('hiSwap');
+    const power = value('hiPower');
+    const list = [];
+    if (direct === 'no') {
+      list.push('The direct baseline fails, so the router is not yet isolated as the cause.');
+      list.push('Restore one source → one short known-good cable → one display before adding the router.');
+      paint('bad', 'Direct baseline fails', 'Start before the router', 'A failing direct path prevents a distribution-only diagnosis.', list, 'Change one variable at a time. A direct failure can come from source mode, display input, cable, settings, power, or content policy.');
+      return;
+    }
+    if (direct === 'unknown') list.push('Run the direct source-to-display control first; it is the highest-value missing observation.');
+    if (swap === 'yes') list.push('Because the fault moved or cleared with a known-good cable swap, isolate that input or output cable segment and its connectors first.');
+    if (lower === 'yes') list.push('A lower mode passes: compare exact bandwidth, cable certification, router mode support, and any extender ceiling.');
+    if (scope === 'mixed') list.push('Mixed displays trigger the fault: inspect EDID selection, lowest-common-mode behavior, and declared per-output scaling.');
+    if (scope === 'output') list.push('One output/zone fails: swap only the output cable and display between a passing and failing router output.');
+    if (scope === 'source') list.push('One source fails everywhere: compare its direct output mode, input cable, router input, EDID exposure, and protected-content declaration.');
+    if (scope === 'all') list.push('Everything fails: verify router power, selected routes, one known-good input/output pair, and the common EDID/firmware state.');
+    if (scope === 'intermittent') list.push('Intermittent routes: reduce to one source/output, use short known-good cables, then add segments until the dropout returns.');
+    if (power === 'yes') list.push('A full restart changes the result temporarily, which implicates negotiation or device state; record the exact power-up order and firmware versions.');
+    if (swap === 'unknown') list.push('Next control: swap one known-good cable between a passing and failing segment without moving other devices.');
+    if (lower === 'unknown') list.push('Next mode test: lower resolution or refresh only; do not change the topology at the same time.');
+    const kind = direct === 'yes' ? 'warn' : 'info';
+    const title = swap === 'yes' ? 'Cable segment implicated' : scope === 'mixed' ? 'EDID/scaling first' : scope === 'output' ? 'Output leg first' : scope === 'source' ? 'Source/input leg first' : scope === 'all' ? 'Common path first' : 'Reduce to one route';
+    paint(kind, direct === 'yes' ? 'Router layer isolated' : 'Baseline still needed', title, 'The observation pattern identifies the next shortest controlled test.', list, 'This is an isolation plan, not a defect verdict. It cannot inspect live EDID, link errors, CEC traffic, HDCP authentication, or undocumented firmware. Use only compliant protected-content paths; do not bypass or strip HDCP.');
+  }
+
+  const calculators = { charge: chargeCheck, cable: cableDecode, display: displayPlan, multiport: multiportPlan, pps: ppsRangeCheck, pdrequirement: pdRequirement, cableselector: cableSelector, datapath: dataPathCheck, dsc: dscPlan, lanes: lanePlan, dockrequirement: dockRequirement, hubpower: hubPowerBudget, troubleshoot, usb4path: usb4FeaturePath, usb4budget: usb4Budget, adapterdirection: adapterDirection, mstchain: mstChain, pdfixed: pdFixedProfile, multiportcompare: multiportCompare, directdock: directDockIsolation, portdecode: portDecode, videochain: videoFeatureChain, hubbandwidth: hubBandwidth, rolematch: roleMatch, usb4fallback: usb4Fallback, highrefresh: highRefreshIsolation, dropout: peripheralDropout, onecablemonitor: oneCableMonitor, hdmirouting: hdmiRoutingSelector, hdmimatrix: hdmiMatrixSize, hdmimixed: hdmiMixedDisplay, hdmiaudio: hdmiAudioRoute, hdmiisolation: hdmiDistributionIsolation };
   const calculate = calculators[tool.dataset.tool];
   if (!calculate) return;
   form.addEventListener('input', calculate);

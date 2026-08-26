@@ -1173,3 +1173,166 @@ Each row records the user/problem, meaningful inputs and output, demand/competit
 - After enough impressions and interactions accumulate, compare the PCIe-tunneling query group's landing performance and the six event families by Tool/workbench. Do not infer meaningful demand from one or two events.
 - Revisit Charge Check wording only if a larger query set establishes a durable cable-bottleneck intent.
 - Keep the three isolated GO candidates from the fresh cluster review on HOLD unless their own coherent families meet the established launch gate; do not split subcases into thin Tools.
+
+## 2026-08-26 aggressive new workflow-cluster expansion
+
+### Repository synchronization and start state
+
+- Working copy used: `C:\Users\cangh\OneDrive\문서\ChatGPT\cablechecklab\repository`.
+- Remote and branch: `https://github.com/canghun13/cablechecklab.git`, `main`.
+- Local `HEAD`, fetched `origin/main`, and live `git ls-remote origin refs/heads/main` all matched `4a992497dc937e62cd7a0f02520328e749342847` at the safe start. The working tree was clean and no pull was needed.
+- No reset, restore, checkout overwrite, deletion, force operation, IDE launch, tool installation, or repository recreation was used.
+- Start inventory was reverified as **60 public HTML / 59 indexable / 28 Tools / 6 workbenches / 13 Guides / 5 References / 0 Comparisons**.
+- `handover.md` was read end to end before candidate selection.
+
+### Recent Exclusion Set
+
+- The exclusion set contains the full responsibility map of all **28 current Tools**, all **35 candidates from 2026-08-13**, all **28 candidates from 2026-08-20**, and every longstanding HOLD/model-database restriction. This is **91 explicitly enumerated current-or-reviewed items**, plus the implicit variants already owned by those Tools.
+- Existing responsibility groups excluded from reuse: charging-chain/PDO/PPS/PD requirements/multi-port allocation; cable and port claim decoding; USB data bottlenecks, roles, hub bandwidth and power; display payload/DSC/lanes/MST/high-refresh/one-cable-monitor; video adapter direction and feature chains; USB4 features/tunnel budget/fallback; dock requirements/direct isolation/dropout/general troubleshooting.
+- The 2026-08-13 exclusions include the 35 recorded charger-table, EPR/AVS, hub-depth, mixed-display, KVM, monitor-hub, DisplayLink, cable-length, and related MERGE/HOLD/REJECT candidates. The 2026-08-20 exclusions include all 28 capture, USB audio/MIDI, mobile storage/filesystem, mobile USB mode, tethering/networking, and public-charging candidates.
+- Longstanding exclusions remain in force: model-specific charger/device databases; exact dock/KVM/MST/adapter/eGPU compatibility databases; active-cable/product databases; cable-length or real-performance prediction; product comparison/affiliate databases; host-controller telemetry mapping.
+- The recently strengthened PCIe-tunneling journey and common GA4 interaction taxonomy were also excluded from new-candidate counting. The user-managed home-page badge block remained untouched.
+
+### Phase A — broad discovery: 54 genuinely new workflow/search targets
+
+The rows below are outside the named recent candidate lists. `GO` means strong enough at broad-screen level; it does not override the cluster-level four-Tool gate.
+
+| # | New target | Problem / likely Tool | Repeatability, overlap, search opportunity | Decision |
+|---:|---|---|---|---|
+| 1 | HDMI routing device class | Switch vs splitter vs matrix vs multiviewer selector | Repeated buying question; article-heavy SERP; new topology decision | GO |
+| 2 | HDMI matrix size | Sources, zones, spare ports → minimum I/O | Repeated system-sizing intent; vendor articles, no neutral calculator surfaced | GO |
+| 3 | HDMI route-table generator | Source-to-zone crosspoint worksheet | Useful, but capacity output belongs with matrix sizing | MERGE |
+| 4 | Mixed-display EDID plan | 4K/1080p displays, EDID policy, scaler → fit | Strong recurring failure intent and vendor-product SERP | GO |
+| 5 | Per-output scaling requirement | Which output needs processing | Same inputs and decision as mixed-display EDID | MERGE |
+| 6 | HDMI distribution audio route | ARC/eARC/HDMI/optical/extractor path | Repeated buying and troubleshooting intent; fragmented vendor answers | GO |
+| 7 | HDMI-CEC control scope | Power/volume/input-control propagation | Real pain, but exact firmware/device behavior dominates | HOLD |
+| 8 | HDMI distribution fault scope | Direct/all-output/one-source/one-zone A/B isolator | Recurring support workflow; product troubleshooting is non-interactive | GO |
+| 9 | ARC/eARC path checker | TV-originated audio return | Strong demand, but natural branch of distribution audio routing | MERGE |
+| 10 | Home-theater audio-format chain | Codec across source/TV/sink | Useful, but same audio path and exact-codec evidence | MERGE |
+| 11 | Optical vs ARC/eARC selector | Choose TV-to-sound-system transport | Same actionable output as audio route planner | MERGE |
+| 12 | TV lip-sync test/isolator | Audio-video delay test | Several strong free browser tools already rank | REJECT |
+| 13 | TV high-bandwidth port allocator | Reserve eARC and gaming ports | Valuable but port assignments are exact-model data | HOLD |
+| 14 | AVR bypass topology | Source→TV vs source→AVR | Natural audio/video routing branch, not an independent Tool | MERGE |
+| 15 | Case front-USB/header matcher | Case I/O plugs vs motherboard headers | Repeated PC-builder intent; no neutral interactive checker surfaced | GO |
+| 16 | Internal USB-header allocator | Coolers/controllers/front I/O vs headers/hubs | Repeated current demand; user-entered inventory is maintainable | GO |
+| 17 | Type-E adapter requirement | Front USB-C without Type-E header | A branch of front-USB/header matching | MERGE |
+| 18 | HD Audio vs AC'97 checker | Case audio plug vs board header | Distinct physical/signaling decision with public documentation | GO |
+| 19 | PCIe USB expansion preflight | Slot, lanes, power, internal header | Exact board/card layout and driver details weaken generic accuracy | HOLD |
+| 20 | PC switch/LED header mapper | Power/reset/LED wiring | Header layouts can be board- and case-specific | HOLD |
+| 21 | TRRS headset wiring checker | CTIA/OMTP/mic need → adapter class | Repeated consumer problem; narrow but independent | GO |
+| 22 | Balanced/unbalanced audio selector | TRS/XLR/TS source and sink → cable class | Repeated buying intent; article-heavy SERP | GO |
+| 23 | TRS/TS stereo/mono checker | Interpret one 1/4-inch or 3.5-mm path | Cosmetic subdivision of balanced/unbalanced workflow | MERGE |
+| 24 | TRS MIDI A/B checker | Type A/B endpoints → adapter/cable need | Repeated confusion and stable public pinout concepts | GO |
+| 25 | MIDI routing visualizer | Multi-device MIDI graph | Strong free apps and web tools already exist | REJECT |
+| 26 | M.2 key/protocol matcher | Drive key/protocol/form factor vs enclosure | A strong current free compatibility checker already exists | REJECT |
+| 27 | External enclosure interface selector | NVMe/SATA enclosure transport choice | Useful, but crowded and adjacent to existing data-path logic | HOLD |
+| 28 | Bridge feature checker | UASP/SMART/TRIM through enclosure | Exact chipset/OS/driver behavior is required | HOLD |
+| 29 | SD/UHS reader path selector | Card bus vs reader vs host ceiling | Mostly an existing Data Path Checker preset | MERGE |
+| 30 | Printer cable selector | Legacy/USB-B/device-side connector | Repeated identification queries but too thin for a Tool | REJECT |
+| 31 | USB print-server suitability | Print vs scan/status functions | Exact printer/server compatibility lists dominate | HOLD |
+| 32 | Scanner network-sharing preflight | MFP print works but scanning fails | Exact driver/server behavior prevents a generic verdict | HOLD |
+| 33 | Multi-webcam USB bandwidth | Several UVC streams on one controller | Existing hub-bandwidth logic owns the calculation | MERGE |
+| 34 | BYOD conference topology | Room PC/laptop/camera/audio/display switching | Real repeated commercial intent; one strong new planner | GO |
+| 35 | Conference USB-extension preflight | Table-to-display USB path and host switching | Exact extender/product limits dominate | HOLD |
+| 36 | Wired VR connection preflight | GPU display path, USB, power, direct wiring | Model/GPU routing and runtime requirements change by headset | HOLD |
+| 37 | Console HDMI-switch selector | Multiple consoles to one high-rate display | New scenario but core device class belongs to HDMI selector | MERGE |
+| 38 | 4K120/VRR switch chain | Console/router/display feature pass-through | Existing feature chain plus HDMI routing; not independent | MERGE |
+| 39 | Gaming-accessory USB topology | Controllers/headsets/capture on hubs | Existing role, power, and shared-bandwidth workflows | MERGE |
+| 40 | Wired CarPlay path checker | Phone/cable/vehicle data port | Exact vehicle/phone compatibility database required | HOLD |
+| 41 | Android Auto cable diagnostic | Bad cable/port/data path | Android Auto already exposes an on-device diagnostic | REJECT |
+| 42 | Qi/Qi2 claim checker | Phone, magnetic profile, charger class | Exact device/case/vendor fast-charge behavior requires data | HOLD |
+| 43 | Wireless-pad supply planner | Adapter input vs wireless output requirement | Existing charging requirement logic owns the decision | MERGE |
+| 44 | Power-bank pass-through planner | Simultaneous input/output and UPS-like continuity | Exact model thermal/priority/switchover behavior dominates | HOLD |
+| 45 | Desk connection-map generator | Draw devices, ports, and cables | Multiple current drag-and-drop and cable-map tools exist | REJECT |
+| 46 | Setup cable-inventory generator | Audit a desk before migration | Repeatability exists, but search/tool intent is modest | HOLD |
+| 47 | Printable cable-label generator | Generate endpoint labels | Strong free label tools and templates already exist | REJECT |
+| 48 | Dock migration diff planner | Old vs new laptop port/feature gaps | Mostly the existing Dock Requirement Builder with two columns | MERGE |
+| 49 | HDMI/HDBaseT extender preflight | Distance, cable category, mode, remote power | Exact transmitter/receiver product declarations dominate | HOLD |
+| 50 | AV-over-IP bandwidth planner | Streams/codecs/network → bandwidth | Established professional calculators and tools already compete | REJECT |
+| 51 | Projector input-path selector | Phone/laptop/console to projector | Existing adapter-direction and feature-chain workflow | MERGE |
+| 52 | USB descriptor decoder | Local/WebUSB descriptor interpretation | Strong current free viewers/decoders exist | REJECT |
+| 53 | EDID decoder | Hex/file → timings, audio, HDR blocks | Several mature free readers and decoders exist | REJECT |
+| 54 | HDMI InfoFrame decoder | Raw report → video/audio metadata | Raw capture is hardware-dependent and technical tools compete | REJECT |
+
+- Broad-screen classification: **12 GO / 16 MERGE / 15 HOLD / 11 REJECT = 54**.
+- Demand signals combined current Google/Bing-style SERP composition, long-tail query variation, repeated Reddit/support questions, vendor FAQ/manual frequency, and the presence or absence of actual interactive free tools. No numeric keyword volume was invented.
+
+### Phase B — mid-list: 14 cluster families
+
+| Cluster | Strong independent breadth after de-duplication | Mid-list result |
+|---|---:|---|
+| HDMI routing & distribution | 5 | FINALIST |
+| PC internal/front-panel connectivity | 3 | FINALIST |
+| TV audio return & format paths | 3 | FINALIST |
+| Conference-room BYOD USB/AV | 2 | FINALIST |
+| Analog headset/audio connectors | 3 | HOLD — good isolated tools, insufficient cluster breadth |
+| Storage enclosure/interface paths | 1 | HOLD/REJECT — competition and exact bridge behavior |
+| Printer/scanner sharing | 0 | HOLD — exact-product database burden |
+| Wired VR peripherals | 1 | HOLD — model/GPU/runtime dependence |
+| Gaming HDMI/accessories | 0 new | MERGE into HDMI/existing feature and USB workflows |
+| Car infotainment wired paths | 0 | HOLD/REJECT — exact vehicle data and built-in diagnostics |
+| Wireless charging/pass-through | 0 | HOLD/MERGE — exact-product policy or existing charging logic |
+| Desk migration/documentation | 1 | HOLD/REJECT — mature competition and weaker decision intent |
+| Long-run AV/projector paths | 1 | HOLD/MERGE — exact extenders or existing adapter logic |
+| Local report/descriptor decoders | 0 | REJECT — strong free tools and acquisition constraints |
+
+### Phase C — four finalists, scoring, and Tool-level competition
+
+Scoring uses Demand 20 / long-tail 15 / Tool intent 15 / competitive gap 15 / independent breadth 15 / static feasibility 10 / accuracy-maintenance 10.
+
+| Finalist | Score | Independent Tool breadth | Tool-level SERP and gate result |
+|---|---:|---:|---|
+| HDMI routing & distribution | **91/100** | **5** | Routing selector, matrix sizing, mixed-display EDID, audio routing, and fault isolation have separate queries/actions. SERPs were dominated by product pages, manuals, and articles; no vendor-neutral no-login workbench spanning these decisions surfaced. **GO**. |
+| PC internal/front-panel connectivity | 78/100 | 3 | Front-USB/header match, internal USB allocation, and HD Audio/AC'97 are strong; Type-E is a subcase and PCIe/front-panel mapping needs exact board evidence. **HOLD: fails four-Tool breadth**. |
+| TV audio return & format paths | 76/100 | 3 | ARC/eARC route, format chain, and CEC/lip-sync demand recur, but optical selection and format checks merge into one path while lip-sync has strong free tools and CEC is firmware-specific. **MERGE/HOLD: fails independent breadth**. |
+| Conference-room BYOD USB/AV | 67/100 | 2 | Topology and extension/host switching are valuable, but vendor design calculators and exact extender/platform products dominate. **HOLD: fails breadth and maintainability**. |
+
+Representative research evidence:
+
+- HDMI device-class and matrix-sizing SERPs returned current vendor explanations and product pages rather than a neutral interactive planner. Repeated community questions asked whether a switch, splitter, or matrix was required and how to route multiple displays.
+- Mixed-display searches repeatedly exposed 4K/1080p EDID conflicts. Public matrix/splitter documentation distinguishes lowest-common-denominator, copied/fixed EDID, and exact-model per-output downscaling.
+- Audio searches repeatedly separated eARC, ARC, ordinary HDMI inputs, optical extraction, and audio-only HDMI outputs. HDMI Licensing Administrator's public eARC page documents the high-bitrate transport class, while Dolby's public endpoint guidance distinguishes TV/receiver/source topologies and EDID effects.
+- Distribution troubleshooting searches were mostly vendor step lists. They consistently use all-output vs one-zone scope, direct connection, short known-good cables, lower modes, and one-segment-at-a-time substitutions—the inputs used in the new isolator.
+- Current free competition found during pruning included dedicated lip-sync testers, MIDI routers, an M.2 compatibility checker, EDID and USB descriptor decoders, cable-map/label generators, and AV-over-IP calculators. Those markets were not treated as gaps.
+- Primary/public sources retained in the product Reference include `https://www.hdmi.org/spec2sub/ultrahdmicables`, `https://www.hdmi.org/spec21sub/enhancedaudioreturnchannel`, `https://professionalsupport.dolby.com/s/article/Endpoint-Device-Testing-for-Streaming-Services`, `https://www.extron.com/product/software/edidmanager30`, and `https://support.pulse-eight.com/support/solutions/articles/30000052411-neo-matrix-no-signal-blank-picture-troubleshooting`.
+
+### Hard Gate and final decision
+
+- **GO — HDMI Routing & Distribution**. Five independent Tools passed all 13 mandatory checks: distinct from the original 28 and recent exclusions; repeated problems and separate search intent; stronger as interactive workflows than articles; long-tail breadth; weak neutral free-tool coverage; vendor-neutral differentiation; static implementation; public user-entered evidence; no maintained product database; actionable results; no cosmetic logic splits.
+- Routing selection changes the purchased device class. Matrix sizing changes required I/O capacity. Mixed-display checking changes EDID/scaler requirements. Audio routing changes connection topology and extractor/receiver requirements. Failure isolation changes the next physical A/B test. These are different decisions, not keyword variants.
+- Potential sixth pages for HDCP, CEC, per-output scaling, route tables, and ARC-only checks were deliberately MERGED or HELD. The implementation does not advise HDCP bypass or stripping.
+
+### Implementation and integration
+
+- Added one Workbench: **HDMI Routing & Distribution** (`/tools/hdmi-routing/`).
+- Added five Tools:
+  1. **HDMI Routing Device Selector** (`/tools/hdmi-routing-selector/`)
+  2. **HDMI Matrix Size Planner** (`/tools/hdmi-matrix-size-planner/`)
+  3. **HDMI Mixed-Display EDID Checker** (`/tools/hdmi-mixed-display-checker/`)
+  4. **HDMI Audio Route Planner** (`/tools/hdmi-audio-route-planner/`)
+  5. **HDMI Distribution Failure Isolator** (`/tools/hdmi-distribution-isolator/`)
+- Added one Guide: **HDMI Switch, Splitter & Matrix Planning Guide** (`/guides/hdmi-routing-distribution/`).
+- Added one Reference: **HDMI Routing, EDID & eARC Reference** (`/references/hdmi-routing-distribution/`).
+- Added five new vanilla-JavaScript controllers to `assets/app.js`, registered the new workbench for the existing `workbench_to_tool_click` event, and inherited `tool_run`, `tool_result`, `reset_tool`, `copy_result`, and `print_result`. Event parameters remain stable route/context fields only; no user-entered values are sent.
+- Integrated the cluster into Home, Tools, Guides, References, related links, `sitemap.xml`, and `llms.txt`; updated public counts and search-intent metadata.
+- Advanced the shared JavaScript cache key from `20260820a` to `20260826a` across all public HTML. No CSS redesign, framework, backend, database, comparison page, robot rule, domain, GA4 ID, or contact address changed.
+- Semantic/public files: the 8 new pages, `assets/app.js`, `index.html`, `tools/index.html`, `guides/index.html`, `references/index.html`, `sitemap.xml`, and `llms.txt`. Mechanical cache-key coverage touched existing HTML pages. This section updates `handover.md`.
+- The home-page user-managed Findly badge block below the footer was not modified, moved, or reformatted.
+
+### Local QA before commit
+
+- Repository verifier: **PASS — 68 public HTML, 67 indexable/sitemap URLs**, internal targets, duplicate IDs, title/description, canonical, Open Graph, one H1, valid JSON-LD, and GA4 loader/config exactly once.
+- JavaScript syntax with the bundled workspace Node.js runtime: PASS. `git diff --check`: PASS. CNAME remains `cablechecklab.com`; robots remains allow-all with the canonical sitemap. Shared cache-key coverage: **68/68**.
+- New Tool behavior: default, input change/recalculation, invalid/boundary or impossible combinations, Reset, Copy, and Print invocation passed. No result emitted `NaN` or `Infinity`.
+- Observed state transitions included matrix→splitter→invalid→Reset; 5×3 matrix capacity→invalid→Reset; EDID conflict→scaler required→1080p common fallback→Reset; lossless eARC path→optical mismatch→stereo route→Reset; and output-leg→mixed-display EDID→direct-baseline failure→Reset.
+- Copy returned the visible status/headline/summary/details and the button changed to `Copied`. Print invocation completed. The existing Charge Check still initialized, recalculated, and Reset after the shared-script change.
+- Browser QA on all 8 new pages at **390 / 768 / 900 / 1024 / 1280 / 1440**: zero horizontal overflow, one H1, expected mobile-menu breakpoint, no clipped layout in visual inspection, and no console errors/warnings. Mobile navigation opened with flex layout. Print CSS remains the shared result-only layout.
+- Tools hub rendered **7 workbench cards + 33 direct Tool cards**, including the new HDMI workbench, with zero horizontal overflow.
+
+### Inventory, Git, deployment, and remaining work
+
+- Final inventory after implementation: **68 public HTML / 67 indexable / 33 Tools / 7 workbenches / 14 Guides / 6 References / 0 Comparisons**.
+- Start commit: `4a992497dc937e62cd7a0f02520328e749342847`.
+- Implementation commit, push, Pages run, production checks, final hash equality, divergence, and clean-tree state are recorded in the closeout subsection added after deployment. A commit cannot contain its own final hash, so the exact last closeout hash is also reported externally.
+- Strong future candidates: PC internal/front-panel connectivity (three strong Tools; needs one more genuinely independent, safe workflow), analog consumer audio connectors (three isolated strong Tools but weaker cluster cohesion), and conference-room BYOD topology (two strong workflows; exact extender/product behavior remains a HOLD constraint).
+- Do not reopen the implemented HDMI cluster as thin CEC, HDCP, ARC-only, scaler-only, or route-table pages. Improve the five Tools from real query/event evidence instead.
