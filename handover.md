@@ -1336,3 +1336,14 @@ Representative research evidence:
 - Implementation commit, push, Pages run, production checks, final hash equality, divergence, and clean-tree state are recorded in the closeout subsection added after deployment. A commit cannot contain its own final hash, so the exact last closeout hash is also reported externally.
 - Strong future candidates: PC internal/front-panel connectivity (three strong Tools; needs one more genuinely independent, safe workflow), analog consumer audio connectors (three isolated strong Tools but weaker cluster cohesion), and conference-room BYOD topology (two strong workflows; exact extender/product behavior remains a HOLD constraint).
 - Do not reopen the implemented HDMI cluster as thin CEC, HDCP, ARC-only, scaler-only, or route-table pages. Improve the five Tools from real query/event evidence instead.
+
+### 2026-08-26 deployment closeout
+
+- Implementation commit: `0d63098b6115f03b29af2cf9156684425b746cc7` (`Add HDMI routing and distribution workbench`).
+- Push: succeeded as a fast-forward from `4a992497dc937e62cd7a0f02520328e749342847` to `0d63098b6115f03b29af2cf9156684425b746cc7` on GitHub `main`.
+- GitHub Pages run `32966154314` completed with `success` for the implementation commit: `https://github.com/canghun13/cablechecklab/actions/runs/32966154314`.
+- Production crawl: `sitemap.xml` returned HTTP 200 with **67 URLs**, and all 67 returned HTTP 200. `robots.txt` returned HTTP 200 and retained the canonical sitemap directive.
+- Production workbench and representative Tool returned HTTP 200, contained the new H1/controller, loaded `app.js?v=20260826a`, and had one GA4 loader for `G-8PFRRXPGEF`.
+- Production browser QA: the Mixed-Display Tool recalculated from `MIXED-MODE CONFLICT` to `SCALER REQUIRED`; Copy returned the rendered result; Reset restored the default; Print invoked; 390 px mobile navigation opened with `aria-expanded=true`; the Tool at 390 px and Workbench at 1440 px had zero horizontal overflow; console errors/warnings were zero.
+- Immediately before this closeout documentation edit, local `HEAD`, `origin/main`, and live GitHub `main` all matched `0d63098b6115f03b29af2cf9156684425b746cc7`; ahead/behind was `0 0` and the working tree was clean.
+- Final closeout commit: the final `main` commit containing this subsection. Its exact hash, final Pages status, local/origin/live equality, divergence, and clean-tree result are reported externally because a commit cannot contain its own hash.
