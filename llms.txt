@@ -1,12 +1,12 @@
 # Cable Check Lab
 
-> Cable Check Lab provides 33 free, browser-only tools for USB-C, USB Power Delivery, USB4, Thunderbolt, video adapters, DisplayPort, docks, HDMI routing, and troubleshooting.
+> Cable Check Lab provides 39 free, browser-only tools for USB-C, USB Power Delivery, USB4, Thunderbolt, video adapters, DisplayPort, docks, HDMI routing, Power over Ethernet, and troubleshooting.
 
 Primary URL: https://cablechecklab.com/
 Contact: canghun13@naver.com
 Language: English
 
-## Seven workbenches
+## Eight workbenches
 
 - [Charging](https://cablechecklab.com/tools/charging/): Fixed PDOs, PPS, requirements, full-chain checks, port-table comparison, shared budgets.
 - [Cables and data](https://cablechecklab.com/tools/cables/): Cable selection, cable/port decoding, data paths, USB4 features.
@@ -15,8 +15,9 @@ Language: English
 - [Displays](https://cablechecklab.com/tools/displays/): Payload, HDR/VRR/HDCP/audio/DSC, lanes, MST, dock topology.
 - [Docks and hubs](https://cablechecklab.com/tools/docks/): Requirements, power, USB4, data/display tradeoffs, A/B isolation.
 - [HDMI routing and distribution](https://cablechecklab.com/tools/hdmi-routing/): Switch/splitter/matrix selection, capacity, EDID/downscaling, audio routes, and isolation.
+- [Power over Ethernet](https://cablechecklab.com/tools/poe/): IEEE Type/Class matching, equipment selection, switch and pass-through budgets, passive-PoE preflight, and isolation.
 
-## Thirty-three interactive tools
+## Thirty-nine interactive tools
 
 - [USB-C Charge Check](https://cablechecklab.com/tools/charge-check/)
 - [USB PD Fixed Profile Matcher](https://cablechecklab.com/tools/pd-fixed-profile-matcher/)
@@ -51,6 +52,12 @@ Language: English
 - [HDMI Mixed-Display EDID Checker](https://cablechecklab.com/tools/hdmi-mixed-display-checker/)
 - [HDMI Audio Route Planner](https://cablechecklab.com/tools/hdmi-audio-route-planner/)
 - [HDMI Distribution Failure Isolator](https://cablechecklab.com/tools/hdmi-distribution-isolator/)
+- [PoE Class Compatibility Checker](https://cablechecklab.com/tools/poe-class-checker/)
+- [PoE Equipment Selector](https://cablechecklab.com/tools/poe-equipment-selector/)
+- [PoE Switch Power Budget Planner](https://cablechecklab.com/tools/poe-power-budget-planner/)
+- [PoE Passthrough Power Planner](https://cablechecklab.com/tools/poe-passthrough-planner/)
+- [Passive PoE Compatibility Preflight](https://cablechecklab.com/tools/passive-poe-preflight/)
+- [PoE Failure Isolator](https://cablechecklab.com/tools/poe-failure-isolator/)
 
 ## Guides and evidence
 
@@ -61,6 +68,7 @@ Language: English
 - [Video conversion and feature reference](https://cablechecklab.com/references/video-conversion-features/)
 - [USB data pools, roles, and fallback reference](https://cablechecklab.com/references/usb-data-roles-fallback/)
 - [HDMI routing, EDID, and eARC reference](https://cablechecklab.com/references/hdmi-routing-distribution/)
+- [Power over Ethernet Types and Classes reference](https://cablechecklab.com/references/power-over-ethernet/)
 - [Technical references and method](https://cablechecklab.com/references/)
 
 ## Interpretation policy

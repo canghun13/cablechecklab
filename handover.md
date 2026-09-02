@@ -1347,3 +1347,168 @@ Representative research evidence:
 - Production browser QA: the Mixed-Display Tool recalculated from `MIXED-MODE CONFLICT` to `SCALER REQUIRED`; Copy returned the rendered result; Reset restored the default; Print invoked; 390 px mobile navigation opened with `aria-expanded=true`; the Tool at 390 px and Workbench at 1440 px had zero horizontal overflow; console errors/warnings were zero.
 - Immediately before this closeout documentation edit, local `HEAD`, `origin/main`, and live GitHub `main` all matched `0d63098b6115f03b29af2cf9156684425b746cc7`; ahead/behind was `0 0` and the working tree was clean.
 - Final closeout commit: the final `main` commit containing this subsection. Its exact hash, final Pages status, local/origin/live equality, divergence, and clean-tree result are reported externally because a commit cannot contain its own hash.
+
+## 2026-09-02 aggressive new workflow-cluster expansion
+
+### Start state and repository safety
+
+- Existing local repository was reused at `C:\Users\song\Documents\ChatGPT\cablechecklab`; no repository was created and no existing change was reset, restored, deleted, or overwritten.
+- Initial local `HEAD` was `157477c257e97780e995fc56fea351afa9ba4083`; the working tree was clean on `main` and the configured origin was `https://github.com/canghun13/cablechecklab.git`.
+- `git ls-remote origin refs/heads/main` found the newer remote commit `20e9751baf1e96463fbaef513fbe61d9330b694c`. After `git fetch origin main`, local was behind by five commits and not ahead. A safe `git pull --ff-only origin main` synchronized local `HEAD`, `origin/main`, and live GitHub `main` at `20e9751baf1e96463fbaef513fbe61d9330b694c` before research or edits.
+- The full existing handover, all 33 Tools, seven workbenches, and every prior candidate/rejection set were restored before discovery. The existing HDMI and USB4 follow-up work was not repeated.
+
+### Exclusion set carried forward
+
+- Excluded all existing 33 Tool intents, existing workbench logic, and thin variants of USB-C charging, USB PD/PPS, cable claims, USB data, USB4/Thunderbolt, video adapters, displays/MST/DSC, docks/hubs, and HDMI routing/distribution.
+- Excluded the 35 charger/PD/hub/KVM/display/dock/fallback candidates from 2026-08-13; the 28 capture/audio/MIDI/mobile-storage/mobile-USB/tethering/Ethernet/public-charging candidates from 2026-08-20; and the 54 broad candidates from 2026-08-26.
+- Continued to exclude exact-model charger/dock/KVM/MST/adapter/eGPU/cable databases, cable-length or real-performance prediction, affiliate comparison databases, host-controller telemetry, descriptor/EDID/InfoFrame decoders, PC front-panel work, conference BYOD, analog connector variants, consumer storage bridges, printer/scanner, webcam, VR, gaming HDMI, car infotainment, wireless charging, desk labeling, long-run AV, and all recently held HDMI subpages.
+
+### Phase A — 60 genuinely new broad targets
+
+Each item was screened for a separate user decision, interactive form, repeat/search intent, overlap, and static maintainability. `GO` below means it survived broad discovery into the winning family, not that every page was automatically built.
+
+1. PoE Type/Class requirement matcher — GO.
+2. PoE switch/injector/splitter/extender selector — GO.
+3. PoE switch per-port plus total-budget planner — GO, with crowded calculator competition noted.
+4. PoE-powered downstream/pass-through topology planner — GO.
+5. Passive-versus-IEEE PoE preflight — GO.
+6. PoE failure isolator — GO.
+7. T568A/B endpoint mapper — HOLD; useful but overlaps a wiremap checker.
+8. Ethernet wiremap tester-result decoder — HOLD; strong diagnostic intent.
+9. Partial-pair speed failure checker — MERGE with wiremap diagnostics.
+10. Ethernet category/speed/run requirement builder — HOLD.
+11. Patch-panel/keystone/plug termination planner — HOLD; fourth-Tool strength is marginal.
+12. Shield/grounding topology preflight — HOLD; installation/code boundary.
+13. MoCA topology-readiness checker — HOLD.
+14. MoCA splitter-frequency path checker — HOLD.
+15. MoCA point-of-entry filter placement planner — HOLD.
+16. Coax path-loss budget planner — HOLD; existing calculators.
+17. DOCSIS/satellite coexistence preflight — HOLD; provider-frequency uncertainty.
+18. MoCA failure isolator — HOLD.
+19. Fiber connector/polish matcher — HOLD.
+20. Single-mode/multimode wavelength path checker — HOLD.
+21. SFP port/transceiver form-factor matcher — HOLD; exact-vendor coding risk.
+22. BiDi wavelength-pair checker — HOLD.
+23. Fiber polarity planner — HOLD; strong hardware-vendor tools.
+24. Optical link-budget planner — REJECT; mature free-calculator SERP.
+25. DTE/DCE/null-modem selector — HOLD.
+26. RS-232/RS-422/RS-485/TTL electrical-standard selector — HOLD.
+27. Serial settings matcher — HOLD; current free references/tools.
+28. Flow-control/handshake planner — HOLD.
+29. DB9 continuity/pinout decoder — HOLD; non-standard vendor pinouts.
+30. USB-to-serial preflight — HOLD; specialist and driver/product dependent.
+31. Powered-versus-passive speaker connection selector — HOLD.
+32. Amplifier/speaker nominal-load planner — REJECT; saturated calculator SERP.
+33. Speaker wire gauge/loss planner — REJECT; saturated calculator SERP.
+34. Subwoofer input-route planner — HOLD; only one especially strong workflow.
+35. 70 V/100 V tap/amplifier planner — REJECT; mature free tools.
+36. Instrument-versus-speaker-versus-patch cable checker — HOLD.
+37. Guitar-pedal power compatibility checker — REJECT; strong database-backed incumbent.
+38. Pedal daisy-chain current/polarity planner — REJECT; bundled by incumbents.
+39. Isolated-output/ground-loop planner — HOLD; safety and rig-specific behavior.
+40. Four-cable-method connection planner — HOLD; strong article intent but weak cluster gap.
+41. Raceway/tray fill planner — REJECT; existing calculators and code context.
+42. Bundle/grommet diameter estimator — REJECT; existing calculators.
+43. Bend-radius preflight — HOLD; product-construction dependency.
+44. Connector pull/clearance planner — HOLD; measurement-dependent niche.
+45. In-wall/plenum-rating requirement builder — HOLD; regional code/safety burden.
+46. Replacement DC-adapter electrical/plug matcher — REJECT; strong incumbent and damage risk.
+47. DC polarity-symbol decoder — MERGE with replacement-adapter matching.
+48. Barrel-plug measurement matcher — REJECT; physical measurement uncertainty.
+49. Multi-device DC splitter-load planner — HOLD; unsafe without exact supply/wiring evidence.
+50. IR repeater/blaster selector — HOLD.
+51. IR carrier-frequency compatibility preflight — HOLD; exact-device documentation burden.
+52. Multi-zone IR emitter planner — HOLD; narrow demand.
+53. IR failure isolator — HOLD; only two to three strong independent Tools.
+54. IP-versus-analog camera cabling selector — HOLD; partly general networking/security design.
+55. BNC/balun path planner — HOLD; analog surveillance niche.
+56. Camera power-drop planner — HOLD; electrical installation/safety burden.
+57. Camera cabling failure isolator — MERGE with PoE or analog path-specific guidance.
+58. Laptop lock-slot type selector — HOLD; exact-model slot database pressure.
+59. Keyed/combo/anchor requirement builder — HOLD; purchasing guide rather than repeated tool.
+60. Dock/lock-cable topology planner — REJECT; fewer than four independent Tools.
+
+### Phase B — 12-family shortlist
+
+Scores are a comparative research rubric, not search-volume claims: demand/long-tail 25, free interactive gap 20, four-Tool naturalness 20, repeat use 10, static accuracy 10, non-overlap 10, maintenance 5.
+
+| Family | Score | Decision | Main reason |
+|---|---:|---|---|
+| IEEE/passive Power over Ethernet | 92 | FINALIST / GO | Six separate decisions, strong public standards evidence, repeat deployment and failure workflows; only the generic budget subtool is crowded. |
+| Copper Ethernet termination and tester results | 84 | FINALIST / HOLD | Strong wiremap demand and physical-cable fit, but termination, partial-pair, and component pages collapse toward one diagnostic workflow; fourth/fifth Tool quality is weaker. |
+| MoCA/coax home networking | 78 | FINALIST / HOLD | Natural consumer connectivity fit and several recurring problems, but a new free decision lab already covers topology, filters, adapter count, and troubleshooting together. |
+| Serial links and adapters | 72 | FINALIST / HOLD | Several technical workflows, but specialist intent, non-standard pinouts, existing references, and driver/vendor dependence reduce breadth. |
+| Fiber/SFP physical paths | 70 | HOLD | Six plausible checks, but exact-vendor coding and strong link-budget/polarity tools create maintenance and competition risk. |
+| Guitar/pedalboard connectivity | 67 | HOLD | Repeated power and routing questions, but current free builders already combine pedal databases, power, chain order, and cable routing. |
+| Physical cable routing/install | 63 | HOLD | Repeat installation need, but calculators exist and regional construction/code rules weaken a globally static result. |
+| Passive speakers/distributed audio | 61 | HOLD | Natural calculations but impedance, wire, and 70/100 V SERPs are already saturated; also adjacent to the recent analog-audio HOLD. |
+| IR control extension | 57 | HOLD | Static and safe when documented, but only two to three strong recurring actions. |
+| CCTV cabling | 56 | HOLD | Potential breadth, but mixes PoE, analog video, voltage drop, outdoor installation, and security design into an incohesive cluster. |
+| Replacement DC power | 48 | REJECT | High consequence, exact plug/polarity uncertainty, and a strong dedicated incumbent. |
+| Laptop locks/security cables | 43 | REJECT | Exact-model slot mapping pressure and fewer than four durable interactive workflows. |
+
+### Phase C — finalist Tool-level validation
+
+#### 1. Power over Ethernet — 92 / GO
+
+- **Type/Class Compatibility Checker:** repeated questions distinguish 802.3af/at/bt, Type, Class, PSE power, and PD-available power. Public Ethernet Alliance class tables support static logic. Current SERPs are mainly articles/tables; neutral direct compatibility interaction is weak.
+- **Equipment Selector:** switch versus injector versus splitter versus extender changes the physical architecture and purchase class. Results found vendor articles and product pages, not a strong neutral workflow that starts from source/endpoint/data/count/distance.
+- **Switch Power Budget Planner:** strong repeat deployment intent and many free calculators. Kept only as one cluster component; it does not justify the family alone.
+- **PoE Pass-through Planner:** PoE-powered switches consume input power before serving downstream PDs, and their output changes by exact input mode. Repeated community questions and vendor-specific tables exist, but a neutral input/self-use/output boundary tool is scarce.
+- **Passive PoE Preflight:** proprietary always-on power is materially different from IEEE detection. Repeated 24 V/48 V compatibility questions and damage concerns make voltage/pair/polarity evidence a separate pre-connection action.
+- **Failure Isolator:** vendor guides use detection/classification, known-good cable/port, lower load, and compatible injector comparisons. A structured next-test workflow is distinct from planning or arithmetic.
+- Hard Gate result: **6/6 natural Tools pass**. Each changes a different next action. No exact-model database, live telemetry, framework, backend, or paid-standard reproduction is required.
+
+#### 2. Copper Ethernet termination/test — 84 / HOLD
+
+- Fluke Networks publicly distinguishes open, short, reversed pair, crossed pair, and split pair, and recurring home-network questions show tester-result confusion.
+- A wiremap decoder is strong, and a category/speed requirement builder is plausible. T568A/B endpoint mapping and partial-pair diagnosis are better merged into wiremap; patch-component selection is closer to a guide; grounding/shielding adds installation boundaries.
+- Hard Gate result: **3 strong independent Tools plus 1 marginal**. Hold until a fourth repeated action is demonstrated without splitting one tester workflow.
+
+#### 3. MoCA/coax — 78 / HOLD
+
+- MoCA Alliance and vendor sources support topology, splitter, filter, amplifier, length, and coexistence checks. Recurring home-network questions confirm demand.
+- Current competition includes `https://no-dead-zones.com/backhaul/moca-backhaul-decision-lab/`, which already combines readiness, adapter count, filter placement, and troubleshooting, plus a separate coax-loss calculator.
+- Hard Gate result: technically 4–5 possible pages, but topology, splitter, filter, and coexistence inputs are better as one integrated preflight. The remaining free-tool gap is not strong enough for aggressive implementation now.
+
+#### 4. Serial links — 72 / HOLD
+
+- DTE/DCE/null-modem, electrical standard, settings, flow control, and pin continuity are real questions. Existing tools include `https://www.nictools.dev/tools/serial-reference`, `https://bogpeople.com/networking/SerialComms/rs232pinouts.shtml`, and `https://www.protocolvisualizer.com/`.
+- Non-standard RJ/DB pinouts, USB-serial driver behavior, and industrial equipment manuals make general browser verdicts less reliable. Hard Gate breadth exists on paper, but the consumer/cable-planning fit and neutral gap are weaker than PoE.
+
+### Research evidence retained
+
+- IEEE 802.3bt scope: `https://standards.ieee.org/ieee/802.3bt/6749/`.
+- Ethernet Alliance public Type/Class and PSE/PD power overview: `https://ethernetalliance.org/wp-content/uploads/2019/12/WP_EA_Overview8023bt_V2p1_FINAL.pdf`.
+- Ethernet Alliance certification distinction between IEEE and proprietary powering: `https://ethernetalliance.org/poecert/program-overview/`.
+- Cisco detection/classification, LLDP, and budget behavior: `https://www.cisco.com/c/en/us/td/docs/switches/lan/c9000/infra/poe/poe-configuration-guide/g-poe/c-poe-and-switch.html`.
+- Current PoE budget competitors included `https://www.lvtoolbox.com/poe-calculator`, `https://www.roomplot.com/free-tools/poe-calculator`, `https://networktools.io/hardware-tools/poe-budget-calculator/`, and `https://ecparts.cc/calculators/communication/poe-power-calculator/`. Their presence reduced the budget Tool gap score but did not cover the other five actions.
+- Fluke wiremap evidence: `https://www.flukenetworks.com/blog/cabling-chronicles/wire-map-testing-it-s-not-all-about-color`, `https://www.flukenetworks.com/knowledge-base/microscanner2/diagnosing-wiremap-faults-microscanner2`, and `https://www.flukenetworks.com/support/knowledge-base/linkiq/split-pair-identification`.
+- MoCA sources: `https://mocalliance.org/technology/Final_Best-Practices-for-Installation-of-MoCA_170516rev01.pdf`, `https://en-us.support.motorola.com/app/answers/detail/a_id/176961/~/coax-network-considerations-for-moca/`, and `https://account.scte.org/standards/library/catalog/scte-235-coexistence-of-docsis3-1-signals-and-moca-signals-in-the-home-environment/`.
+- Strong free pedalboard competition included `https://www.guitarchalk.com/pedal-power-calculator/`, `https://pedalrig.com/pedalboard/builder`, and `https://pedalmap.app/`; speaker competition included multiple impedance, wire-gauge, and 70/100 V calculators; physical-install competition included `https://cablemgmtlab.com/cable-calculator/` and `https://electrical.design/tools/bundle-diameter`.
+
+### Final decision and implementation
+
+- **GO — Power over Ethernet Planning**. The cluster is new relative to all exclusion sets, fits Cable Check Lab’s physical connection/power mission, and passes the four-Tool Hard Gate with six genuinely separate actions.
+- Added one Workbench: **Power over Ethernet** (`/tools/poe/`).
+- Added six Tools:
+  1. **PoE Class Compatibility Checker** (`/tools/poe-class-checker/`)
+  2. **PoE Equipment Selector** (`/tools/poe-equipment-selector/`)
+  3. **PoE Switch Power Budget Planner** (`/tools/poe-power-budget-planner/`)
+  4. **PoE Passthrough Power Planner** (`/tools/poe-passthrough-planner/`)
+  5. **Passive PoE Compatibility Preflight** (`/tools/passive-poe-preflight/`)
+  6. **PoE Failure Isolator** (`/tools/poe-failure-isolator/`)
+- Added one Guide: **Power over Ethernet Planning & Troubleshooting** (`/guides/poe-planning/`).
+- Added one Reference: **PoE Types, Classes & Power Boundaries** (`/references/power-over-ethernet/`).
+- Added six vanilla-JavaScript controllers to `assets/app.js`, registered `poe` for existing `workbench_to_tool_click`, and inherited `tool_run`, `tool_result`, `reset_tool`, `copy_result`, and `print_result`. Analytics event parameters remain stable route/context/status fields only; no entered voltage, wattage, topology, or diagnostic response is sent.
+- Integrated the cluster into Home, Tools, Guides, References, `sitemap.xml`, and `llms.txt`. Public counts are now **77 HTML / 76 indexable / 39 direct Tools / 8 workbenches / 15 Guides / 7 References / 0 Comparisons**.
+- GA4 remains `G-8PFRRXPGEF` exactly once on every public page. Contact remains `canghun13@naver.com`. CNAME, robots rules, static GitHub Pages architecture, visual identity, and the user-managed Findly block below the home footer were not changed.
+
+### Local QA before commit
+
+- Repository verifier: **PASS — 77 public HTML files / 76 indexable pages**, sitemap parity, internal targets, duplicate IDs, title, description, canonical, Open Graph, exactly one H1, valid JSON-LD, and exactly one GA4 loader/config per public HTML.
+- Bundled Node.js `--check assets/app.js`: PASS. `git diff --check`: PASS.
+- Browser functional QA: all six Tools initialized and changed state correctly. Verified Class fit→mismatch, budget fit→exceeded, pass-through fit→shortfall, passive declared match→unsafe mode mismatch, and isolation baseline→cable-layer narrowing. Equipment Selector defaulted to an IEEE midspan injector for one IEEE PD behind non-PoE Ethernet.
+- Copy returned visible result text; Reset restored defaults; shared Print control remains wired through the tested common controller. Mobile Menu opened with `aria-expanded=true` and visible navigation.
+- Responsive browser QA covered all nine new pages at **390 / 768 / 900 / 1024 / 1280 / 1440**: **54/54 checks passed** with zero horizontal overflow and no header/H1 collision. Console errors/warnings: zero.
+- Final commit, push, Pages deployment, production crawl/browser checks, hash equality, divergence, and clean-tree state are recorded in the closeout subsection after deployment.

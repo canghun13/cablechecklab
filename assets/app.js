@@ -10,7 +10,7 @@
     });
   }
 
-  const workbenchIds = new Set(['charging', 'cables', 'displays', 'docks', 'usb4-thunderbolt', 'video-adapters', 'hdmi-routing']);
+  const workbenchIds = new Set(['charging', 'cables', 'displays', 'docks', 'usb4-thunderbolt', 'video-adapters', 'hdmi-routing', 'poe']);
   const pathParts = window.location.pathname.split('/').filter(Boolean);
   const pageWorkbench = pathParts[0] === 'tools' && pathParts.length === 2 && workbenchIds.has(pathParts[1]) ? pathParts[1] : '';
   const track = (eventName, parameters = {}) => {
@@ -1009,7 +1009,175 @@
     paint(kind, direct === 'yes' ? 'Router layer isolated' : 'Baseline still needed', title, 'The observation pattern identifies the next shortest controlled test.', list, 'This is an isolation plan, not a defect verdict. It cannot inspect live EDID, link errors, CEC traffic, HDCP authentication, or undocumented firmware. Use only compliant protected-content paths; do not bypass or strip HDCP.');
   }
 
-  const calculators = { charge: chargeCheck, cable: cableDecode, display: displayPlan, multiport: multiportPlan, pps: ppsRangeCheck, pdrequirement: pdRequirement, cableselector: cableSelector, datapath: dataPathCheck, dsc: dscPlan, lanes: lanePlan, dockrequirement: dockRequirement, hubpower: hubPowerBudget, troubleshoot, usb4path: usb4FeaturePath, usb4budget: usb4Budget, adapterdirection: adapterDirection, mstchain: mstChain, pdfixed: pdFixedProfile, multiportcompare: multiportCompare, directdock: directDockIsolation, portdecode: portDecode, videochain: videoFeatureChain, hubbandwidth: hubBandwidth, rolematch: roleMatch, usb4fallback: usb4Fallback, highrefresh: highRefreshIsolation, dropout: peripheralDropout, onecablemonitor: oneCableMonitor, hdmirouting: hdmiRoutingSelector, hdmimatrix: hdmiMatrixSize, hdmimixed: hdmiMixedDisplay, hdmiaudio: hdmiAudioRoute, hdmiisolation: hdmiDistributionIsolation };
+  function poeClassCheck() {
+    const pseType = number('pcPseType');
+    const pdClass = number('pcPdClass');
+    const portWatts = number('pcPortWatts');
+    const maxClass = { 1: 3, 2: 4, 3: 6, 4: 8 }[pseType];
+    const pdWatts = { 1: 3.84, 2: 6.49, 3: 13, 4: 25.5, 5: 40, 6: 51, 7: 62, 8: 71.3 }[pdClass];
+    const pseWatts = { 1: 4, 2: 7, 3: 15.4, 4: 30, 5: 45, 6: 60, 7: 75, 8: 90 }[pdClass];
+    if (!maxClass || !pdWatts || !Number.isFinite(portWatts) || portWatts < 0) {
+      paint('bad', 'Check input', '—', 'Choose a valid IEEE PSE Type, PD Class, and non-negative port ceiling.', ['Use 0 W only when the per-port allocation is genuinely unknown.'], 'No standards-based match is produced from incomplete declarations.');
+      return;
+    }
+    const typeFits = pdClass <= maxClass;
+    const portKnown = portWatts > 0;
+    const portFits = !portKnown || portWatts >= pseWatts;
+    const list = [
+      'Class ' + pdClass + ' can require up to ' + fmt(pseWatts, 1) + ' W allocated at the PSE and provides up to ' + fmt(pdWatts, 2) + ' W at the PD boundary.',
+      'Entered PSE Type ' + pseType + ' supports standardized Classes 1–' + maxClass + '.',
+      portKnown ? 'Declared per-port ceiling: ' + fmt(portWatts, 1) + ' W.' : 'Per-port allocation remains unknown; the total switch budget is not a substitute.'
+    ];
+    if (!typeFits) list.push('The requested PD class is above the entered PSE Type range.');
+    if (!portFits) list.push('The entered per-port ceiling is below the PSE allocation associated with Class ' + pdClass + '.');
+    const kind = !typeFits || !portFits ? 'bad' : portKnown ? 'ok' : 'warn';
+    paint(kind, kind === 'bad' ? 'Class mismatch' : kind === 'ok' ? 'Declared class fit' : 'Port ceiling unverified', 'Type ' + pseType + ' → Class ' + pdClass, kind === 'bad' ? 'The entered source cannot satisfy the requested standardized class on paper.' : kind === 'ok' ? 'The entered Type and per-port ceiling cover the requested class.' : 'The Type covers the class, but the exact port allocation is missing.', list, 'This compares IEEE class boundaries, not live negotiation. Multi-event classification, LLDP, Autoclass, dual-signature PDs, cable condition, temperature, switch policy, and exact product implementation can change allocated or delivered power.');
+  }
+
+  function poeEquipmentSelector() {
+    const destinations = number('peDestinations');
+    const source = value('peSource');
+    const endpoint = value('peEndpoint');
+    const data = value('peData');
+    const distance = value('peDistance');
+    if (!Number.isInteger(destinations) || destinations < 1 || destinations > 64 || !['poe', 'ethernet', 'none'].includes(source) || !['ieee', 'dc', 'unknown'].includes(endpoint) || !['yes', 'no'].includes(data) || !['within', 'beyond'].includes(distance)) {
+      paint('bad', 'Check input', '—', 'Complete the topology and use a destination count from 1 to 64.', ['Classify the endpoint from its exact input specification, not the presence of an RJ45 jack.'], 'No equipment class is selected from unknown topology fields.');
+      return;
+    }
+    const list = ['Plan: ' + destinations + ' powered destination(s); Ethernet data ' + (data === 'yes' ? 'required' : 'not required') + '; ordinary copper channel limit ' + (distance === 'within' ? 'not exceeded' : 'exceeded or uncertain') + '.'];
+    let device = '';
+    let kind = 'ok';
+    if (endpoint === 'unknown') {
+      device = 'Verify the endpoint input first'; kind = 'warn';
+      list.push('Do not choose an injector or splitter until the endpoint declares IEEE PoE or an exact DC voltage, polarity, connector, and current requirement.');
+    } else if (distance === 'beyond') {
+      device = destinations > 1 ? 'Powered intermediate switch or designed extender path' : 'PoE extender or powered intermediate link'; kind = 'warn';
+      list.push('An extender consumes power and does not erase Ethernet channel, surge, grounding, or cable requirements. Fiber plus a powered remote switch is a separate architecture.');
+    } else if (endpoint === 'ieee') {
+      if (source === 'poe') device = destinations > 1 ? 'PoE switch ports' : 'Direct IEEE PoE port';
+      else if (destinations > 1) device = 'PoE switch';
+      else device = 'IEEE PoE injector (midspan)';
+      list.push('Match the PSE Type/class, per-port allocation, total budget, data rate, and pair support to the PD.');
+    } else {
+      if (source === 'poe') device = 'IEEE PoE splitter with exact DC output';
+      else if (data === 'yes') device = 'Matched injector + splitter path';
+      else device = 'Direct listed DC power path';
+      kind = 'warn';
+      list.push('A non-PoE DC endpoint needs an exact splitter output voltage, polarity, connector, current capacity, and isolation declaration.');
+    }
+    if (source === 'none' && data === 'no' && endpoint === 'ieee') list.push('If Ethernet data is unnecessary, compare a direct listed power supply before adding network power equipment.');
+    paint(kind, kind === 'ok' ? 'Equipment class selected' : 'Exact input verification required', device, 'The topology maps to this supply-device class.', list, 'This selects a functional class, not a product. Verify standards compliance, port and total power, input/output voltage, data rate, environment, surge protection, grounding, temperature, and local installation requirements.');
+  }
+
+  function poePowerBudget() {
+    const budget = number('pbBudget');
+    const reserve = number('pbReserve');
+    const rows = [1, 2, 3, 4].map((i) => ({ qty: number('pbQty' + i), watts: number('pbWatts' + i) }));
+    if (!Number.isFinite(budget) || budget <= 0 || !Number.isFinite(reserve) || reserve < 0 || reserve >= 100 || rows.some((row) => !Number.isInteger(row.qty) || row.qty < 0 || !Number.isFinite(row.watts) || row.watts < 0) || !rows.some((row) => row.qty > 0 && row.watts > 0)) {
+      paint('bad', 'Check input', '—', 'Enter a positive switch budget, 0–99% reserve, and at least one valid device row.', ['Use the allocation or maximum input figure required by your planning policy consistently across rows.'], 'No budget is calculated from missing or mixed input conventions.');
+      return;
+    }
+    const active = rows.filter((row) => row.qty > 0 && row.watts > 0);
+    const load = active.reduce((total, row) => total + row.qty * row.watts, 0);
+    const usable = budget * (1 - reserve / 100);
+    const margin = usable - load;
+    const list = active.map((row, index) => 'Group ' + (index + 1) + ': ' + row.qty + ' × ' + fmt(row.watts, 1) + ' W = ' + fmt(row.qty * row.watts, 1) + ' W.');
+    list.push('Entered switch budget: ' + fmt(budget, 1) + ' W; planning reserve: ' + fmt(reserve, 1) + '%; usable planning budget: ' + fmt(usable, 1) + ' W.');
+    list.push((margin >= 0 ? 'Headroom after entered load: ' : 'Shortfall against usable budget: ') + fmt(Math.abs(margin), 1) + ' W.');
+    paint(margin >= 0 ? (margin / usable >= .1 ? 'ok' : 'warn') : 'bad', margin >= 0 ? (margin / usable >= .1 ? 'Budget fits' : 'Tight budget') : 'Budget exceeded', fmt(load, 1) + ' W planned load', margin >= 0 ? 'The entered device groups fit inside the reserved planning budget.' : 'The entered device groups exceed the reserved planning budget.', list, 'Total budget is separate from per-port Type/class compatibility. Startup peaks, heaters, illuminators, negotiated allocation, LLDP, Autoclass, cable loss, temperature, redundant supplies, and switch policy require exact-device evidence. Do not mix measured draw with class allocation without stating the policy.');
+  }
+
+  function poePassthroughPlan() {
+    const input = number('ppInput');
+    const own = number('ppOwn');
+    const declared = number('ppDeclared');
+    const downstream = number('ppDownstream');
+    const reserve = number('ppReserve');
+    if (![input, own, declared, downstream, reserve].every((n) => Number.isFinite(n) && n >= 0) || input <= 0 || declared <= 0 || downstream <= 0) {
+      paint('bad', 'Check input', '—', 'Enter positive incoming, declared-output, and downstream power plus non-negative self-use and reserve.', ['Use guaranteed power available at the powered switch input, not the upstream PSE headline alone.'], 'No downstream budget is inferred from incomplete declarations.');
+      return;
+    }
+    const afterSelf = Math.max(0, input - own - reserve);
+    const usable = Math.min(afterSelf, declared);
+    const margin = usable - downstream;
+    const list = [
+      'Guaranteed input available at powered switch: ' + fmt(input, 1) + ' W.',
+      'Self-use + reserve: ' + fmt(own + reserve, 1) + ' W; remainder before output limit: ' + fmt(afterSelf, 1) + ' W.',
+      'Declared downstream PoE output budget: ' + fmt(declared, 1) + ' W; usable planning ceiling: ' + fmt(usable, 1) + ' W.',
+      (margin >= 0 ? 'Headroom: ' : 'Shortfall: ') + fmt(Math.abs(margin), 1) + ' W against ' + fmt(downstream, 1) + ' W downstream demand.'
+    ];
+    paint(margin >= 0 ? (margin / usable >= .1 ? 'ok' : 'warn') : 'bad', margin >= 0 ? (margin / usable >= .1 ? 'Pass-through budget fits' : 'Tight pass-through budget') : 'Pass-through shortfall', fmt(usable, 1) + ' W usable downstream', margin >= 0 ? 'The entered downstream load fits both the input remainder and declared output budget.' : 'The downstream demand exceeds at least one declared pass-through boundary.', list, 'A PoE-powered switch may change output budget by input Type, DC versus PoE input, port, negotiation method, temperature, or firmware. Verify its exact input table, self-consumption method, output standards, per-port limits, cable channel, and startup behavior.');
+  }
+
+  function passivePoePreflight() {
+    const sourceMode = value('pvSourceMode');
+    const deviceMode = value('pvDeviceMode');
+    const sourceV = number('pvSourceV');
+    const deviceV = number('pvDeviceV');
+    const polarity = value('pvPolarity');
+    if (!['ieee', 'passive', 'unknown'].includes(sourceMode) || !['ieee', 'passive', 'unknown'].includes(deviceMode) || ![sourceV, deviceV].every((n) => Number.isFinite(n) && n >= 0) || !['yes', 'no', 'unknown'].includes(polarity)) {
+      paint('bad', 'Check input', '—', 'Complete both power modes, voltage declarations, and pair/polarity evidence.', ['Use 0 V only when a voltage is not applicable or not documented.'], 'Unknown proprietary power is not treated as compatible.');
+      return;
+    }
+    const list = ['Source: ' + sourceMode + (sourceV ? ', ' + fmt(sourceV, 1) + ' V' : '') + '; endpoint: ' + deviceMode + (deviceV ? ', ' + fmt(deviceV, 1) + ' V' : '') + '.'];
+    let kind = 'bad';
+    let label = 'Do not connect yet';
+    let title = 'Compatibility not established';
+    let summaryText = 'The entered declarations do not form a verified power pair.';
+    if (sourceMode === 'ieee' && deviceMode === 'ieee') {
+      kind = 'ok'; label = 'Standards-based path'; title = 'Use IEEE detection and classification'; summaryText = 'Both ends declare standards-based PoE; compare Type/class and budgets next.';
+      list.push('Nominal open-circuit voltage entries are not used to replace IEEE detection, classification, and power negotiation.');
+    } else if (sourceMode === 'passive' && deviceMode === 'passive') {
+      const voltageFits = sourceV > 0 && deviceV > 0 && Math.abs(sourceV - deviceV) <= Math.max(0.5, deviceV * .03);
+      if (voltageFits && polarity === 'yes') {
+        kind = 'warn'; label = 'Declared proprietary match'; title = fmt(sourceV, 1) + ' V passive pair'; summaryText = 'Voltage and pair/polarity declarations align, but passive PoE has no IEEE detection safety net.';
+        list.push('Also verify current capacity, powered pairs, connector pinout, cable limits, grounding, and exact model documentation before connection.');
+      } else {
+        if (!voltageFits) list.push('Source and endpoint voltage declarations are missing or do not match within this narrow screening tolerance.');
+        if (polarity !== 'yes') list.push('Powered pair and polarity are not confirmed identical.');
+      }
+    } else if (sourceMode === 'unknown' || deviceMode === 'unknown') {
+      kind = 'warn'; label = 'Power mode unknown'; title = 'Find the exact specification'; summaryText = 'At least one end is not identified as IEEE-standard or exact passive power.';
+      list.push('A product label that says only “PoE” is insufficient when proprietary passive power may be involved.');
+    } else {
+      list.push('Standards-based and passive PoE are different powering systems; do not assume a voltage label makes them interoperable.');
+    }
+    paint(kind, label, title, summaryText, list, 'Passive PoE can energize conductors without IEEE detection and can damage incompatible equipment. This preflight is not an electrical safety approval. Use manufacturer documentation and appropriately rated/tested equipment; never experiment on an unknown port or endpoint.');
+  }
+
+  function poeFailureIsolation() {
+    const detected = value('piDetected');
+    const link = value('piLink');
+    const scope = value('piScope');
+    const cable = value('piCable');
+    const port = value('piPort');
+    const load = value('piLoad');
+    const injector = value('piInjector');
+    if ([detected, link, scope, cable, port, load, injector].some((entry) => !entry)) {
+      paint('bad', 'Check input', '—', 'Complete every observation; choose Not tested where needed.', ['Preserve the same endpoint and change only one source, port, or cable at a time.'], 'A missing control is not treated as a pass or failure.');
+      return;
+    }
+    const list = [];
+    const clues = [];
+    if (detected === 'no') clues.push('detection/classification or incompatible passive-versus-IEEE mode');
+    if (detected === 'yes' && link === 'no') clues.push('data pairs, termination, port configuration, or endpoint boot state after power');
+    if (link === 'yes') clues.push('power allocation or endpoint load rather than basic Ethernet continuity');
+    if (scope === 'all') clues.push('common switch budget, supply, configuration, or thermal policy');
+    if (scope === 'one') clues.push('one port, cable run, connector, or endpoint');
+    if (scope === 'boot') clues.push('startup surge, class allocation, or total-budget headroom');
+    if (scope === 'intermittent') clues.push('cable resistance/termination, load changes, temperature, or maintain-power behavior');
+    if (cable === 'fixes') clues.push('original cable channel or termination');
+    if (port === 'fixes') clues.push('original PSE port or its configuration/budget');
+    if (load === 'fixes') clues.push('total budget or per-port power headroom');
+    if (injector === 'fixes') clues.push('original PSE capability, port policy, or interoperability');
+    if ([cable, port, load, injector].every((entry) => entry === 'untested')) list.push('Run one controlled test next: short known-good cable, then known-good compatible PSE port or injector.');
+    clues.forEach((clue, index) => list.push((index + 1) + '. Inspect ' + clue + '.'));
+    const isolated = [cable, port, load, injector].some((entry) => entry === 'fixes');
+    const title = cable === 'fixes' ? 'Cable channel first' : port === 'fixes' ? 'Original port first' : load === 'fixes' ? 'Power budget first' : injector === 'fixes' ? 'Original PSE first' : detected === 'no' ? 'Detection path first' : 'Run the next control';
+    paint(isolated ? 'warn' : 'info', isolated ? 'Failure layer narrowed' : 'More evidence needed', title, isolated ? 'At least one A/B control changes the result and implicates a layer.' : 'The current observations rank the next shortest test.', list, 'This is an isolation sequence, not a defect verdict. Exact voltage/current capture, pairset use, class events, LLDP, cable certification, switch logs, firmware, surge damage, and environmental limits require hardware or vendor evidence.');
+  }
+
+  const calculators = { charge: chargeCheck, cable: cableDecode, display: displayPlan, multiport: multiportPlan, pps: ppsRangeCheck, pdrequirement: pdRequirement, cableselector: cableSelector, datapath: dataPathCheck, dsc: dscPlan, lanes: lanePlan, dockrequirement: dockRequirement, hubpower: hubPowerBudget, troubleshoot, usb4path: usb4FeaturePath, usb4budget: usb4Budget, adapterdirection: adapterDirection, mstchain: mstChain, pdfixed: pdFixedProfile, multiportcompare: multiportCompare, directdock: directDockIsolation, portdecode: portDecode, videochain: videoFeatureChain, hubbandwidth: hubBandwidth, rolematch: roleMatch, usb4fallback: usb4Fallback, highrefresh: highRefreshIsolation, dropout: peripheralDropout, onecablemonitor: oneCableMonitor, hdmirouting: hdmiRoutingSelector, hdmimatrix: hdmiMatrixSize, hdmimixed: hdmiMixedDisplay, hdmiaudio: hdmiAudioRoute, hdmiisolation: hdmiDistributionIsolation, poeclass: poeClassCheck, poeselector: poeEquipmentSelector, poebudget: poePowerBudget, poepassthrough: poePassthroughPlan, passivepoe: passivePoePreflight, poeisolation: poeFailureIsolation };
   const calculate = calculators[tool.dataset.tool];
   if (!calculate) return;
   form.addEventListener('input', calculate);
