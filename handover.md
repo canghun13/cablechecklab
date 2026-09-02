@@ -1512,3 +1512,14 @@ Scores are a comparative research rubric, not search-volume claims: demand/long-
 - Copy returned visible result text; Reset restored defaults; shared Print control remains wired through the tested common controller. Mobile Menu opened with `aria-expanded=true` and visible navigation.
 - Responsive browser QA covered all nine new pages at **390 / 768 / 900 / 1024 / 1280 / 1440**: **54/54 checks passed** with zero horizontal overflow and no header/H1 collision. Console errors/warnings: zero.
 - Final commit, push, Pages deployment, production crawl/browser checks, hash equality, divergence, and clean-tree state are recorded in the closeout subsection after deployment.
+
+### 2026-09-02 deployment closeout
+
+- Implementation commit: `03fcdcc90798e4a4ecfa498d472b7427ad8769b3` (`Build Power over Ethernet planning cluster`).
+- Push: succeeded as a fast-forward from `20e9751baf1e96463fbaef513fbe61d9330b694c` to `03fcdcc90798e4a4ecfa498d472b7427ad8769b3` on GitHub `main`.
+- GitHub Pages run `33576736944` completed with `success` for the implementation commit: `https://github.com/canghun13/cablechecklab/actions/runs/33576736944`.
+- Production crawl: `sitemap.xml` returned HTTP 200 with **76 URLs**, and all 76 returned HTTP 200. `robots.txt` returned HTTP 200 and retained the canonical sitemap directive.
+- Production Workbench and representative Class Tool returned HTTP 200. The Tool contained the new H1 and `data-tool="poeclass"`, loaded `app.js?v=20260902a`, and contained exactly one GA4 loader for `G-8PFRRXPGEF`. The Workbench linked all six Tools.
+- Production browser QA: Class Tool initialized at `DECLARED CLASS FIT`, changed to `CLASS MISMATCH` for Type 1 / Class 8, Copy returned the rendered result, Reset restored the default, and Print invoked without console errors or warnings. At 390 px the Tool had zero horizontal overflow and mobile navigation opened with `aria-expanded=true`; at 1440 px the Workbench rendered eight cards with zero horizontal overflow.
+- Immediately before this closeout edit, local `HEAD`, `origin/main`, and live GitHub `main` all matched `03fcdcc90798e4a4ecfa498d472b7427ad8769b3`; ahead/behind was `0 0` and the working tree was clean.
+- Final closeout commit: the final `main` commit containing this subsection. Its exact hash, final Pages result, local/origin/live equality, divergence, and clean-tree result are reported externally because a commit cannot contain its own hash.
