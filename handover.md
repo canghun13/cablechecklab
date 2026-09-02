@@ -1523,3 +1523,21 @@ Scores are a comparative research rubric, not search-volume claims: demand/long-
 - Production browser QA: Class Tool initialized at `DECLARED CLASS FIT`, changed to `CLASS MISMATCH` for Type 1 / Class 8, Copy returned the rendered result, Reset restored the default, and Print invoked without console errors or warnings. At 390 px the Tool had zero horizontal overflow and mobile navigation opened with `aria-expanded=true`; at 1440 px the Workbench rendered eight cards with zero horizontal overflow.
 - Immediately before this closeout edit, local `HEAD`, `origin/main`, and live GitHub `main` all matched `03fcdcc90798e4a4ecfa498d472b7427ad8769b3`; ahead/behind was `0 0` and the working tree was clean.
 - Final closeout commit: the final `main` commit containing this subsection. Its exact hash, final Pages result, local/origin/live equality, divergence, and clean-tree result are reported externally because a commit cannot contain its own hash.
+
+## 2026-09-02 PoE field-control sizing regression fix
+
+### Scope and diagnosis
+
+- Start commit: `58cc4c7aa200ecf8cf187a9a5eb2a2f7e13153a6`; local `main`, `origin/main`, and live GitHub `main` matched with `0 0` divergence and a clean worktree.
+- Scope was limited to `/tools/poe-failure-isolator/` and `/tools/poe-passthrough-planner/`. No Tool, page, research, calculator logic, shared event logic, content, navigation, sitemap, `llms.txt`, CNAME, robots rule, or user-managed Findly/footer block was added or changed.
+- Production reproduction covered 390, 768, 900, 1024, 1280, and 1440 px. At affected desktop widths, a long wrapping label made its parent grid row taller; the sibling `.field` then used the default `align-content: normal`, stretching its implicit label/control tracks and expanding an otherwise 46 px control to 58.8 px. The pass-through page uses number inputs rather than selects, but had the same grid-track cause.
+- The fix scopes `align-content: end` to `.field` elements under `main[data-tool="poeisolation"]` and `main[data-tool="poepassthrough"]`. It preserves the shared 46 px minimum, 1 px border, 9 px vertical padding, `border-box`, row layout, and natural label wrapping without a fixed-height override. Only the two affected pages received the new `styles.css?v=20260902b` cache key.
+
+### Local QA before commit
+
+- After the fix, every form input/select on both pages measured exactly 46 px at 390 / 768 / 900 / 1024 / 1280 / 1440, with zero horizontal overflow. Header/menu breakpoint behavior, result panels, action buttons, notes, and footer remained present; both mobile menus opened with `aria-expanded=true` and visible navigation.
+- Failure Isolator: default `MORE EVIDENCE NEEDED / Detection path first`, cable-change `FAILURE LAYER NARROWED / Cable channel first`, Reset, Copy, and Print passed. Every select retains a valid selected option, and rendered results contained no `NaN` or `Infinity`.
+- Passthrough Planner: default fit, 40 W shortfall, exact 35 W tight boundary, invalid 0 W `CHECK INPUT`, Reset, Copy, and Print passed. Rendered results contained no `NaN` or `Infinity`.
+- Related regression QA covered PoE Class Checker, Equipment Selector, Power Budget Planner, and Passive PoE Preflight at 390 / 768 / 1024 / 1440 plus default-result smoke checks. All had zero horizontal overflow and finite results. Passive PoE's pre-existing 58.8 px `pvSourceV` control at 768 px matched the current production baseline exactly and was not changed by this scoped fix.
+- Repository verifier: PASS — 77 public HTML files / 76 indexable pages, sitemap parity, internal targets, duplicate IDs, metadata, H1, JSON-LD, and one GA4 loader/config (`G-8PFRRXPGEF`) per public page. Bundled Node.js `--check assets/app.js`, CSS brace balance, and `git diff --check` passed. Shared analytics and calculator JavaScript were unchanged, so existing `tool_run`, `tool_result`, `reset_tool`, `copy_result`, and `print_result` wiring remains intact.
+- Implementation commit, push, Pages deployment, production browser QA, final hash equality, divergence, and clean-tree state are recorded in the closeout subsection below.

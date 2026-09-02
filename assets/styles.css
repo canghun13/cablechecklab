@@ -104,6 +104,8 @@ h3 { font-size: 1.22rem; margin: 0 0 8px; }
 .result-panel { position: sticky; top: 96px; box-shadow: var(--shadow); }
 .field-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .field { display: grid; gap: 6px; }
+main[data-tool="poeisolation"] .field,
+main[data-tool="poepassthrough"] .field { align-content: end; }
 .field.full { grid-column: 1 / -1; }
 label, legend { font-weight: 750; }
 label small, .field-note { display: block; color: var(--muted); font-weight: 450; font-size: .82rem; }
