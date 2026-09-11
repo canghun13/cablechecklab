@@ -1582,3 +1582,11 @@ Scores are a comparative research rubric, not search-volume claims: demand/long-
 - All six Guide-linked Tools returned HTTP 200. Browser interaction QA passed default result, changed-input recalculation, invalid input where applicable, Reset, Copy, Print, and no `NaN`/`Infinity`. Display Planner moved to `OVER PAYLOAD ESTIMATE`; Lane Planner to `OVER FOUR-LANE PAYLOAD`; DSC Planner to `BEYOND 3:1 PLANNING RANGE`; MST Checker to `TOPOLOGY BLOCKED`; Video Feature Chain to `FEATURE CHAIN BLOCKED`; the High-Refresh result changed its evidence while remaining in the narrowed-failure state.
 - Each related Tool had zero horizontal overflow at 390 and 1280. Console errors/warnings across the Guide and six Tools: **0**.
 - Implementation commit, push, Pages run, production verification, final handover commit, and final SHA/clean-tree checks are recorded in the deployment closeout below.
+
+### Deployment closeout
+
+- Implementation commit `21588ddfa44df26463430d6e226d9fde556725c1` (`Improve DisplayPort Alt Mode search journey`) was pushed to `origin/main`.
+- GitHub Pages run [34572433367](https://github.com/canghun13/cablechecklab/actions/runs/34572433367) completed successfully for that exact implementation SHA.
+- Production `/guides/display-alt-mode/` returned HTTP 200 and passed browser QA at **390 / 768 / 900 / 1024 / 1280 / 1440** with the expected title, updated H1, unchanged canonical, one H1, one GA4 loader, six distinct main-content Tool routes, no page or table overflow, correct 900/1024 navigation transition, working mobile menu, and all four official-source links.
+- All six linked production Tools returned HTTP 200. At 390 and 1280 they had zero horizontal overflow; changed inputs changed their result output, Reset restored the initial control, Copy wrote non-empty text, Print invoked the print path, and no result contained `NaN` or `Infinity`.
+- Production console errors/warnings across the Guide and six linked Tools: **0**. A temporary Playwright QA harness was removed after the pass and is not part of the repository.
