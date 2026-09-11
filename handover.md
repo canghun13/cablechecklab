@@ -1549,3 +1549,36 @@ Scores are a comparative research rubric, not search-volume claims: demand/long-
 - Production loaded `/assets/styles.css?v=20260902b` on both modified pages. At 390 / 768 / 900 / 1024 / 1280 / 1440, every target input/select measured 46 px, scoped `.field` elements computed to `align-content: end`, horizontal overflow was zero, mobile/desktop menu breakpoints were correct, and the footer remained present.
 - Production functional QA passed Failure Isolator default, cable-layer change, Reset, Copy, and Print; Passthrough Planner default fit, 40 W shortfall, exact 35 W tight boundary, invalid 0 W input, Reset, Copy, and Print. Results contained no `NaN` or `Infinity`; browser console errors/warnings were zero. Both pages retained exactly one GA4 loader and one `G-8PFRRXPGEF` config.
 - Final closeout commit: the final `main` commit containing this subsection. Its exact hash, final Pages result, local/origin/live equality, divergence, and clean-tree state are reported externally because a commit cannot contain its own hash.
+
+## 2026-09-11 DisplayPort Alt Mode search-growth upgrade
+
+### Start state, inventory, and evidence boundary
+
+- Existing repository reused at `C:\Users\song\Documents\ChatGPT\cablechecklab`; branch `main`, origin `https://github.com/canghun13/cablechecklab.git`.
+- Start local `HEAD`, fetched `origin/main`, and actual GitHub `main` all matched `74e1f012518d1da9e0a4d648eee8ed677fa1bdcd`; divergence was `0 0` and the working tree was clean. No pull, reset, restore, overwrite, deletion, repository recreation, tool installation, or environment reconfiguration was required.
+- Start inventory: **77 public HTML / 76 indexable sitemap URLs / 39 Tools / 8 workbenches / 15 standalone Guides / 7 focused References / 0 comparisons**.
+- Search evidence supplied for `/guides/display-alt-mode/`: a separate report showed about **55 impressions / 1 click / average position about 3.45**, while GSC cumulative evidence was about **60 impressions / 1 click**. This is a small sample and was not treated as precise demand sizing.
+- Query intent converged on one existing workflow: USB/DisplayPort Alt Mode multiple monitors, two-lane bandwidth, 4K60 4:4:4, two-lane versus four-lane allocation, docks, dual external displays, MST, dock bandwidth, and simultaneous USB data plus display. No query variant was promoted into a new URL.
+
+### Page audit and decision
+
+- The pre-change Guide correctly stated that USB-C shape does not guarantee video, described the two-/four-lane trade-off, named MST/DSC/DisplayLink, distinguished direct and dock paths, and included a short troubleshooting order.
+- The material gap was answer depth and workflow routing: the abstract H1 did not directly name the task; the page did not give a concise definition, a host/dock/cable/monitor verification checklist, a decision-level lane table, mirrored-versus-extended context, or a concrete explanation of how resolution, refresh, color depth, chroma, and DSC combine. Only Display Link Planner and the generic Troubleshooter were linked from the main workflow.
+- Final decision: **GO** — deepen the existing landing page. This improves user judgment and next-Tool selection without keyword stuffing, calculation duplication, a new cluster, or a new public page.
+
+### Implementation and explicit no-change decisions
+
+- Reworked only `/guides/display-alt-mode/` with a first-screen short answer; a four-component declaration checklist; a two-lane/four-lane/USB4-Thunderbolt decision table; single, mirrored, and extended-display distinctions; MST and dock-topology boundaries; 4K60/high-refresh/color-depth/chroma/DSC explanation; a concise native Alt Mode versus DisplayLink distinction; a question-to-Tool table; and an improved troubleshooting order.
+- Added direct workflow links to the existing Display Link Planner, USB-C DisplayPort Lane Planner, DisplayPort DSC Requirement Planner, MST Daisy Chain Checker, Video Feature Chain Checker, and High-Refresh Display Failure Isolator. Their calculations and verdicts were not reproduced in the Guide.
+- Reverse-link audit found the two most relevant Tools, Display Link Planner and USB-C DisplayPort Lane Planner, already link back to this Guide with meaningful anchor text. Other Tool pages retain their more specific DSC/MST/reference links; no backlink was added merely for link count.
+- Title, meta description, URL, canonical, stylesheet, JavaScript, GA4 taxonomy, sitemap, and inventory remain unchanged because they already match the search intent. The abstract H1, Open Graph title, TechArticle headline, and `dateModified` were updated to describe the page directly.
+- Official basis: VESA DisplayPort FAQ and DisplayPort-over-USB-C material for Alt Mode lanes, MST, and DSC; Microsoft Windows docking guidance for USB-C dock/Alt Mode requirements; Apple external-display guidance for model-specific display-count, resolution, and refresh limits.
+- New public pages: **0**. New Tools: **0**. No shared CSS/JavaScript, Home, footer, Findly/badge block, CNAME, robots rule, domain, email, or GA4 ID changed.
+
+### Local QA before commit
+
+- Repository verifier: PASS for **77 public HTML / 76 indexable pages**, sitemap parity, internal targets/assets, duplicate IDs, unique metadata, canonical/Open Graph, one H1, valid JSON-LD, and exactly one GA4 loader/config (`G-8PFRRXPGEF`) per public page. Bundled Node.js syntax check and `git diff --check`: PASS.
+- Display Alt Mode Guide browser QA at **390 / 768 / 900 / 1024 / 1280 / 1440**: HTTP 200, expected title/H1/canonical, zero horizontal overflow, no table clipping, correct mobile/desktop navigation breakpoint, present footer, four primary-source links, and console errors/warnings **0**. Mobile menu opened with `aria-expanded=true` and visible navigation.
+- All six Guide-linked Tools returned HTTP 200. Browser interaction QA passed default result, changed-input recalculation, invalid input where applicable, Reset, Copy, Print, and no `NaN`/`Infinity`. Display Planner moved to `OVER PAYLOAD ESTIMATE`; Lane Planner to `OVER FOUR-LANE PAYLOAD`; DSC Planner to `BEYOND 3:1 PLANNING RANGE`; MST Checker to `TOPOLOGY BLOCKED`; Video Feature Chain to `FEATURE CHAIN BLOCKED`; the High-Refresh result changed its evidence while remaining in the narrowed-failure state.
+- Each related Tool had zero horizontal overflow at 390 and 1280. Console errors/warnings across the Guide and six Tools: **0**.
+- Implementation commit, push, Pages run, production verification, final handover commit, and final SHA/clean-tree checks are recorded in the deployment closeout below.
