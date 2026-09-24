@@ -1590,3 +1590,104 @@ Scores are a comparative research rubric, not search-volume claims: demand/long-
 - Production `/guides/display-alt-mode/` returned HTTP 200 and passed browser QA at **390 / 768 / 900 / 1024 / 1280 / 1440** with the expected title, updated H1, unchanged canonical, one H1, one GA4 loader, six distinct main-content Tool routes, no page or table overflow, correct 900/1024 navigation transition, working mobile menu, and all four official-source links.
 - All six linked production Tools returned HTTP 200. At 390 and 1280 they had zero horizontal overflow; changed inputs changed their result output, Reset restored the initial control, Copy wrote non-empty text, Print invoked the print path, and no result contained `NaN` or `Infinity`.
 - Production console errors/warnings across the Guide and six linked Tools: **0**. A temporary Playwright QA harness was removed after the pass and is not part of the repository.
+
+## 2026-09-25 PoE long-term non-indexing audit
+
+### Start state and Coverage context
+
+- Audit date: **2026-09-25**. Existing repository resolved to `C:\Users\cangh\OneDrive\문서\ChatGPT\cablechecklab\repository`; branch `main`; origin `https://github.com/canghun13/cablechecklab.git`.
+- The outer workspace was an unrelated empty Git initialization and was not treated as the project. The actual repository started clean at local `20e9751baf1e96463fbaef513fbe61d9330b694c`; live `git ls-remote origin refs/heads/main` returned the newer `b36f03e6fe1d0d1bf5973809f18dbb638eb28838`.
+- After a successful fetch, local was behind and not ahead. `git pull --ff-only origin main` safely synchronized local `HEAD` and `origin/main` to `b36f03e6fe1d0d1bf5973809f18dbb638eb28838`. No reset, restore, overwrite, deletion, force operation, repository recreation, installation, or environment reconfiguration was used.
+- The 1,592-line current handover was read end to end before the audit. Starting inventory was reverified as **77 public HTML / 76 indexable sitemap URLs / 39 Tools / 8 workbenches / 15 Guides / 7 References / 0 Comparisons**.
+- Coverage context supplied for this audit: the nine PoE URLs added in early September remained **Discovered - currently not indexed**. That label was treated as an observation requiring diagnosis, not proof of a site defect.
+
+### Targets and comparison groups
+
+- PoE targets: `/tools/poe/`, `/tools/poe-class-checker/`, `/tools/poe-equipment-selector/`, `/tools/poe-power-budget-planner/`, `/tools/poe-passthrough-planner/`, `/tools/passive-poe-preflight/`, `/tools/poe-failure-isolator/`, `/guides/poe-planning/`, and `/references/power-over-ethernet/`.
+- Recent/structural controls: `/tools/hdmi-routing/`, `/guides/display-alt-mode/`, `/references/usb4-tunneling/`, `/tools/pps-range-checker/`, and `/tools/cable-decoder/`. The handover contains explicit search-exposure evidence for the Display Alt Mode Guide and USB4/PCIe Reference, plus a smaller Charge Check hint. HDMI, PPS, and Cable Decoder were used as recency/structure controls without inventing a Search Console indexing claim.
+- Older Tool controls: `/tools/charge-check/`, `/tools/display-planner/`, and `/tools/multiport-planner/`.
+- Secondary older-unindexed controls, inspected without content expansion: `/guides/display-dsc-mst/`, `/guides/mst-daisy-chain/`, `/guides/usb-hub-shared-bandwidth/`, `/guides/usb-pd-pps/`, and `/tools/troubleshoot/`.
+
+### HTTP, Googlebot, robots, canonical, and URL normalization
+
+Normal Chrome and Googlebot Smartphone requests returned identical final HTML for every PoE target:
+
+| Target | Status / final URL | Body bytes | SHA-256 prefix | Normal vs Googlebot |
+|---|---|---:|---|---|
+| `/tools/poe/` | 200 / self | 5,324 | `eafcfe5d6cf6` | identical |
+| `/tools/poe-class-checker/` | 200 / self | 4,994 | `861ce086f837` | identical |
+| `/tools/poe-equipment-selector/` | 200 / self | 5,243 | `45fbdcd7ff76` | identical |
+| `/tools/poe-power-budget-planner/` | 200 / self | 5,599 | `d3a829329e46` | identical |
+| `/tools/poe-passthrough-planner/` | 200 / self | 4,915 | `38f3d4db428c` | identical |
+| `/tools/passive-poe-preflight/` | 200 / self | 5,312 | `ed55add7540c` | identical |
+| `/tools/poe-failure-isolator/` | 200 / self | 5,858 | `34d0a07c6faf` | identical |
+| `/guides/poe-planning/` | 200 / self | 6,645 | `d21f9a7a2f1e` | identical |
+| `/references/power-over-ethernet/` | 200 / self | 6,603 | `78bda426f2a3` | identical |
+
+- All eight primary controls and all five secondary older-unindexed controls also returned HTTP 200 with identical Normal/Googlebot byte counts and body hashes. No tested URL produced bot-only 403, 429, 5xx, redirect, or alternate body.
+- All responses were `text/html; charset=utf-8`, served by `GitHub.com`, with `Cache-Control: max-age=600`, ordinary cache ages of 0–5 seconds during the paired requests, matching ETags between user agents, `Vary: Accept-Encoding`, and no `X-Robots-Tag`.
+- Production and repository `robots.txt` were exactly equal: `User-agent: *`, `Allow: /`, and the canonical sitemap. No PoE path is blocked.
+- Every PoE page has no `noindex`/`nofollow` meta directive and has the exact self-canonical on `https://cablechecklab.com/.../`. Site-wide, only `/404.html` has `noindex`.
+- For all nine targets, the canonical HTTPS/apex/trailing-slash URL returned 200. HTTPS non-trailing-slash, HTTP apex, HTTPS `www`, and HTTP `www` variants each used one 301 and ended at the same canonical URL. The older `/tools/charge-check/` control behaved identically; PoE has no unique redirect chain or accessible duplicate variant.
+
+### Sitemap and static discovery
+
+- Repository and production sitemap text and URL sets were equal at **76 URLs**. All nine targets appear exactly once, with protocol, apex host, path, and trailing slash exactly matching their canonicals. No sitemap duplicate or non-page entry was found; no `lastmod` was manipulated.
+- The complete static `<a href>` graph had **0 orphan indexable pages**. Required discovery routes all existed without JavaScript: Home → Tools → PoE Workbench → six Tools; Home → Guides → PoE Guide; Home → References → PoE Reference; Workbench → six Tools + Guide + Reference.
+
+| Target | Distinct inbound pages | Home crawl depth | Orphan |
+|---|---:|---:|---|
+| PoE Workbench | 10 | 1 | no |
+| Class Checker | 8 | 2 | no |
+| Equipment Selector | 3 | 2 | no |
+| Power Budget Planner | 4 | 2 | no |
+| Passthrough Planner | 4 | 2 | no |
+| Passive PoE Preflight | 2 | 2 | no |
+| Failure Isolator | 4 | 2 | no |
+| PoE Guide | 4 | 2 | no |
+| PoE Reference | 5 | 2 | no |
+
+- Primary linking pages are the Home/Tools/Guides/References hubs, PoE Workbench, Guide, Reference, and relevant sibling Tools. Every Tool links back to the Workbench. The Guide links the selector, class, budget, pass-through, failure Tool, and Reference; the Reference links the Workbench; the Workbench links the whole cluster.
+- Control inbound counts ranged from 3–14 for the selected Guides/References/Tools, while the recent HDMI Workbench was depth 1 and selected controls were depth 2. The Passive PoE page has the lowest PoE inbound count at two, but those are the global Tools hub and the dedicated Workbench at depth 2; this is not an orphan, sitemap-only route, or materially deep discovery defect.
+
+### Initial HTML, uniqueness, rendering, and structured data
+
+- All nine raw documents contain a meaningful unique title, meta description, one H1, explanatory main copy, internal links, footer, Open Graph metadata, and parseable JSON-LD. Each of the six Tools has a static `<form>`, 3–10 labeled controls with no missing label target, a visible purpose/lede, a boundary or explanatory note, related routes, and a `WebApplication` schema.
+- Core page purpose, form fields, labels, supporting explanation, limitations/verification boundary, and navigation are present in initial HTML. JavaScript supplies the interactive result, as it does for established control Tools; the pages are not blank shells and do not require hydration or a framework to reveal their purpose.
+- Raw main-copy counts were Workbench 282 words; Tools 121–191; Guide 545; Reference 434. Controls ranged from 199 words for the HDMI Workbench and 214–300 for established Tools to 855–1,119 for the two search-strengthened long-form pages. Length alone was not used as a quality verdict.
+- The six Tools have separate titles/H1s, input signatures, computations, result language, and next actions: Type/Class compatibility; equipment-class selection; total switch budget; powered-intermediate pass-through; proprietary passive-power safety; and evidence-based failure isolation. Pairwise main-text token Jaccard similarity peaked at **0.260**; no duplicate shell was found.
+- JSON-LD parsed without error. Types were `CollectionPage` for the Workbench, `WebApplication` for six Tools, `Article` for the Guide, and `TechArticle` for the Reference. Names/headlines and URLs are semantically correct for each page; canonical/schema URLs use the production domain; no malformed or duplicate schema block exists.
+- Actual production-browser rendering covered nine targets at **390 / 768 / 1024 / 1440** (**36 checks**) and eight primary controls at the same widths (**32 checks**). All 68 checks reached `document.readyState=complete`, showed the H1 and meaningful main content, showed Tool forms/results where applicable, loaded the expected stylesheet, retained the footer, used the mobile menu below 1024 and desktop navigation at 1024+, and had zero horizontal overflow.
+- Mobile menus were actively opened on the Workbench, Class Tool, Guide, and Reference at 390 px; all reached `aria-expanded=true`, visible flex navigation, and no overflow. Visual inspection of the Class Tool at 390 and Workbench at 1440 found no clipping, overlap, or blank region defect.
+- All six PoE Tools changed to a meaningful alternate result, restored exact default controls/status/headline with Reset, showed `Copied` after Copy, and invoked their one Print control without a JavaScript dialog/error. Budget and pass-through invalid-zero cases returned `CHECK INPUT`. No tested output contained `NaN` or `Infinity`. Selected established control Tools also changed result and Reset correctly.
+- Browser console errors/warnings across the rendered and interaction run: **0**.
+
+### Repository/production consistency and secondary comparison
+
+- All nine production HTML documents were character-for-character equal to repository files after normalizing transport line endings and the single source trailing newline. Production `app.js?v=20260902a`, `styles.css?v=20260811g`, and `styles.css?v=20260902b` were HTTP 200 and normalized-equal to repository assets. There is no stale or partial PoE deployment.
+- This repository has no generator, source-template tree, package build, framework, or alternate generated-output directory. The tracked static HTML is the source deployed by GitHub Pages, so no source/output integration omission was found.
+- The five older-unindexed controls were also HTTP 200 with identical Normal/Googlebot bodies, no X-Robots/noindex, exact self-canonicals, sitemap inclusion, static inbound links, depth 1–2, non-orphan initial content, and valid JSON-LD. Their coexistence with documented search-exposure lag reinforces that the Coverage export alone is not a PoE-specific technical diagnosis.
+
+### Classification and decision
+
+| Target | Classification | Reason |
+|---|---|---|
+| `/tools/poe/` | **Type 4** | 200/bot-equal, self-canonical, sitemap, depth 1, ten inbound pages, complete static hub |
+| `/tools/poe-class-checker/` | **Type 4** | eight inbound pages, complete labeled Tool, unique standards-match result |
+| `/tools/poe-equipment-selector/` | **Type 4** | distinct topology-selection intent, three inbound pages, complete static form |
+| `/tools/poe-power-budget-planner/` | **Type 4** | distinct aggregate-budget arithmetic, four inbound pages, valid interaction/error states |
+| `/tools/poe-passthrough-planner/` | **Type 4** | distinct powered-intermediate boundary, four inbound pages, valid interaction/error states |
+| `/tools/passive-poe-preflight/` | **Type 4** | distinct safety intent, hub/workbench static links at depth 2, explicit proprietary boundary |
+| `/tools/poe-failure-isolator/` | **Type 4** | distinct controlled-test workflow, four inbound pages, finite changing result |
+| `/guides/poe-planning/` | **Type 4** | 545-word static workflow, four inbound pages, links through the cluster |
+| `/references/power-over-ethernet/` | **Type 4** | 434-word sourced boundary reference, five inbound pages, valid TechArticle |
+
+- Final decision: **NO-CHANGE — Type 4, no site-side defect found / Google crawl scheduling or index selection**. There is no evidence for robots/noindex/canonical/HTTP/Googlebot/sitemap/orphan/static-link/rendering/deployment blocking, no material architecture omission, and no clear duplicate/thin-shell defect.
+- Public product changes: **0**. Production HTML/content changes: **0**; sitemap: **0**; robots: **0**; Tool logic: **0**; design/CSS/JavaScript/GA4/footer/Findly/badge changes: **0**. No audit script was retained because the existing verifier plus one-session read-only checks were sufficient.
+- The only repository file changed for this audit is `handover.md`. Documentation commit, push, GitHub Pages documentation rebuild status, final SHA equality, divergence, and clean-tree state are recorded in the deployment closeout below.
+
+### QA summary before documentation commit
+
+- Existing verifier: PASS — 77 HTML / 76 indexable, internal targets/assets, duplicate IDs, unique titles, metadata, canonical/Open Graph presence, one H1, valid JSON-LD, sitemap parity, and one GA4 loader/config per public page.
+- Extended read-only audit: PASS — unique descriptions, exact canonical and `og:url`, only 404 `noindex`, zero orphans, zero sitemap duplicates, target sitemap multiplicity 1, and site-wide GA4 consistency.
+- `robots.txt`, `CNAME` (`cablechecklab.com`), bundled Node.js `--check assets/app.js`, production sitemap/robots parity, HTTP/Googlebot comparison, URL variants, repository/production text equality, responsive browser checks, Tool interaction, mobile navigation, and console checks: PASS.
