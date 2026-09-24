@@ -1691,3 +1691,11 @@ Normal Chrome and Googlebot Smartphone requests returned identical final HTML fo
 - Existing verifier: PASS — 77 HTML / 76 indexable, internal targets/assets, duplicate IDs, unique titles, metadata, canonical/Open Graph presence, one H1, valid JSON-LD, sitemap parity, and one GA4 loader/config per public page.
 - Extended read-only audit: PASS — unique descriptions, exact canonical and `og:url`, only 404 `noindex`, zero orphans, zero sitemap duplicates, target sitemap multiplicity 1, and site-wide GA4 consistency.
 - `robots.txt`, `CNAME` (`cablechecklab.com`), bundled Node.js `--check assets/app.js`, production sitemap/robots parity, HTTP/Googlebot comparison, URL variants, repository/production text equality, responsive browser checks, Tool interaction, mobile navigation, and console checks: PASS.
+
+### Deployment closeout
+
+- Audit-record commit: `0c1a78d38a2a5315c22ed52b1ec1b01d7b27eb3c` (`Record PoE indexability audit`), pushed as a fast-forward from `b36f03e6fe1d0d1bf5973809f18dbb638eb28838` to GitHub `main`.
+- GitHub Pages `pages build and deployment` run [36071910191](https://github.com/canghun13/cablechecklab/actions/runs/36071910191) completed with `success` for the exact audit-record SHA.
+- This was a documentation-only rebuild, not a product-code deployment. Public HTML, sitemap, robots, CSS, JavaScript, Tool logic, design, GA4, footer, and Findly/badge blocks remained unchanged.
+- Post-rebuild verification: all nine PoE URLs passed **18/18** Normal/Googlebot requests at HTTP 200 with the same pre-audit body hashes and no `X-Robots-Tag`; production sitemap remained 76 URLs; robots retained allow-all plus the canonical sitemap.
+- Final closeout commit: the final `main` commit containing this subsection. Its exact hash, final Pages result, local/origin/live equality, divergence, and clean-tree state are reported externally because a commit cannot contain its own hash.
