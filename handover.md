@@ -1652,6 +1652,17 @@ Scores are a comparative research rubric, not search-volume claims: demand/long-
 - Request comparable source/property/period metadata for the separate keyword/page exports. Ask for GA4 event-name + tool_id/workbench/result-state and date breakdown if real Tool engagement or weekly organic comparison is needed.
 - Keep direct/testing traffic separate from independently acquired visitors. Explore genuinely unreviewed connectivity families; do not recycle this week's fan/lighting/legacy bridge shortlist without a material new gap.
 
+### Deployment closeout — September 30 weekly work
+
+- Implementation commit: **`c414316a45a87c0e0c8c686b0631ebe7fd149875`** (`Update site scope and analytics disclosures`), fast-forward pushed to existing `main`. Pre-push live remote/fetched origin still matched the safe start SHA; no concurrent remote changes were overwritten.
+- GitHub Pages [run 36679458634](https://github.com/canghun13/cablechecklab/actions/runs/36679458634) completed **success** for that exact implementation SHA.
+- Production browser QA repeated both changed pages at all six widths, representative unchanged navigation/Tools, calculation/empty/Reset/Copy/Print, coarse custom-event fields, and console checks: **PASS, 0 console errors/warnings**. GTM was blocked only in the test context to avoid contaminating measurement.
+- All **76 indexable production URLs** returned **HTTP 200** and were source-equal to the checkout after normalizing line endings/trailing newline. No partial/stale changed-page deployment was found.
+- All **14 Coverage routes** passed **28 Normal/Googlebot requests**, HTTP 200, identical paired SHA-256 body hashes, no X-Robots-Tag, static discovery depth 1–2. Combined with the unchanged September 25 deep audit, the classification remains **Type 4 / NO-CHANGE**, not a new defect.
+- Production robots/sitemap/app.js/styles.css: HTTP 200 and normalized-equal to local files. Sitemap stays 76 URLs. The repository `CNAME` is `cablechecklab.com`, and HTTPS requests to that domain succeed. `/CNAME` itself returns 404: GitHub Pages configuration is not a required public asset. A temporary QA assumption that it must be published was corrected; no production file was changed for it.
+- Final static verifier, JavaScript syntax, diff whitespace, protected footer comparison, zero-orphan graph, and unchanged Home/Findly/badge/logic/GA4/sitemap/robots/assets checks: PASS. No CSV/ZIP export is tracked.
+- Temporary one-session QA script and local screenshots are removed, and the local preview is stopped. Final documentation-only closeout commit contains this subsection; its own hash cannot be embedded in itself. Final Pages result and externally verified local HEAD = origin/main = actual remote main, ahead/behind 0/0, and clean working tree are reported with the final commit outside this file.
+
 ## 2026-09-11 DisplayPort Alt Mode search-growth upgrade
 
 ### Start state, inventory, and evidence boundary
