@@ -1550,6 +1550,108 @@ Scores are a comparative research rubric, not search-volume claims: demand/long-
 - Production functional QA passed Failure Isolator default, cable-layer change, Reset, Copy, and Print; Passthrough Planner default fit, 40 W shortfall, exact 35 W tight boundary, invalid 0 W input, Reset, Copy, and Print. Results contained no `NaN` or `Infinity`; browser console errors/warnings were zero. Both pages retained exactly one GA4 loader and one `G-8PFRRXPGEF` config.
 - Final closeout commit: the final `main` commit containing this subsection. Its exact hash, final Pages result, local/origin/live equality, divergence, and clean-tree state are reported externally because a commit cannot contain its own hash.
 
+## Weekly review, growth work, and fresh workflow discovery — 2026-09-30
+
+### Safe start and common environment-independent baseline
+
+- Used the existing checkout `C:\Users\song\Documents\ChatGPT\cablechecklab`, `main`, origin `https://github.com/canghun13/cablechecklab.git`. No new repository or development environment was created. No AGENTS.md was present. The current 1,701-line handover, prior research, implemented clusters, and exclusion sets were read before selection.
+- Local began clean at `b36f03e6fe1d0d1bf5973809f18dbb638eb28838`. Actual remote main and fetched origin/main both returned `8bfd1518be1eb2a6d9a0f896ef72af9757e8b1c6`; local was ahead 0 / behind 2. A clean-tree `git pull --ff-only origin main` established that SHA as this session's start commit. The incoming changes were the September 25 audit records, not replacement product files.
+- Continue the existing environment-independent rule: always inspect actual live remote before trusting a local tracking ref; preserve unrelated uncommitted/unpushed work; only clean, strictly behind trees may be fast-forward pulled. No reset, restore, force push, installation, or IDE/runtime reconfiguration was used.
+- Starting and ending product inventory: **77 public HTML / 76 indexable sitemap URLs / 39 Tools / 8 workbenches / 15 Guides / 7 References / 0 Comparisons**. Public page delta **0**; Tool delta **0**; new cluster delta **0**. The five original exports are not copied into this public repository.
+
+### All five exports, actual periods, and measurement limits
+
+1. GSC Performance ZIP: Web, filter labeled past three months; actual chart **2026-08-10–2026-09-27**. Property chart totals **509 impressions / 3 clicks / 0.589% CTR**; approximate impression-weighted position **36.33**, calculated from rounded daily positions, not an unrounded property export.
+2. Coverage Drilldown ZIP: **2026-08-10–2026-09-21**, issue **Discovered - currently not indexed**, all known pages. This is one issue drilldown, not the complete indexed/not-indexed property summary or September 30 live state.
+3. GA4 overview: explicitly **2026-09-02–2026-09-29**, last 28 days. **70 active users / 69 new users / 10.66 seconds average active-user engagement / 451 events**.
+4. PageTrafficReport: **25 rows, 387 displayed impressions / 3 clicks**. Its localized impression header says “광고 노출 수”; engine/property/date/filter metadata are absent. Treat as an unidentified separate search report, not proof of advertising impressions/revenue, not verified GSC, and not additive to GSC.
+5. KeywordReport: **132 rows, 175 displayed impressions / 3 clicks**, with the same missing source/period metadata. Keep separate from property/page/query totals and GA4. Filename September 30 is not a confirmed measurement interval.
+
+| GSC property chart | Impressions | Clicks | CTR | Approx. weighted position |
+|---|---:|---:|---:|---:|
+| Previous complete 7 days, September 14–20 | 35 | 0 | 0% | 14.83 |
+| Recent complete 7 days, September 21–27 | 43 | 1 | 2.326% | 15.32 |
+| Available cumulative period, August 10–September 27 | 509 | 3 | 0.589% | 36.33 |
+
+- Recent week: **+8 impressions (+22.9%)**, one extra click; position did not improve. This is too small a sample to declare durable growth. September 28–30 are not available in this GSC chart.
+- GSC page rows total 571 impressions / 3 clicks, while disclosed query rows total 150 / 0. Property, page aggregation, and disclosed-query coverage are different; do not force their sums to match or infer zero site clicks from the query table.
+- Desktop: 446 impressions / 2 clicks / position 39.15; mobile: 63 / 1 / 16.41. US: 185 / 2; UK: 16 / 1; India: 84 / 0. Small samples remain small across these segments.
+- GA4 first-user acquisition: direct 62, DuckDuckGo organic 3, Bing organic 2, Google organic 1, chatgpt AI 1, dataindex referral 1. Direct is **88.6%**; organic contributes **6 first-user users**, not six confirmed weekly sessions. Session-source rows separately sum 69 (direct 61, organic 6, two other sessions). Neither export supplies weekly organic comparisons.
+- PoE page activity is concentrated in 1–2 users (e.g. Class 10 views / 1 user; Failure 8 / 2; Equipment 8 / 2; Budget and Passthrough each 7 / 1). The period includes documented September 25 QA. Treat as possible testing, not established independent PoE demand; do not infer bots solely from city names.
+- The 451-event aggregate does not disclose event names, tool_id, result_state, or workbench transitions. **No measured Tool-run, result, copy, or transition growth can be reported from this export.** Browser event QA below establishes implementation behavior only, not real-user analytics results.
+
+### Existing growth candidates and landing-page decisions
+
+| Existing page / intent | Available signal | Decision |
+|---|---|---|
+| USB4 tunneling Reference | 141 GSC impressions / 0 clicks / position 23.38; PCIe tunneling query family 93 disclosed impressions / 0 clicks | NO-CHANGE: direct definition, boundaries, and linked next-step Tools already exist; impressions alone do not justify rewriting title or adding filler |
+| Display Alt Mode Guide | 62 GSC impressions / 1 click / position 58.87; separate report 240 / 1 / position 3.17; GA4 14 views / 11 users | NO-CHANGE: inspected lanes, MST, dock, rate/DSC explanations and Tool journey already meet disclosed queries; unidentified separate report cannot establish same-period growth or causal uplift |
+| Video adapter direction / USB4 planning | 32 / 0 / position 60.03 and 31 / 0 / 46.42 | NO-CHANGE: existing conversion direction/active-passive and transport boundaries answer intent; do not imply physical detection |
+| PPS Range Checker | 26 / 0 / position 8.62 | NO-CHANGE: APDO, requested voltage/current, 21 V and AVS boundaries and calculation flow remain clear; no demonstrated missing feature |
+| Cable Decoder / Display Planner | 23 / 0 / 34.91 and 17 / 0 / 46.47 | NO-CHANGE: markings, declared claims, and input-based display planning already map to query intent |
+| USB-C roles Guide / Charge Check | 16 / 1 / 39.50 and 15 / 1 / 24.27 | Small existing search-entry signals; preserve URLs and existing distinct Tool roles |
+| HDMI workbench / selector | 9 / 0 / 16.78 and 6 / 0 / 21.17; separate report has one selector and one audio-tool click | Existing cluster entry, not a new family; routing/audio workflow already covers relevant intent |
+| PoE Equipment / Reference / Passthrough | 5 / 0 / 23.00, 3 / 0 / 53.33, and 1 / 0 / 29.00 | Some cumulative exposure, not evidence that all nine PoE URLs are currently indexed or that demand is established |
+
+- Separate keyword report is dominated by Alt Mode lanes/MST/docks/rates plus cable markings/testing, hub sharing, and existing HDMI route intent. Exact-model and automatic-detection questions remain manufacturer-verification boundaries, not a database or detection feature request.
+- Site-wide August 10–September 10 was 422 impressions / 2 clicks; September 11–27 was 87 / 1. Those periods differ in duration and are property-wide. They **cannot prove the September Guide update caused a page-level improvement**.
+- No query stuffing, new query-specific thin URL, unjustified title/H1/canonical change, or page-length target was introduced.
+
+### Coverage follow-up and classification
+
+- The issue has **14 affected URLs**, stable from August 29 to September 21, the same set reviewed in the September 25 audit: five Guides (Display DSC/MST, MST Daisy Chain, PoE Planning, Hub Shared Bandwidth, USB PD/PPS), PoE Reference, PoE workbench, six PoE Tools, and Troubleshoot.
+- `1970-01-01` last-crawl values are missing/placeholder data, not actual 1970 crawl dates. The drilldown does not prove a new indexing regression or provide a full indexed count.
+- Reused the September 25 deep technical/rendering/uniqueness/URL-variant audit, rather than repeating every unchanged Tool. Current static graph still has zero orphans, and affected routes remain depth 1–2. Current production Normal/Googlebot pairs and source parity are checked after deployment below.
+- GSC performance continues through September 27, whereas Coverage ends September 21. Some PoE impressions do not contradict that older issue snapshot or certify current indexing of all URLs.
+- Decision: **Type 4 / NO-CHANGE for affected public URLs**; no demonstrated Type 1 blocking, Type 2 discovery, or clear Type 3 quality defect. No indexing-driven sitemap/robots/content edits or artificial lastmod updates.
+
+### Fresh workflow discovery, shortlist, and exclusion additions
+
+- Reused all previous candidate sets/exclusions and existing eight clusters. The fresh shortlist is **nine decision candidates across four adjacent families**, not a claimed 40+ completed new-candidate survey. Forty was optional; weak variants were not counted to inflate breadth.
+- PC fan motor + RGB/ARGB planning is new here, not a renamed previously excluded internal/front-panel USB candidate. USB headers, modular PSU pinouts, and exact-model compatibility databases remain excluded. The strongest family was evaluated at distinct Tool/action level before the cluster decision.
+
+| Fresh candidate / search intent | Tool/action and current evidence | Judgment |
+|---|---|---|
+| Fan-header current budget / how many fans on one header | Sum exact declared maximum motor currents against the header rating; official Noctua and NZXT instructions, and RigLoom capacity checks | Technically static, real action; no compelling interactive gap versus the existing free planner |
+| PWM vs DC fan/header control | Select 3/4-pin fan and declared control traits; RigLoom checks PWM/DC/tach traits | Useful but compact compatibility branch already covered by the competitor |
+| Powered hub vs passive splitter | Route external power separately from propagated header load; RigLoom explicitly models both | Real choice, but largely the same budget/topology workflow rather than a distinct unserved Tool |
+| 5 V ARGB vs 12 V RGB connector path | Voltage/protocol preflight, not pin-count-only equivalence; ASUS official warnings and RigLoom separation | Strong safety boundary, but already competitor-covered; no universal converter declaration |
+| Lighting current + LED-count budget | Independent lighting rail/current and declared LED limit; manufacturer limits vary; RigLoom models current/LED capacities | Can be distinct from motor budget, but not an unserved gap and never a universal current-per-LED estimate |
+| CPU_FAN tach-feedback topology | Choose the intended feedback route and declared CPU-fan policy; RigLoom supports BIOS-critical header and tach checks | Too small for another independent Tool and manufacturer-dependent policies |
+| Legacy FireWire-to-modern-computer bridge | Distinguish false passive USB adapter from a supported host/interface chain | Narrow useful preflight, but exact OS/driver/chipset/adapter support dominates; fewer than four natural static Tools |
+| Composite/component/SCART retro-video conversion | Direction, conversion/scaling, scan/timing and sink capability | Boundary explanation useful; general direction overlaps existing video-adapter workflow and exact timing hardware adds model dependence; no strong four-Tool cluster |
+| Optical/coax S/PDIF to analog audio | Distinguish transport conversion from DAC/codec decoding and declared PCM support | One constrained decision workflow; adjacent HDMI audio overlap; four independent Tools would be forced |
+
+- Free interactive competitor verified: [RigLoom repository](https://github.com/KanadeK/rigloom), [browser workbench](https://kanadek.github.io/rigloom/) (HTTP 200 with an actual form). Its published model covers motor/lighting limits, control traits, splitters, powered hubs, and CPU-fan feedback. A simpler Cable Check Lab presentation might differ, but a sufficiently strong unserved four-Tool cluster was not established.
+- Primary boundary sources: [Noctua fan-header FAQ](https://www.noctua.at/en/support/faqs/can-i-connect-multiple-fans-to-one-fan-header), [NZXT header-current guidance](https://nzxt.com/blogs/news/how-many-fans-per-motherboard-header), [ASUS RGB/ARGB FAQ](https://rog.asus.com/jp/support/faq/1056087/), [NZXT controller FAQ](https://support.nzxt.com/hc/en-us/articles/1260801557709-NZXT-RGB-Fan-Controller-FAQ), [Focusrite FireWire/USB boundary](https://support.focusrite.com/hc/de/articles/207359095-Can-I-use-a-FireWire-to-USB-adapter), and [ZVOX digital-to-analog converter guidance](https://support.zvox.com/support/solutions/articles/48000276989-recommended-digital-to-analog-audio-converter).
+- Final fresh-cluster judgment: **NO-GO this week**. Not because GSC lacks traffic, but because the strongest family's free Tool gap is weak and the other families do not pass independent-Tool breadth/maintenance boundaries. Keep this shortlist as reviewed exclusions; only revisit with materially new unmet-workflow evidence.
+
+### Site completion / AdSense-oriented work selected
+
+- **GO: narrow About and Privacy accuracy maintenance.** The actual site now includes HDMI distribution and PoE, but About still described an earlier USB-C-centered scope. The Privacy page did not fully disclose the custom event fields/actions and GA cookies; source inspection established exactly what those events do and do not send.
+- About now describes the actual scope and result interpretation (calculated budget, declared fit, verification warning), states no connected-hardware measurement, and links Tools/Guides/References. No credentials, certifications, staff, exact-device database, or compatibility certainty were invented.
+- Privacy now explains first-party GA cookies/client identifiers, explicit calculation and broad result category, Reset/successful Copy/Print/workbench transition events, coarse event identifiers, excluded form/result/clipboard values, and no custom calculation event on passive edits. It links Google's processing/data-collection information and opt-out add-on. Effective August 11 remains; last updated September 30 is explicit.
+- Contact email remains `canghun13@naver.com`. Home/Tools/workbench/Guide/Reference navigation and existing distinctive purposes were reviewed; no new broken/placeholder/thin-shell problem justified broad product changes. This is a scoped quality review, not a word-count-based certification of every page.
+- [Google AdSense site-readiness guidance](https://support.google.com/adsense/answer/7299563?hl=en-419) favors useful original content and navigation; the work improves truthful site identity and disclosure, **not an approval guarantee**. This session did not submit an AdSense application or certify regional privacy/consent compliance. Reassess applicable consent/advertising disclosures before enabling monetization; no ad or consent system was added now.
+- Public changes: only `about/index.html` and `privacy/index.html`. Documentation: `handover.md`. Titles/H1s/canonicals/URLs, footer markup, Findly/badge, Home, CSS, JavaScript, Tool math, GA4 behavior/ID/event taxonomy, sitemap, robots, and CNAME remain unchanged. Structured-data modification dates reflect the real two-page change.
+
+### Pre-deployment QA
+
+- Existing PowerShell verifier: PASS — 77 HTML / 76 indexable; internal links/assets, duplicate IDs, metadata/canonical/Open Graph, H1, valid JSON-LD, sitemap parity, and GA4 `G-8PFRRXPGEF` once per public page. Node `--check assets/app.js` and `git diff --check`: PASS.
+- Static link graph: **0 orphan indexable pages**. Footer fragments in both changed pages equal the start commit; protected areas outside these pages were not edited.
+- Bundled Playwright/installed Edge: both changed pages at **390 / 768 / 900 / 1024 / 1280 / 1440**; correct mobile-menu breakpoint and opening behavior, meaningful main content, canonical/GA/footer, and zero horizontal overflow. Home/Contact/References/Alt Mode controls at 390 and 1440 also passed. Desktop About and closed-menu mobile Privacy full-page images were visually inspected with no clipping/overlap defect.
+- Representative unchanged Charge Check: alternate result, empty validation, Reset/default restoration, successful clipboard Copy, and Print invocation passed; no NaN/Infinity. PPS baseline and charging workbench link passed. Custom-event names and allowed coarse parameter keys passed. All 39 unchanged Tool calculators were not unnecessarily re-tested.
+- GTM requests were stubbed only inside the QA browser to avoid adding analytics test traffic; production source/config were still asserted. An initial sandbox-only external resource denial was resolved by authorized QA execution with network access. Final browser console warnings/errors: **0**.
+- One-session QA script/screenshots are temporary and will be removed after production checks; raw exports are not tracked. Implementation SHA, Pages status, production checks, and final synchronization are recorded below.
+
+### Next weekly evidence to request/check
+
+- Check the next complete GSC seven days against September 21–27, without treating one click as durable growth; distinguish query/page/property aggregates.
+- Follow USB4 tunneling, Alt Mode, PPS, existing HDMI and PoE exposure. Do not change already answered landing-page intent merely to produce activity.
+- Obtain current Coverage/URL Inspection data for the 14 affected routes before claiming indexed-count changes; watch current crawl evidence rather than the epoch placeholder.
+- Request comparable source/property/period metadata for the separate keyword/page exports. Ask for GA4 event-name + tool_id/workbench/result-state and date breakdown if real Tool engagement or weekly organic comparison is needed.
+- Keep direct/testing traffic separate from independently acquired visitors. Explore genuinely unreviewed connectivity families; do not recycle this week's fan/lighting/legacy bridge shortlist without a material new gap.
+
 ## 2026-09-11 DisplayPort Alt Mode search-growth upgrade
 
 ### Start state, inventory, and evidence boundary
