@@ -179,12 +179,12 @@ Potential long-term models are contextual advertising, clearly disclosed affilia
 
 ## Current inventory
 
-- Public HTML total: 60
-- Indexable HTML / sitemap URLs: 59; the custom 404 is the only non-indexable HTML page
-- Interactive Tools: 28
-- Problem workbenches: 6 (`charging`, `cables`, `displays`, `docks`, `usb4-thunderbolt`, and `video-adapters`) plus the main Tools hub
-- Standalone Guides: 13 plus the Guides hub
-- Focused References: 5 plus the References/method hub
+- Public HTML total: 77 (reverified 2026-10-09)
+- Indexable HTML / sitemap URLs: 76; the custom 404 is the only non-indexable HTML page
+- Interactive Tools: 39
+- Problem workbenches: 8 (`charging`, `cables`, `displays`, `docks`, `usb4-thunderbolt`, `video-adapters`, `hdmi-routing`, and `poe`) plus the main Tools hub
+- Standalone Guides: 15 plus the Guides hub
+- Focused References: 7 plus the References/method hub
 - Comparisons: 0
 - Other public pages: Home, About, Contact, Privacy, 404
 
@@ -210,7 +210,7 @@ Potential long-term models are contextual advertising, clearly disclosed affilia
 ## Pending work
 
 - Collect enough Search Console query/impression data and GA4 tool-engagement data to distinguish real demand from anecdotal demand.
-- Define a compact GA4 event taxonomy for meaningful calculate/change, Copy, Reset, and Guide/Reference transitions before adding custom events; GA4 pageview collection is already present.
+- The six-event GA4 taxonomy was implemented on 2026-08-20. Obtain event-name plus tool_id/workbench/result_state and comparable date/source breakdowns to interpret real engagement; do not re-implement the completed taxonomy. Passive edits intentionally do not emit custom calculation events.
 - Use query, landing-page, journey, and support evidence to deepen or merge current Tools rather than add page-count or keyword variants.
 - Keep device/model charging data, exact dock/eGPU/adapter/MST compatibility, cable-length prediction, and product comparison on HOLD until provenance, stable identifiers, refresh cadence, uncertainty labels, and correction workflows are defined.
 - Re-review the public USB-IF, VESA, HDMI, Intel, Microsoft, and Apple boundaries when standards, certification, or operating-system behavior materially changes.
@@ -1812,3 +1812,115 @@ Normal Chrome and Googlebot Smartphone requests returned identical final HTML fo
 - This was a documentation-only rebuild, not a product-code deployment. Public HTML, sitemap, robots, CSS, JavaScript, Tool logic, design, GA4, footer, and Findly/badge blocks remained unchanged.
 - Post-rebuild verification: all nine PoE URLs passed **18/18** Normal/Googlebot requests at HTTP 200 with the same pre-audit body hashes and no `X-Robots-Tag`; production sitemap remained 76 URLs; robots retained allow-all plus the canonical sitemap.
 - Final closeout commit: the final `main` commit containing this subsection. Its exact hash, final Pages result, local/origin/live equality, divergence, and clean-tree state are reported externally because a commit cannot contain its own hash.
+
+## Weekly review, growth and fresh workflow gate — 2026-10-09
+
+### Safe start and inventory
+
+- Reused the existing repository at `C:\Users\cangh\OneDrive\문서\ChatGPT\cablechecklab\repository`, branch `main`, origin `https://github.com/canghun13/cablechecklab.git`. The outer workspace is an unrelated empty Git initialization, not the project. No applicable AGENTS.md was present in the repository or immediate workspace parents.
+- Initial local HEAD was clean at `8bfd1518be1eb2a6d9a0f896ef72af9757e8b1c6`. Live `git ls-remote` and fetched origin/main returned the newer `dc478c0779c8b60740cd4c60d0c43628351148e8`; clean-tree `git pull --ff-only origin main` established that SHA as the start commit, with divergence 0/0.
+- Read the complete 1,814-line handover, including the September 30 changes, previous growth decisions, implemented clusters and exclusion sets before selecting work. The September 30 About/Privacy update was preserved, not repeated.
+- Inventory reverified: **77 HTML / 76 indexable / 39 Tools / 8 workbenches / 15 Guides / 7 References / 0 comparisons**. This week's public page delta **0**, Tool delta **0**, new cluster delta **0**.
+- No tool installation, runtime/browser reconfiguration, new IDE, reset, restore, force push or user-file deletion. The sandbox execution helper failed to initialize; authorized escalated commands were used for scoped file access, Git, and QA. The in-app browser helper failed twice. QA used the bundled Playwright package and already installed Edge, not a newly downloaded browser. No raw report is copied to or tracked in this public repository.
+
+### Five attached exports: actual periods and limits
+
+| Export | Actual usable interval and meaning | Current values |
+|---|---|---|
+| GSC Performance ZIP | Web / filter past three months; chart actually August 10–October 6 | 575 property impressions, 4 clicks, CTR 0.696%; approx. weighted position 34.95 |
+| GSC Coverage Drilldown ZIP | August 10–October 4; one issue, Discovered - currently not indexed, all known pages | 14 affected through September 21; 5 from September 22 through October 4 |
+| GA4 overview CSV | Explicit September 11–October 8, 28 days | 61 active / 60 new users, 13.31 seconds average active-user engagement, 423 events |
+| Separate PageTrafficReport CSV | Source/property/engine/date/filter metadata absent; filename October 8 is not a verified reporting window | 32 rows, 616 displayed impressions, 5 clicks |
+| Separate KeywordReport CSV | Same missing source/period metadata; impression header is localized as advertising impressions | 261 rows, 326 displayed impressions, 5 clicks |
+
+- The separate reports are not verified GSC and do not establish ad impressions/revenue. They are not added to GSC or GA4. Keyword wording is used only as a qualitative intent clue when inspection independently finds a real product/content gap. Unrelated/malformed keyword text is not treated as a user instruction or published as a demand claim.
+- GSC disclosed queries: 49 rows / 170 impressions / 0 clicks. GSC page aggregation: 60 rows / 649 impressions / 4 clicks. Property, page and disclosed-query totals differ; do not force their sums to match or equate undisclosed clicks to zero site clicks.
+- Device totals: desktop 494 impressions / 2 clicks / position 38.33; mobile 80 / 2 / 14.41; tablet 1 / 0 / 9. Search exposure is small across segments.
+
+| GSC property chart | Impressions | Clicks | CTR | Approx. impression-weighted position |
+|---|---:|---:|---:|---:|
+| Previous complete seven days, September 23–29 | 43 | 1 | 2.326% | 16.20 |
+| Recent complete seven days, September 30–October 6 | 60 | 1 | 1.667% | 25.30 |
+| Available cumulative period, August 10–October 6 | 575 | 4 | 0.696% | 34.95 |
+
+- Recent week: **+17 impressions (+39.5%)**, unchanged one click; weighted position worsens, not improves. Rounded daily positions only support approximate weighting, and changed query mix is not a precise same-keyword ranking comparison. October 7–9 are absent from this GSC chart.
+- Previous review's cumulative chart ended September 27 at 509 impressions / 3 clicks; the newly available nine days add 66 / 1. Do not confuse that change with the consecutive seven-day comparison above.
+- GA4 first-user source totals: direct 50 (82.0%), DuckDuckGo organic 3, Bing organic 2, Google organic 2, ChatGPT AI 1, Copilot AI 1, dataindex referral 1, Kagi referral 1. Organic is **7 first-user users**, not seven weekly visits. Session-source totals separately show 61 sessions: direct 49, organic 7, AI 3, referrals 2.
+- Previous GA4 window September 2–29 had 70 active users / 451 events / 6 organic first-user users. Current windows overlap substantially; 61 / 423 / 7 is a changed rolling window, not proof of weekly demand declining or rising. No date-by-source/event breakdown is supplied. PoE views still concentrate in 1–2 users and include documented September 25 QA; do not equate those views with independently acquired demand or infer bots from geography.
+- No event-name/tool_id/workbench/result_state breakdown is supplied. The 423-event aggregate cannot establish measured Tool-run/result/Copy/Print/journey growth. QA verifies implementation only, not actual-user event volumes.
+
+### Existing search journeys and selected work
+
+| Existing page / intent | Current evidence vs previous review | Decision |
+|---|---|---|
+| USB4 tunneling Reference | 143 GSC impressions / 0 clicks / position 23.24; PCIe query family 93 impressions remains unchanged | NO-CHANGE: direct definition and existing next-Tool journey already answer intent |
+| Display Alt Mode Guide | GSC 62 / 1 / 58.87 unchanged; separate report 393 / 2 / 3.79 vs earlier 240 / 1, without comparable date/source metadata | NO-CHANGE: the September guide upgrade already supplies the lanes/MST/DSC/host/dock workflow; no causal uplift claim |
+| Cable Decoder / cable verification Guide | Decoder GSC 32 / 0 / 27.12 vs 23 / 0; separate Guide 32 / 0; repeated unlabelled cable, marker, tester and automatic-detection questions | GO: inspection found a genuine evidence-explanation gap and an invented unknown-rating fallback |
+| Charge Check | GSC 18 / 1 / 21.33 vs 15 / 1; small bottleneck intent | GO for the same confirmed unknown-rating bug, not a speculative title or query-volume optimization |
+| PPS Range Checker | GSC 29 / 0 / 8.24 vs 26 / 0 | NO-CHANGE: range/current/AVS limits and journey are already appropriate |
+| Data Path Checker | 3 cumulative impressions / 1 click, first disclosed page-click signal | HOLD for growth changes: one click is not durable demand; preserve current Tool |
+| PoE cluster | Seven GSC page rows total 33 / 0 vs three rows totaling 9 / 0 previously; 15 disclosed PoE queries total 24 / 0 | Search entry broadens; no new PoE Tool or forced indexing-content rewrite |
+| Hub bandwidth / MST / PD-PPS Guides | Qualitative separate-report interest, but source/period unknown | Existing shared-pool/topology/profile journeys remain relevant; do not produce keyword clones |
+
+- Concrete bug: both Cable Decoder and Charge Check offered **Not stated / unknown/basic (screen as 15 W)** and rendered an apparently quantified 15 W ceiling from no cable-rating evidence. Unknown rating is not proof of 15 W, 60 W or any other rating. This is a confirmed input/result honesty defect, independent of small search volumes.
+- **Cable Decoder:** uses an explicit zero-valued unknown sentinel; renders `Power unverified`, says no wattage ceiling can be inferred, and requests exact evidence. Checking the evidence box for another capability cannot turn unknown power into `Declared fit`. Known power claims and connector/data/video contradictions retain their existing behavior.
+- **Charge Check:** the same unknown sentinel returns `Cable rating unverified / Charging ceiling unverified`, without fabricating a chain ceiling or quantified cable bottleneck. Known device/active-port declarations, port-shortfall, EPR/PPS/vendor requirements, multi-port and dock-path checks remain visible. Known-rating arithmetic is unchanged; blank, negative and nonfinite inputs remain invalid.
+- **Cable Labels Guide:** direct task-oriented H1/Article headline; packaging-missing verification sequence; marker vs meter vs physical-test evidence table; active/passive limits; controlled next-test order; explicit no browser detection and no push-to-failure testing; direct links to existing Decoder, Data Path and Charge Check. Title/description/URL/canonical remain unchanged. `dateModified` reflects the real October 9 update.
+- **Decoder journey:** adds the Guide link and explicitly distinguishes advertised marker fields from measured session power and physical cable performance. No separate cable tester, automatic detection Tool, wattage estimator, length calculator, or keyword landing URL was added.
+- Primary basis: [USB-IF cable compliance updates](https://compliance.usb.org/index.asp?Format=Standard&UpdateFile=Cables+and+Connectors), [USB-IF product search](https://www.usb.org/products), and [Plugable cable certification explanation](https://plugable.com/en-ca/blogs/news/usb4-vs-thunderbolt-4-who-sets-the-rules-what-s-guaranteed-and-how-cables-get-certified). Identity, signal testing, end-to-end negotiation and certification are not interchangeable evidence.
+
+### Coverage follow-up
+
+- The new drilldown removes **all nine PoE URLs** from the old 14-URL issue set. Five remain: `/guides/display-dsc-mst/`, `/guides/mst-daisy-chain/`, `/guides/usb-hub-shared-bandwidth/`, `/guides/usb-pd-pps/`, `/tools/troubleshoot/`.
+- Removal from one issue does **not** establish the complete indexed-page count, current live URL Inspection status, or indexing of every PoE URL. The older `1970-01-01` crawl values remain placeholders, not actual crawl dates. Coverage ends October 4 whereas performance ends October 6.
+- Reuse the prior deep indexability/rendering/redirect audit for unchanged pages. Current source checks find no noindex, canonical, sitemap, raw-HTML or static-discovery defect; graph still has zero orphan indexable pages. Live Normal/Googlebot pairs and checkout/production parity are recorded in deployment closeout.
+- **Type 4 / NO-CHANGE** for the five remaining issue routes: no demonstrated blocking/discovery/clear quality defect. No indexing-driven title, canonical, sitemap, robots or artificial lastmod change. PoE needs observation, not another forced audit-driven rewrite.
+
+### Fresh workflow discovery — 12 genuinely new decision candidates
+
+- Reused all existing eight clusters, prior 35/28/54/60 candidate sets and September 30 fan/lighting/legacy exclusions. No old candidate was renamed to count as new. Discovery here explores radio accessories and USB-to-wireless bridges, not USB Audio class/dongle/DAC/MIDI or video-conversion subcases already reviewed. Forty-plus discovery was optional; this is **12 evaluated candidates**, not a claimed 40-candidate survey.
+
+| # | Candidate / search intent | Distinct action, evidence, competition, and static boundary | Result |
+|---:|---|---|---|
+| 1 | General Bluetooth USB radio vs dedicated USB audio transmitter | Choose host-stack radio or self-contained audio endpoint from declared host/task/profiles; Jabra and Microsoft show native vs adapter prerequisites. Not covered by existing power/data/video Tools; exact headset guarantees excluded | GO candidate: plausible neutral requirement selector, not a model database |
+| 2 | Native Windows LE Audio readiness | Declared PC/headset/driver/OS support and Windows setting; Microsoft already gives the check. It is the host-readiness branch of candidate 1, not an independent purchase action | MERGE into candidate 1 |
+| 3 | Bluetooth TX/RX physical audio bridge | Choose transmitter vs receiver and declared physical input/output roles; Avantree manuals separate optical PCM and analog routes. Different from video direction, but natural branch of the same adapter-class selector | MERGE into candidate 1, not a fourth thin Tool |
+| 4 | Bluetooth codec intersection checker | Match declared common source/sink codecs. Clear repeat intent; BluetoothCheck database and TechBuyGuide's two-selector free checker already serve it | REJECT as a launch anchor: established free competition; no negotiated codec detection |
+| 5 | Headset music plus microphone profile preflight | Identify required playback/mic/call-control declarations and native/adapter mode; product/OS controls differ. Requirements are one path's feature inputs, not a separate arithmetic action | MERGE into candidate 1 |
+| 6 | Multipoint vs dual-listener vs broadcast topology selector | Distinguish many sources→one listener from one source→many receivers and Auracast; SIG FAQ supports role-based prerequisites. Existing Tools do not model radio audio topology | GO candidate: independent topology decision, keep implementation and codec retention unknown |
+| 7 | Auracast receiver/assistant prerequisite checker | Source/receiver/assistant declarations, supported broadcast and access method; SIG FAQ and official product search already distinguish roles | MERGE into candidate 6; no independent calculator |
+| 8 | Two-headphone codec retention/mixing predictor | Predict dual-listener quality and active mic behavior from exact transmitter/headsets | HOLD: exact firmware/product policy; cannot generalize version/codec names |
+| 9 | Bluetooth latency/range predictor | Estimate delay/metres from codec/version alone; current browser latency testers exist | REJECT: false precision, environment/implementation dependent; cannot replace measurements |
+| 10 | Bluetooth classic HID vs HOGP host checker | Declared HID profile and host support; SIG publishes distinct HOGP roles, but boot/pre-OS/app behavior is platform-specific | HOLD: narrow isolated workflow, insufficient own cluster and exact-host support burden |
+| 11 | Proprietary keyboard/mouse receiver replacement | Match family/receiver/pairing requirements; Logitech documents separate Zone/Unifying/Bolt ecosystems | HOLD: useful question, but exact product family/pairing database needed for a safe verdict |
+| 12 | USB 3 / 2.4 GHz receiver interference isolator | Controlled relocation/extension/load A/B observations, not a range calculator; Intel RFI paper and Logitech support recommend separation controls | GO candidate: independent evidence-first test sequence; no live RF diagnosis |
+
+- Broad results: **3 GO candidates / 4 MERGE / 3 HOLD / 2 REJECT = 12**. GO here is a candidate-level judgment, not authorization to implement subtools. Shortlist: USB/wireless audio adapters (two independent actions after merges), receiver interference (one), proprietary HID receivers (no database-independent launch).
+- Tool-level deep check for candidate 1: queries such as Bluetooth USB adapter vs audio transmitter and headset microphone dongle yield manufacturer technical guidance and product pages. A neutral requirements interface is plausible, but native LE readiness, TX/RX roles and mic requirements all change the same adapter/path choice and cannot count as independent Tools. Microsoft requires PC, headset, driver/software support; Bluetooth core version alone is not a verdict.
+- Candidate 6: multipoint/Auracast/two-headphone questions show real support demand. SIG FAQ and product directory cover broadcast roles, while manufacturers cover exact dual-output policy. A role/topology selector has value, but splitting an assistant checkbox or receiver list into extra Tools would duplicate its decision.
+- Candidate 12: wireless receiver stops working during USB 3 activity is a publicly documented, controllable problem. Intel/Logitech support a relocation/load test; the existing Dropout Isolator does not model RF proximity. One safe isolator is not four independent static radio Tools.
+- Candidate 4 pruning: verified TechBuyGuide publishes two selects plus Check Compatibility and BluetoothCheck offers codec/device search. Blafili publishes codec/device reference and actual browser testing tools. Existing competition was inspected, not treated as an imaginary empty SERP; no numeric keyword volume or proprietary compatibility confidence score was invented.
+- Sources: [Microsoft LE Audio readiness](https://support.microsoft.com/en-us/windows/hardware/bluetooth/check-if-a-windows-11-device-supports-bluetooth-low-energy-audio), [Jabra native vs dedicated adapter whitepaper](https://www.jabra.com/en-apac/_/media/Files/Technical-Whitepapers/WP-Files_pdfs/Jabra-Native-Bluetooth-Whitepaper-WEB-241125.pdf), [Bluetooth SIG Auracast FAQ](https://www.bluetooth.com/auracast/faq/), [Auracast products](https://www.bluetooth.com/auracast/find-a-product/), [HOGP overview](https://www.bluetooth.com/specifications/specs/hid-over-gatt-profile-hogp/), [Logitech receiver families](https://hub.sync.logitech.com/receivers/post/what-are-the-differences-between-zone-usb-c-receiver-unifying-receiver-fJudMn0S08QTPU6), [Intel USB 3 RFI paper](https://www.intel.com/content/www/us/en/content-details/841692/usb-3-0-radio-frequency-interference-impact-on-2-4-ghz-wireless-devices-white-paper.html), [Logitech RF separation guidance](https://hub.sync.logitech.com/mk270/post/wireless-product-not-working-properly-when-also-using-a-usb-3-0-device-hjnVHMNr5GmCLh6), [Avantree declared bridge modes](https://support.avantree.com/hc/en-us/article_attachments/29645654164249), [TechBuyGuide checker](https://techbuyguide.com/bluetooth-codec-comparison-tool/), [BluetoothCheck](https://bluetoothcheck.com/), [Blafili lab](https://lab.blafili.com/).
+- **Final new-cluster decision: NO-GO.** No coherent family establishes at least four strong independent Tools without compact prerequisite clones, exact-model maintenance or false precision. This is not a HOLD caused by absent GSC traffic. Add this set to reviewed exclusions; reopen only on genuinely new independent workflow evidence.
+
+### AdSense-oriented completion, scope and QA
+
+- Current About/Contact/Privacy reflect the actual site and coarse analytics event fields. Contact remains `canghun13@naver.com`; no invented credentials/certification, placeholder, new advertising/affiliate layer, or filler was added. Tools retain distinct purposes; Guide improvements help a real verification action and do not target word count.
+- The unknown-rating fix improves trustworthy results and the Guide-to-Tool journey. This is consistent with [Google's readiness guidance](https://support.google.com/adsense/answer/7299563?hl=en-EN) on original useful content and navigability. It is **not an AdSense approval guarantee**, an account-status audit, an application, or a regional consent-compliance certification. No ads/consent configuration changed.
+- Changed public files: `assets/app.js`, `tools/cable-decoder/index.html`, `tools/charge-check/index.html`, `guides/cable-labels/index.html`. Added development-only regression: `tools-qa/verify-unknown-cable-power.cjs`. Operating record: `handover.md`. Refreshed this document's stale top inventory and replaced the already-completed analytics-taxonomy pending item with the actual measurement task.
+- Only the two changed Tool pages receive `app.js?v=20261009a` to prevent stale changed controllers. Other controllers are unchanged. Guide keeps its existing script key. No stylesheet, Home/Findly/badge, footer markup, About/Privacy, sitemap, robots, CNAME, canonical, contact or GA4 measurement/event schema changes. Footer fragments of all three changed pages compare exactly to the start commit.
+- Existing PowerShell verifier: **PASS — 77 HTML / 76 indexable**, internal links/assets, duplicate IDs, titles/descriptions, canonical/Open Graph, H1, JSON-LD, sitemap parity and GA4 `G-8PFRRXPGEF` once per page. Extra graph/canonical checks: zero orphans, exact canonical/og:url, no indexable noindex, 76 unique sitemap URLs. Node syntax and `git diff --check`: PASS.
+- New dependency-free Node regression exercises the real controller with a minimal DOM: unknown vs known rating, confirmed-other-evidence unknown, missing/negative/nonfinite inputs, data/connector contradiction, EPR/PPS, active-port shortage and path notes: PASS. It is retained to prevent invented-rating regression; it does not replace browser QA.
+- Local installed-Edge browser: all three changed pages at **390 / 768 / 900 / 1024 / 1280 / 1440**, plus Cables workbench and unchanged Alt Mode Guide at 390/1440: **22/22 checks PASS**, zero horizontal/table overflow, one H1, expected mobile-menu breakpoint/open behavior, footer present. Mobile Guide table and Guide/Decoder screenshots were visually reviewed; long evidence-table label was shortened without changing shared CSS.
+- Decoder behavior: default 60 W, explicit unknown, marked-unknown remains unverified, unknown/video boundary, 240 W/e-marker warning, A-to-C 40 Gbps/video contradictions, HDMI-adapter category, empty/zero/negative length, known 100 W/60 W, Reset, async successful Copy read-back, Print invocation/print-media hidden form and visible unverified result, no NaN/Infinity: PASS.
+- Charge Check: default/known bottleneck, unknown chain ceiling, known port shortage despite unknown cable, EPR/PPS notes, multi-port/dock notes, empty/zero/negative device input, Reset, Copy unknown result, Print invocation, known 140 W protocol-unverified, no NaN/Infinity: PASS. Invalid outputs are explicitly marked CHECK INPUT, not shown as normal estimates.
+- Coarse `tool_run`, `tool_result`, `reset_tool`, `copy_result`, `print_result` payloads retain only allowed route/workbench/state/context keys, no numeric/form/clipboard/result values. Test browser GTM/GA requests are stubbed to avoid contaminating analytics. Final browser console errors/warnings: **0**. Only the directly affected two controllers are deeply retested, not all 39 unchanged Tools.
+- Implementation SHA, push, Pages run, production repeat, final commit and Git equality are recorded in closeout after deployment. Temporary preview/QA screenshots and browser harness are outside the repository and removed at closeout; raw exports stay untouched.
+
+### Next week's actual work
+
+1. Compare the next complete GSC seven-day interval to September 30–October 6; distinguish query/page/property totals and do not call one click durable growth.
+2. Obtain full current Coverage/URL Inspection status for the removed PoE routes and five remaining issue URLs before claiming indexed counts; continue watching the new class/levels/equipment exposure.
+3. Obtain source/property/engine/period metadata for separate reports, and GA4 event-name plus tool_id/workbench/result_state/source/date breakdown. The six-event implementation is complete, not pending.
+4. Observe cable-label/Decoder/Charge search and engagement after the honesty fix; no automatic cable detection, exact-model charger/dock database or universal length calculator promotion.
+5. Do not recycle the radio shortlist's prerequisite subcases into four thin Tools. Continue genuinely fresh workflow discovery; retain the existing breadth/accuracy/competition gate.

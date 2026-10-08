@@ -75,8 +75,19 @@
     const proprietary = checked('proprietary');
     const ppsNeeded = checked('ppsNeeded');
     const pps = checked('pps');
-    if (![need, charger, cable].every((n) => Number.isFinite(n) && n > 0)) {
-      paint('bad', 'Check input', '—', 'Enter positive wattage values.', ['Device, charger, and cable values must all be above zero.'], 'No estimate is produced from invalid inputs.');
+    if (![need, charger, cable].every(Number.isFinite) || need <= 0 || charger <= 0 || cable < 0) {
+      paint('bad', 'Check input', '—', 'Enter positive device and charger wattages.', ['Choose a cable rating or explicitly select Not stated / unknown.'], 'No estimate is produced from invalid inputs.');
+      return;
+    }
+    if (cable === 0) {
+      const notes = ['Device target: ' + fmt(need) + ' W; declared active charger port: ' + fmt(charger) + ' W.', 'No cable power rating supplied; do not infer a 15 W, 60 W, or higher cable rating from a USB-C plug or a charging session.'];
+      if (charger < need) notes.push('The charger port alone is below the device target; confirming a cable rating will not remove that declared port limit.');
+      if (need > 100) notes.push('Above 100 W also requires source/sink EPR support and a 5 A EPR cable.');
+      if (ppsNeeded && !pps) notes.push('A matching PPS range is still unconfirmed; no fallback rate is inferred.');
+      if (proprietary) notes.push('The vendor-specific protocol or cable requirement remains unconfirmed.');
+      if (scenario === 'multi') notes.push('Verify the active-port output for this exact occupied-port combination.');
+      if (scenario === 'dock') notes.push('Verify the dock or monitor PD output and every cable in the path.');
+      paint('warn', 'Cable rating unverified', 'Charging ceiling unverified', 'Find exact-model cable power evidence before treating this chain as a fit or a quantified cable bottleneck.', notes, 'Unknown is not a low wattage rating. This browser cannot read an e-marker or measure charging power, and a successful low-power charge does not establish the cable maximum.');
       return;
     }
     const ceiling = Math.min(need, charger, cable);
@@ -117,17 +128,18 @@
     const connector = value('connector');
     const marked = checked('marked');
     const video = checked('video');
-    if (![power, data, length].every(Number.isFinite) || power <= 0 || data < 0 || length <= 0) {
+    if (![power, data, length].every(Number.isFinite) || power < 0 || data < 0 || length <= 0) {
       paint('bad', 'Check input', '—', 'Use valid cable claims and a positive length.', ['Choose a power claim, data claim, and cable length.'], 'No capability screen is produced from invalid inputs.');
       return;
     }
     const claims = [];
     const cautions = [];
     const dataLabel = data === 0 ? 'no verified high-speed data claim' : data < 1 ? fmt(data * 1000, 0) + ' Mbps' : fmt(data) + ' Gbps';
-    let title = power + ' W / ' + dataLabel;
+    let title = (power === 0 ? 'Power unverified' : power + ' W') + ' / ' + dataLabel;
 
     if (connector === 'c-c') {
-      claims.push('Declared charging ceiling: ' + power + ' W.');
+      claims.push(power === 0 ? 'No cable power rating supplied; no wattage ceiling can be inferred.' : 'Declared charging ceiling: ' + power + ' W.');
+      if (power === 0) cautions.push('Find the exact-model power rating or suitable cable-reader evidence before relying on this cable for the requested charging rate.');
       claims.push(data === 0 ? 'No high-speed data claim supplied; treat it as USB 2.0 or charge-first until verified.' : 'Declared data rate: ' + dataLabel + '.');
       if (power > 60 && !marked) cautions.push('Above 60 W requires a 5 A electronically marked cable; no exact-model marking, record, or tester evidence was confirmed.');
       if (video && data < 5) cautions.push('A charge-first or USB 2.0 C-to-C cable is not a safe choice for DisplayPort Alt Mode.');
