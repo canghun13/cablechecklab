@@ -104,6 +104,10 @@ h3 { font-size: 1.22rem; margin: 0 0 8px; }
 .result-panel { position: sticky; top: 96px; box-shadow: var(--shadow); }
 .field-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .field { display: grid; gap: 6px; }
+@media (min-width: 641px) {
+  /* Keep Decoder controls intrinsic-sized when the paired field has a note. */
+  main[data-tool="cable"] .field:not(.full) { align-content: start; }
+}
 main[data-tool="poeisolation"] .field,
 main[data-tool="poepassthrough"] .field { align-content: end; }
 .field.full { grid-column: 1 / -1; }
