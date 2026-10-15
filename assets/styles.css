@@ -107,6 +107,7 @@ h3 { font-size: 1.22rem; margin: 0 0 8px; }
 @media (min-width: 641px) {
   /* Keep Decoder controls intrinsic-sized when the paired field has a note. */
   main[data-tool="cable"] .field:not(.full) { align-content: start; }
+  main[data-tool="hubbandwidth"] .field:not(.full) { align-content: start; }
 }
 main[data-tool="poeisolation"] .field,
 main[data-tool="poepassthrough"] .field { align-content: end; }
