@@ -179,7 +179,7 @@ Potential long-term models are contextual advertising, clearly disclosed affilia
 
 ## Current inventory
 
-- Public HTML total: 77 (reverified 2026-10-09)
+- Public HTML total: 77 (reverified 2026-10-15)
 - Indexable HTML / sitemap URLs: 76; the custom 404 is the only non-indexable HTML page
 - Interactive Tools: 39
 - Problem workbenches: 8 (`charging`, `cables`, `displays`, `docks`, `usb4-thunderbolt`, `video-adapters`, `hdmi-routing`, and `poe`) plus the main Tools hub
@@ -2053,3 +2053,13 @@ Normal Chrome and Googlebot Smartphone requests returned identical final HTML fo
 3. Obtain engine/property/filter/date metadata for separate reports and GA4 event-name + tool_id/workbench/result_state/source/date breakdowns. Existing six-event instrumentation is complete; the measurement export is missing.
 4. Observe pool/unit confusion and actual hub Tool engagement; retain single-pool/directional/efficiency limits rather than turning it into a live benchmark or automatic topology detector.
 5. Continue genuinely fresh connectivity discovery; preserve all previous exclusions, including this week's 12, unless materially new independent workflow evidence emerges.
+
+### October 15 deployment closeout
+
+- Implementation commit: **`8695d72840d29845810dbeb6ec73aa8ea2b2d52b`** (`Clarify hub bandwidth pools and align planner controls`), fast-forward pushed from f680594 to the existing `main`. Live remote/fetched origin were rechecked before commit and no concurrent change was overwritten.
+- GitHub Pages [run 38661571919](https://github.com/canghun13/cablechecklab/actions/runs/38661571919) completed **success** for that exact implementation SHA.
+- Production installed-Edge repeat: **23 viewport checks PASS**, edited Guide and Tool at all six widths, scoped hub 46px/equal-top checks, preserved Decoder alignment/unknown-rating behavior, representative control pages, hub default/worked example/exact boundary/exceeded/invalid/Reset/Copy/Print/print-media behavior: PASS. No NaN/Infinity; **0 console errors/warnings**. GA network requests were stubbed only inside the QA browser to avoid measurement contamination.
+- **All 76 indexable production URLs** returned **HTTP 200** and normalized-equal checkout HTML. Production CSS (including the Tool's cache-key URL), unchanged JavaScript, robots and sitemap returned 200 and matched local source. No partial/stale public deployment was found.
+- The **five current Coverage issue URLs** passed **10 Normal/Googlebot requests**, all 200, identical paired body hashes and no X-Robots-Tag, with static depth 1–2 and no orphan. Indexing classification remains **Type 4**; the hub improvement is a separate usage clarification, not proof of a blocking/index-selection defect or subsequent indexing.
+- Inventory remains **77 HTML / 76 indexable / 39 Tools / 8 workbenches / 15 Guides / 7 References / 0 Comparisons**, delta **0 pages / 0 Tools / 0 clusters**. Protected footers and Home/Findly/badge, GA4, math/events, About/Contact/Privacy, sitemap/robots/CNAME and Decoder HTML are unchanged from f680594. No raw CSV/ZIP is tracked.
+- Temporary one-session QA harness and three screenshots are removed; the local preview is stopped. Final documentation-only commit contains this closeout and refreshes the top inventory verification date. Resolve its exact SHA externally from Git history because a commit cannot embed its own hash. Final Pages result, local HEAD = origin/main = live remote main, divergence 0/0 and clean working tree are verified and reported after the final push.
