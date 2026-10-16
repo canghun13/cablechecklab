@@ -179,12 +179,12 @@ Potential long-term models are contextual advertising, clearly disclosed affilia
 
 ## Current inventory
 
-- Public HTML total: 77 (reverified 2026-10-15)
-- Indexable HTML / sitemap URLs: 76; the custom 404 is the only non-indexable HTML page
-- Interactive Tools: 39
-- Problem workbenches: 8 (`charging`, `cables`, `displays`, `docks`, `usb4-thunderbolt`, `video-adapters`, `hdmi-routing`, and `poe`) plus the main Tools hub
-- Standalone Guides: 15 plus the Guides hub
-- Focused References: 7 plus the References/method hub
+- Public HTML total: 84 (reverified 2026-10-16)
+- Indexable HTML / sitemap URLs: 83; the custom 404 is the only non-indexable HTML page
+- Interactive Tools: 43
+- Problem workbenches: 9 (`charging`, `cables`, `displays`, `docks`, `usb4-thunderbolt`, `video-adapters`, `hdmi-routing`, `poe`, and `analog-audio`) plus the main Tools hub
+- Standalone Guides: 16 plus the Guides hub
+- Focused References: 8 plus the References/method hub
 - Comparisons: 0
 - Other public pages: Home, About, Contact, Privacy, 404
 
@@ -2063,3 +2063,58 @@ Normal Chrome and Googlebot Smartphone requests returned identical final HTML fo
 - The **five current Coverage issue URLs** passed **10 Normal/Googlebot requests**, all 200, identical paired body hashes and no X-Robots-Tag, with static depth 1–2 and no orphan. Indexing classification remains **Type 4**; the hub improvement is a separate usage clarification, not proof of a blocking/index-selection defect or subsequent indexing.
 - Inventory remains **77 HTML / 76 indexable / 39 Tools / 8 workbenches / 15 Guides / 7 References / 0 Comparisons**, delta **0 pages / 0 Tools / 0 clusters**. Protected footers and Home/Findly/badge, GA4, math/events, About/Contact/Privacy, sitemap/robots/CNAME and Decoder HTML are unchanged from f680594. No raw CSV/ZIP is tracked.
 - Temporary one-session QA harness and three screenshots are removed; the local preview is stopped. Final documentation-only commit contains this closeout and refreshes the top inventory verification date. Resolve its exact SHA externally from Git history because a commit cannot embed its own hash. Final Pages result, local HEAD = origin/main = live remote main, divergence 0/0 and clean working tree are verified and reported after the final push.
+
+
+## 2026-10-16 — Supplemental external discovery and analog audio cluster launch
+
+### Request, baseline and scope
+
+- User explicitly requested keyword-first, broad external discovery, competition screening, and long-tail wedges instead of another GSC-only/no-expansion decision. This supplements the completed October 15 weekly report; its data analysis and changes above are reused, not repeated or relabeled.
+- Safe start: existing correct repository/remote on `main`, clean at **b1b70009f26dcb8f8ace3a20e7f8b7efc6525ba8**; actual remote main, fetched origin/main and local HEAD matched, divergence 0/0. No clone, pull, reset, restore, new repository, install, environment reconfiguration or unknown-work overwrite was needed. No repository AGENTS.md was present. Existing candidate/exclusion/GO/HOLD history was reused.
+- Reports: no new CSV/ZIP analysis in this supplemental turn, no Downloads search, no raw exports committed. October 15 remains the latest weekly GSC/GA4/indexing assessment; this turn does not invent a traffic uplift, current indexed count or new ad metric.
+
+### Keyword list, competition and GO
+
+- Full reusable record: [research/2026-10-16-cluster-discovery.md](research/2026-10-16-cluster-discovery.md). **60 search seeds across eight families**, not 60 new/fully validated independent tools. PCIe, RF connectors, instrument controls, camera FFC/CSI/DSI, copper Ethernet, KVM and legacy interconnects were screened as well as analog audio.
+- External venues: actual Google and Naver search pages; Reddit; Gearspace and Korean specialist results; Super User, Electronics and Sound Design Stack Exchange; manufacturer support and YouTube; actual interactive competitor sites. Direct search extraction failures were followed by successful browser access. A Mule click did not expose the article: no direct-reading or per-post-view claim.
+- Demand clues: manufacturer Behringer phase-role video about **32k lifetime views / 275 likes**; headset-splitter Super User question about **5k lifetime views**; phantom-adapter Electronics SE question about **4k lifetime views**; June 2026 Reddit explanation **71 votes**; old laptop-noise Super User question about **5k lifetime views**. These are rounded, accumulated interest signals, not monthly volume, unique users or a market-size estimate. No global document-count/keyword-difficulty number was invented.
+- Generic audio competition is **high**. Actual AudioGearMatch, GamingMics Mic Path, PatchMyGear and AudioTestsOnline overlap portions of this category. GO rests on explicit signal-role, adapter-class, power-conversion and controlled-observation long tails, not an empty-SERP assertion. Bounded task-level competition is assessed qualitatively as medium; this is an experimental acquisition wedge, not a traffic guarantee.
+- Re-evaluated old balanced/stereo and TRRS candidates are labeled old; no false freshness claim. The weak prior TRS-MIDI add-on was not launched. Power preflight and hum A/B evidence produce separate useful actions, making a coherent four-tool analog-connection cluster.
+- Other families stay HOLD/merge for actual interactive overlap, model/manual dependence, insufficient independent workflows or old overlap. PCIe Simulator, StorageMath NVMe, Binarycon, MyTekDev wiremap and WorkstationRelay planners are recorded as real rivals, not ignored.
+- **GO: one new cluster only.** GSC absence was not a rejection criterion. No exact-model DB, backend, generated tones, audio permission/recording, automatic electrical sensing, compatibility score or unsafe electrical instructions were introduced.
+
+### Implementation
+
+- New workbench: `/tools/analog-audio/`.
+- Four independent Tools:
+  1. `/tools/audio-signal-path-checker/`: source role + receiver role + cable route + manual evidence → role mismatch, separate L/R path, or documented conversion requirement. No fixed cancellation dB or universal contact-short recipe.
+  2. `/tools/headset-adapter-selector/`: plug/jack arrangement + TRRS contact orders + adapter function + microphone goal → split/combine/contact-swap class or missing microphone path. No brand-based CTIA/OMTP or exact retail-product guarantee.
+  3. `/tools/microphone-power-preflight/`: mic need + input supply + direct/passive/converter path + exact evidence → unresolved power path or conditional declared fit. Plug-in power is not P48; no universal bias voltage or capsule-type phantom-tolerance assumption.
+  4. `/tools/audio-hum-isolator/`: speaker baseline + battery + removed branch + known-good cable observations → next implicated signal path, not an automatic ground-loop diagnosis. Never remove protective earth or modify mains.
+- New practical Guide: `/guides/analog-audio-connections/`. New primary-source Reference: `/references/analog-audio/`. Manufacturer support, Android headset specification, RØDE, beyerdynamic, Harman and Sennheiser sources are scoped; exact manuals override general labels.
+- Integrated Home/Tools/Guides/References/About and `llms.txt` truthfully; added seven sitemap URLs and updated only actually changed hub/About lastmods. Existing URLs/canonicals stay fixed. New seven pages use asset key `20261016a`; older unchanged controllers/styles keep working with their prior cache keys.
+- Added four controllers and the analog-audio workbench to the existing shared JS; **all 40 existing named helper/controller bodies are byte-equal after newline normalization**. Existing 39 calculations remain unchanged. The shared Copy handler appends the safety boundary only for the four new audio tools; other output behavior is unchanged.
+- New audio results carry the selected input record and canonical page URL. Print retains result/error/unknown state and necessary warnings while existing print CSS hides form/navigation/buttons. Copy also carries safety boundary/input record/URL. Invalid or missing enum values never become a fit.
+- GA4 **G-8PFRRXPGEF** is present once on every public HTML page. Existing six-event taxonomy retained; analog workbench and tool IDs are coarse metadata only, not selected field values. Contact remains **canghun13@naver.com**.
+- Scoped audio CSS prevents native-select/URL intrinsic widths overflowing mobile grids and keeps paired labels/46px controls aligned. No old Tool matches these new selectors. Footer fragments and Home Findly/badge tail compare exactly after newline normalization against b1b7000; no protected area redesign.
+- Inventory: **84 HTML / 83 indexable / 43 Tools / 9 workbenches / 16 Guides / 8 References / 0 Comparisons**. Delta: **+7 public pages / +4 Tools / +1 cluster**. Independent useful actions and source/boundary content improve the site's tool-first completeness; no claim of guaranteed AdSense approval, account audit or application submission.
+
+### Local QA
+
+- Existing site verifier PASS: all 84 HTML, 83 sitemap URLs, GA4 singleton, metadata/OG/canonical, JSON-LD, H1, duplicate IDs and internal targets. JS syntax, retained unknown-cable-power regression and diff whitespace checks PASS.
+- Retained `tools-qa/verify-analog-audio.cjs` executes the shipped JS with HTML-derived input fixtures: **4,095 result states**, all listed enum combinations, missing/altered values, known fit/mismatch/unknown/observation precedence, checkbox states, Reset, Copy safety/input/URL, Print invocation, allowed event keys and analog-workbench transition. No NaN/Infinity/undefined or raw injected script markup.
+- Static graph: **zero orphan indexable pages**; every new route depth <=2 and >=2 different inbound pages. Existing named function-body and protected-footer/Home-tail comparisons PASS. Existing print CSS hiding rule retained.
+- Actual in-app browser: new seven pages at **390 / 768 / 900 / 1024 / 1280 / 1440** = **42 viewport checks**; changed Home/Tools/Guides/References/About and existing Decoder/Charge/Hub Bandwidth/PoE Passthrough controls at 390/1280 = **18 checks**. No horizontal overflow or missing labels/H1; all new selects 46px and paired desktop control tops aligned.
+- Browser testing found a real mobile mic-power panel overflow caused by native-select/long-URL intrinsic widths; scoped min-width/URL wrapping fixed it and all 42 new-page checks then passed. Representative mobile workbench/Tool and desktop Tool visuals were inspected.
+- Actual new Tool alternate/mismatch/unknown controls, explicit submit, Copy read-back and Reset were exercised. Initial clipboard inspection raced the asynchronous Copy; waiting for “Copied” produced the correct input/safety/URL text. No product workaround was added for the test timing.
+- Representative native Print was invoked; the browser automation waited on the native dialog until Escape closed it. **No saved PDF or print-preview visual verification is claimed.** Print handler invocation for all four, current invalid/unknown result preservation and print CSS were checked through the retained fixture/static rules. No physical print job was sent.
+- Browser console warnings/errors observed after the completed local checks: **0**. QA visits were not network-stubbed in this in-app browser; treat October 16 QA/local/prod events/pageviews as possible measurement contamination, not external demand. No deep retest of all 39 unchanged Tools.
+- One PowerShell runner invocation hit the machine's script-launch policy; the existing verifier was executed as an in-memory script with its explicit tools-qa root, without changing policy/installing software. A sandbox-only preview connection failed; local-only preview with normal approved network access succeeded. No production-code change was made for either environment issue.
+
+### Next measurement / reuse rules
+
+1. Observe actual audio query/landing-page families and named Tool/workbench engagement after sufficient post-release data. Do not equate lifetime views/votes with our acquisition volume or QA visits with users.
+2. Continue broad external keyword-first discovery and long-tail competition checks; retain this 60-seed matrix and all older exclusions. Do not rebrand old HOLDs as new or split prerequisites to hit a tool quota.
+3. Preserve October 15 next-week report/index-inspection/event-breakdown tasks; no new indexing defect was established by this supplemental release.
+4. Re-check exact adapter/power/source documentation when manufacturers change it; avoid model database, unsafe wiring recipes, speculative power tolerance, tone playback or automatic sensing without separate evidence and user scope.
+5. Working-environment rule is unchanged: start from actual remote main + this file, inspect dirty/unpushed state before sync, use only safe ff-only pull, preserve unrelated files, and install/reconfigure nothing without explicit need/authorization.

@@ -1,12 +1,12 @@
 # Cable Check Lab
 
-> Cable Check Lab provides 39 free, browser-only tools for USB-C, USB Power Delivery, USB4, Thunderbolt, video adapters, DisplayPort, docks, HDMI routing, Power over Ethernet, and troubleshooting.
+> Cable Check Lab provides 43 free, browser-only tools for USB-C, USB Power Delivery, USB4, Thunderbolt, video adapters, DisplayPort, docks, HDMI routing, Power over Ethernet, analog audio, and troubleshooting.
 
 Primary URL: https://cablechecklab.com/
 Contact: canghun13@naver.com
 Language: English
 
-## Eight workbenches
+## Nine workbenches
 
 - [Charging](https://cablechecklab.com/tools/charging/): Fixed PDOs, PPS, requirements, full-chain checks, port-table comparison, shared budgets.
 - [Cables and data](https://cablechecklab.com/tools/cables/): Cable selection, cable/port decoding, data paths, USB4 features.
@@ -16,10 +16,15 @@ Language: English
 - [Docks and hubs](https://cablechecklab.com/tools/docks/): Requirements, power, USB4, data/display tradeoffs, A/B isolation.
 - [HDMI routing and distribution](https://cablechecklab.com/tools/hdmi-routing/): Switch/splitter/matrix selection, capacity, EDID/downscaling, audio routes, and isolation.
 - [Power over Ethernet](https://cablechecklab.com/tools/poe/): IEEE Type/Class matching, equipment selection, switch and pass-through budgets, passive-PoE preflight, and isolation.
+- [Analog audio](https://cablechecklab.com/tools/analog-audio/): Signal roles, headset adapter direction and contact order, microphone power preflight, and controlled hum/buzz isolation.
 
-## Thirty-nine interactive tools
+## Forty-three interactive tools
 
 - [USB-C Charge Check](https://cablechecklab.com/tools/charge-check/)
+- [Audio Signal Path Checker](https://cablechecklab.com/tools/audio-signal-path-checker/)
+- [Headset Splitter & TRRS Adapter Selector](https://cablechecklab.com/tools/headset-adapter-selector/)
+- [Microphone Power Preflight](https://cablechecklab.com/tools/microphone-power-preflight/)
+- [Audio Hum & Buzz Isolation Planner](https://cablechecklab.com/tools/audio-hum-isolator/)
 - [USB PD Fixed Profile Matcher](https://cablechecklab.com/tools/pd-fixed-profile-matcher/)
 - [USB PD PPS Range Checker](https://cablechecklab.com/tools/pps-range-checker/)
 - [USB PD Requirement Builder](https://cablechecklab.com/tools/pd-requirement-builder/)
@@ -61,6 +66,8 @@ Language: English
 
 ## Guides and evidence
 
+- [Analog audio connection guide](https://cablechecklab.com/guides/analog-audio-connections/)
+- [Analog audio sources and boundaries](https://cablechecklab.com/references/analog-audio/)
 - [Guides](https://cablechecklab.com/guides/)
 - [USB Power Delivery reference](https://cablechecklab.com/references/power-delivery/)
 - [USB and DisplayPort payload reference](https://cablechecklab.com/references/link-payloads/)

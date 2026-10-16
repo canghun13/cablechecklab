@@ -10,7 +10,7 @@
     });
   }
 
-  const workbenchIds = new Set(['charging', 'cables', 'displays', 'docks', 'usb4-thunderbolt', 'video-adapters', 'hdmi-routing', 'poe']);
+  const workbenchIds = new Set(['charging', 'cables', 'displays', 'docks', 'usb4-thunderbolt', 'video-adapters', 'hdmi-routing', 'poe', 'analog-audio']);
   const pathParts = window.location.pathname.split('/').filter(Boolean);
   const pageWorkbench = pathParts[0] === 'tools' && pathParts.length === 2 && workbenchIds.has(pathParts[1]) ? pathParts[1] : '';
   const track = (eventName, parameters = {}) => {
@@ -1189,7 +1189,155 @@
     paint(isolated ? 'warn' : 'info', isolated ? 'Failure layer narrowed' : 'More evidence needed', title, isolated ? 'At least one A/B control changes the result and implicates a layer.' : 'The current observations rank the next shortest test.', list, 'This is an isolation sequence, not a defect verdict. Exact voltage/current capture, pairset use, class events, LLDP, cable certification, switch logs, firmware, surge damage, and environmental limits require hardware or vendor evidence.');
   }
 
-  const calculators = { charge: chargeCheck, cable: cableDecode, display: displayPlan, multiport: multiportPlan, pps: ppsRangeCheck, pdrequirement: pdRequirement, cableselector: cableSelector, datapath: dataPathCheck, dsc: dscPlan, lanes: lanePlan, dockrequirement: dockRequirement, hubpower: hubPowerBudget, troubleshoot, usb4path: usb4FeaturePath, usb4budget: usb4Budget, adapterdirection: adapterDirection, mstchain: mstChain, pdfixed: pdFixedProfile, multiportcompare: multiportCompare, directdock: directDockIsolation, portdecode: portDecode, videochain: videoFeatureChain, hubbandwidth: hubBandwidth, rolematch: roleMatch, usb4fallback: usb4Fallback, highrefresh: highRefreshIsolation, dropout: peripheralDropout, onecablemonitor: oneCableMonitor, hdmirouting: hdmiRoutingSelector, hdmimatrix: hdmiMatrixSize, hdmimixed: hdmiMixedDisplay, hdmiaudio: hdmiAudioRoute, hdmiisolation: hdmiDistributionIsolation, poeclass: poeClassCheck, poeselector: poeEquipmentSelector, poebudget: poePowerBudget, poepassthrough: poePassthroughPlan, passivepoe: passivePoePreflight, poeisolation: poeFailureIsolation };
+  function audioPaint(kind, label, title, text, list, note) {
+    const names = {
+      asOutput: 'Output', asInput: 'Input', asCable: 'Route', asEvidence: 'Manual evidence',
+      hsPlug: 'Headset plugs', hsPort: 'Device jacks', hsWiring: 'Headset TRRS order', hsTarget: 'Receiving TRRS order', hsAdapter: 'Adapter in hand', hsMic: 'Microphone needed',
+      mpNeed: 'Mic power need', mpSupply: 'Input supply', mpPath: 'Power route', mpConfirmed: 'Electrical evidence confirmed',
+      anWhere: 'Noise location', anBare: 'Speakers without signal', anBattery: 'Battery control', anBranch: 'Branch control', anCable: 'Cable control', anWiring: 'Line wiring'
+    };
+    const escape = (entry) => String(entry).replace(/[&<>"]/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[character]));
+    const record = Object.entries(names).filter(([name]) => form.elements[name]).map(([name, caption]) => {
+      const field = form.elements[name];
+      const choice = field.type === 'checkbox' ? (field.checked ? 'Yes' : 'No') : Array.from(field.options || []).find(option => option.value === value(name))?.textContent || value(name) || 'Missing';
+      return caption + ': ' + choice;
+    }).join('; ');
+    paint(kind, label, title, text, [...list, 'Input record — ' + escape(record), 'Page: https://cablechecklab.com/tools/' + toolId + '/'], note);
+  }
+
+  function audioChoicesValid(entries) {
+    const valid = entries.every(([name, choices]) => choices.includes(value(name)));
+    if (!valid) audioPaint('bad', 'Check input', 'Complete every selection', 'Choose a listed value for every field; unknown and not tested are valid evidence states.', ['A missing or altered field is not treated as a pass.'], 'No hardware measurement or compatibility verdict is produced from invalid inputs.');
+    return valid;
+  }
+
+  function audioSignalPath() {
+    if (!audioChoicesValid([
+      ['asOutput', ['stereo', 'balanced', 'balanced-pair', 'unbalanced-pair', 'mono', 'insert', 'speaker', 'digital', 'unknown']],
+      ['asInput', ['balanced', 'stereo', 'pair', 'mono', 'headphones', 'unknown']],
+      ['asCable', ['direct', 'breakout', 'separate', 'converter', 'unknown']],
+      ['asEvidence', ['yes', 'no', 'unknown']]
+    ])) return;
+    const source = value('asOutput'), sink = value('asInput'), cable = value('asCable'), proof = value('asEvidence');
+    const note = 'This compares declared signal roles, not measured audio or a universal pinout. Mute and power down equipment before changing signal cables. Never join two powered outputs or connect a speaker-power output to a mic/line input. Exact levels, impedance, output topology and manufacturer wiring still matter.';
+    if (source === 'speaker' || source === 'digital' || source === 'insert' || sink === 'headphones') {
+      const why = source === 'speaker' ? 'Speaker power is not line level' : source === 'digital' ? 'Digital audio needs a conversion stage' : source === 'insert' ? 'Insert send/return is not stereo' : 'A line output is not a headphone amplifier';
+      audioPaint('bad', 'Different interface required', why, 'A plug adapter does not establish the required electrical or signal conversion.', ['Stop this direct-cable plan.', 'Find the exact source/output and destination/input specifications before selecting an appropriate interface.'], note); return;
+    }
+    if (source === 'unknown' || sink === 'unknown' || cable === 'unknown') {
+      audioPaint('warn', 'Roles unverified', 'Identify the signal on each contact', 'TRS describes three contacts; it does not identify balanced mono, stereo, or insert send/return.', ['Read the exact output and input labels/manuals.', 'Do not infer a signal role from connector size or the word balanced printed on a cable.'], note); return;
+    }
+    if (cable === 'direct' && ((source === 'stereo' && sink === 'balanced') || (source === 'balanced' && sink === 'stereo'))) {
+      audioPaint('bad', 'Signal-role mismatch', source === 'stereo' ? 'Stereo is not balanced mono' : 'Balanced mono is not stereo', 'A straight TRS cable can mate while putting different signals on the receiver contacts.', source === 'stereo' ? ['A balanced mono input responds to a difference between its signal contacts, not a normal L+R sum.', 'Common center content can be reduced; cancellation depends on the recording.', 'For stereo recording use a suitable L/R breakout and two inputs. For one mono input use a documented summing mixer/converter, not a passive output short.'] : ['A stereo input can receive the balanced hot/cold conductors as different channels instead of a normal L/R program.', 'Use manufacturer-approved conversion or the correct mono input.'], note); return;
+    }
+    if (cable === 'converter') {
+      audioPaint('warn', 'Conversion must be verified', 'Check the converter on both sides', 'A mixer, DI or other interface can change a path, but its name alone does not establish levels, channel count or power compatibility.', ['Verify the exact input role, output role, level range and powering.', 'A DI commonly provides a mic-level output; do not assume it is a stereo line-to-line adapter.'], note); return;
+    }
+    const fits = (source === 'stereo' && sink === 'stereo' && cable === 'direct') ||
+      (source === 'balanced' && sink === 'balanced' && cable === 'direct') ||
+      (source === 'mono' && sink === 'mono' && cable === 'direct') ||
+      (source === 'stereo' && sink === 'pair' && cable === 'breakout') ||
+      (['balanced-pair', 'unbalanced-pair'].includes(source) && sink === 'pair' && cable === 'separate');
+    if (!fits || proof === 'no') {
+      audioPaint('warn', proof === 'no' ? 'Documented conflict' : 'Route not established', 'Resolve wiring and channel roles', 'The selected plan does not establish the complete intended connection.', ['Stereo requires two independent channels; duplicating one mono output does not create stereo.', 'A breakout separates channels; it does not sum two outputs safely or turn an unbalanced source into a balanced source.', 'Use the exact manuals for mixed balanced/unbalanced wiring rather than a universal TRS-to-TS recipe.'], note); return;
+    }
+    audioPaint(proof === 'yes' ? 'ok' : 'warn', proof === 'yes' ? 'Declared role fit' : 'Levels and wiring unverified', sink === 'pair' ? 'Keep L and R on separate paths' : 'Signal roles align', 'The channel roles fit the selected route; electrical and physical compatibility remain separate evidence.', ['Selected route: ' + (cable === 'breakout' ? 'stereo breakout into two input channels' : cable === 'separate' ? 'two independent channel cables' : 'one direct signal cable') + '.', proof === 'yes' ? 'You confirmed compatible levels and exact wiring from the manuals.' : 'Confirm level range, input mode, connector wiring and impedance before connection.', 'No claim is made about sound quality, gain, cable faults or live negotiation.'], note);
+  }
+
+  function headsetAdapter() {
+    if (!audioChoicesValid([
+      ['hsPlug', ['trrs', 'dual', 'headphones', 'unknown']], ['hsPort', ['combo', 'dual', 'headphones', 'unknown']],
+      ['hsWiring', ['ctia', 'omtp', 'unknown']], ['hsTarget', ['ctia', 'omtp', 'unknown']],
+      ['hsAdapter', ['none', 'split', 'combine', 'share', 'swap', 'unknown']]
+    ])) return;
+    const plug = value('hsPlug'), port = value('hsPort'), wiring = value('hsWiring'), target = value('hsTarget'), adapter = value('hsAdapter'), mic = checked('hsMic');
+    const note = 'This selects an analog connector/adapter class, not an exact-product guarantee. CTIA is L/R/Ground/Mic and OMTP swaps the last two contacts. Bias voltage, jack detection, remotes, app input selection and proprietary wiring still need documentation. It does not access or record a microphone.';
+    if (mic && (plug === 'headphones' || port === 'headphones')) {
+      audioPaint('bad', 'Microphone path missing', 'A splitter cannot create a mic path', 'At least one selected endpoint carries playback only.', ['Use a headset with an actual microphone and a device input that accepts it.', 'A headphone-only interface output is not a microphone input.'], note); return;
+    }
+    if (plug === 'unknown' || port === 'unknown') {
+      audioPaint('warn', 'Endpoints unverified', 'Identify plugs and jack roles first', 'Count contacts and read the device jack label before choosing an adapter.', ['A headset combo jack and a headphone-only jack can look similar.', 'Keep USB/digital dongles and exact console policies outside this analog selector.'], note); return;
+    }
+    if (!mic) {
+      audioPaint('info', 'Playback-only goal', 'Keep microphone requirements separate', 'For headphones alone, use a documented playback connection; headset microphone and button support is not established.', ['A two-headphone sharing splitter duplicates playback, not microphone capture.', 'For a TRRS headset on a TRS output, use a documented headphone adapter if contact alignment is uncertain.'], note); return;
+    }
+    const required = plug === 'trrs' && port === 'dual' ? 'split' : plug === 'dual' && port === 'combo' ? 'combine' : 'none';
+    if (adapter === 'share') {
+      audioPaint('bad', 'Wrong splitter function', 'Headphone sharing is not mic separation', 'A two-headphone splitter is not the required headset audio/microphone adapter.', ['For one TRRS headset and separate PC jacks, use a TRRS female to headphone + mic male adapter of the documented wiring.', 'For two headset plugs and one combo jack, the direction is the opposite.'], note); return;
+    }
+    if (plug === 'trrs' && (wiring === 'unknown' || target === 'unknown')) {
+      audioPaint('warn', 'Wiring unverified', required === 'split' ? 'Headset-to-PC splitter class' : 'Verify the TRRS wiring', 'The physical route can be named, but microphone/ground contact compatibility is unresolved.', ['Check both headset wiring and the combo jack or splitter TRRS socket specification.', 'Do not assign CTIA/OMTP by brand, country or plug appearance.'], note); return;
+    }
+    if (plug === 'trrs' && wiring !== target) {
+      audioPaint('warn', 'Mic/ground mismatch', 'CTIA/OMTP conversion required', 'The two declared TRRS pin orders differ.', ['Use a documented mic/ground-swap adapter; a size adapter or headphone-sharing cable is not equivalent.', required === 'split' ? 'You also need the correct headset-to-PC split direction; a swap adapter alone does not separate plugs.' : 'A documented bidirectional CTIA/OMTP converter addresses this contact swap only.'], note); return;
+    }
+    if (plug === 'dual' && port === 'combo' && target === 'unknown') {
+      audioPaint('warn', 'Combo wiring unverified', 'Headset-to-combo combiner class', 'The device combo-jack wiring is needed to specify the combiner.', ['Use two female sockets for the headset plugs and one male TRRS device plug.', 'Require the output pin order declared by the exact combo jack.'], note); return;
+    }
+    const title = required === 'split' ? 'TRRS headset to separate PC jacks' : required === 'combine' ? 'Separate headset plugs to one combo jack' : 'No split/combiner needed';
+    const actions = required === 'split' ? ['Required direction: one TRRS female socket to separate headphone and microphone male plugs.', 'The splitter TRRS socket must match the declared headset wiring.'] : required === 'combine' ? ['Required direction: separate headphone/mic female sockets to one TRRS male plug.', 'Specify the combo-jack pin order; check the adapter documentation explicitly.'] : ['Connect the corresponding headset and input/output roles directly.', 'A CTIA/OMTP swap is not needed for two matching declared TRRS orders.'];
+    if (adapter !== required && !(required === 'none' && adapter === 'none')) actions.push('The selected adapter in hand does not match the required function; unknown is not a confirmed fit.');
+    actions.push('Check microphone bias, input selection, mute and permissions if the physical path is right but capture still fails.');
+    audioPaint('info', 'Required adapter class', title, 'This identifies what the route needs, not which retail cable is guaranteed to work.', actions, note);
+  }
+
+  function microphonePower() {
+    if (!audioChoicesValid([
+      ['mpNeed', ['plugin', 'p48', 'none', 'battery', 'unknown']], ['mpSupply', ['p48', 'plugin', 'off', 'unknown']],
+      ['mpPath', ['passive', 'direct', 'converter', 'unknown']]
+    ])) return;
+    const need = value('mpNeed'), supply = value('mpSupply'), route = value('mpPath'), confirmed = checked('mpConfirmed');
+    const note = 'This is a declared power-path preflight, not a live voltage test or safety certification. Turn equipment and phantom power off before recabling, follow discharge instructions, and never experiment with an unknown mic or adapter. Do not infer power needs from condenser/dynamic/ribbon labels alone.';
+    if (need === 'unknown' || supply === 'unknown' || route === 'unknown') {
+      audioPaint('warn', 'Power unverified', 'Find the exact mic and input specifications', 'Connector shape and microphone category do not identify the required supply.', ['Find power type, voltage/current range, pinout and exact adapter behavior.', 'Leave power off until the complete route is documented.'], note); return;
+    }
+    if (route === 'converter') {
+      audioPaint('warn', confirmed ? 'Declared converter route' : 'Converter unverified', 'Check both sides of the powered adapter', 'A converter or external power box must explicitly support this mic, its required power, and the recorder-side signal.', [confirmed ? 'You report that the exact converter output, input supply and pinout are documented as suitable.' : 'No documented converter match was confirmed; do not assume every XLR-to-3.5 mm adapter converts power.', 'Confirm whether external power is needed and whether the recorder-side output blocks unwanted DC.', 'Power matching does not establish mic gain, noise, wiring or input-level compatibility.'], note); return;
+    }
+    if (need === 'none' || need === 'battery') {
+      audioPaint(supply === 'off' ? 'info' : 'warn', supply === 'off' ? 'No external power selected' : 'Unneeded power present', supply === 'off' ? 'Verify the audio input next' : 'Keep unneeded supply off', 'This mic declaration does not request power from the input.', [need === 'battery' ? 'Check the microphone battery and its powered output mode.' : 'Use the exact manual; some passive or legacy microphones have special restrictions.', 'Do not infer that every balanced dynamic or ribbon microphone tolerates every phantom-powered route.'], note); return;
+    }
+    const matches = (need === 'p48' && supply === 'p48') || (need === 'plugin' && supply === 'plugin');
+    if (!matches || route === 'passive') {
+      audioPaint('bad', 'Power path not established', matches ? 'A passive adapter does not verify the power path' : 'The selected supply does not meet the mic declaration', 'Plug-in power and P48 phantom power are different systems; a connector-only cable cannot convert between them.', ['A plug-in-powered lavalier on a phantom input needs a documented power-converting adapter, not an ordinary passive XLR adapter.', 'A P48 microphone on an unpowered input needs the appropriate powered mic/interface path.', 'Do not infer any fixed plug-in-power voltage; verify the exact microphone range and source supply.'], note); return;
+    }
+    audioPaint(confirmed ? 'ok' : 'warn', confirmed ? 'Declared power fit' : 'Electrical details unverified', need === 'p48' ? 'P48 direct microphone path' : 'Plug-in-power direct microphone path', 'The selected power system matches in name; exact electrical and wiring evidence is still required.', [confirmed ? 'You confirmed compatible voltage/current requirements and the complete pinout in the manuals.' : 'Confirm voltage range, current capability and exact wiring before connecting or enabling power.', 'A battery-powered mode, external box or proprietary adapter can change the required route.', 'This does not prove that the microphone or cable is undamaged.'], note);
+  }
+
+  function audioNoiseIsolation() {
+    if (!audioChoicesValid([
+      ['anWhere', ['speakers', 'headphones', 'both', 'unknown']], ['anBare', ['untested', 'quiet', 'persists']],
+      ['anBattery', ['untested', 'quiet', 'same', 'na']], ['anBranch', ['untested', 'quiet', 'same']],
+      ['anCable', ['untested', 'fixes', 'same']], ['anWiring', ['unknown', 'balanced', 'unbalanced']]
+    ])) return;
+    const where = value('anWhere'), bare = value('anBare'), battery = value('anBattery'), branch = value('anBranch'), cable = value('anCable'), wiring = value('anWiring');
+    const note = 'These observations rank a next test, not a root-cause diagnosis. No audio is recorded, played or measured. Lower volume, mute and power down equipment before changing signal cables. Never remove protective earth, alter mains wiring, open a power supply, or use a mains earth-lift adapter. Stop and seek qualified service for shocks, burning smells or suspected electrical faults.';
+    const actions = [];
+    let title = 'Establish one clean baseline', label = 'More evidence needed';
+    if (where === 'unknown') actions.push('At a low normal listening level, note whether noise is present in headphones, powered speakers, or both.');
+    if (bare === 'persists') {
+      title = 'Speaker/output baseline first'; label = 'Noise survives source removal';
+      actions.push('Noise persists with speaker signal inputs removed. The original source connection is not required for that observation.', 'Check the speaker manufacturer troubleshooting path and normal self-noise specification; a ground loop is not established.');
+    } else if (cable === 'fixes') {
+      title = 'Original signal cable or contact first'; label = 'A/B result changes';
+      actions.push('A correctly specified known-good replacement changes the outcome.', 'Retest the original path once with settings unchanged; inspect connector fit and use manufacturer-approved cabling.');
+    } else if (branch === 'quiet') {
+      title = 'The removed signal branch matters'; label = 'A/B result changes';
+      actions.push('Document which one user-accessible signal branch was removed.', 'Reconnect only after muting/powering down; repeat with settings unchanged. This implicates a path, not necessarily a failed device.');
+    } else if (battery === 'quiet') {
+      title = 'Laptop power-path sensitivity'; label = 'Battery A/B changes noise';
+      actions.push('A battery-only laptop control changes the noise. Power-path coupling is a hypothesis, not proof of a ground loop.', 'Keep required equipment earth intact. Consult manufacturer support for an approved signal-side isolation option.');
+    } else {
+      actions.push('Compare one source through headphones with the powered-speaker route, then add one user-accessible signal branch at a time.', 'Record the same volume, gain, input mode and load for every comparison.');
+    }
+    if (where === 'both' || where === 'headphones') actions.push('Noise in headphones also warrants checking the source, input/gain path and supply; do not limit the investigation to speaker cables.');
+    if (wiring === 'unbalanced') actions.push('If both endpoints offer balanced line I/O, compare a correctly specified balanced path. A TRS cable alone does not make unbalanced endpoints balanced.');
+    if (wiring === 'unknown') actions.push('Use the Signal Path Checker to establish balanced/stereo/mono roles before buying an isolator.');
+    actions.push('Do not purchase a generic USB isolator without verifying its USB speed, power budget and exact interface support.');
+    audioPaint('info', label, title, 'Change one documented condition at a time and keep untested observations explicit.', actions, note);
+  }
+
+  const calculators = { charge: chargeCheck, cable: cableDecode, display: displayPlan, multiport: multiportPlan, pps: ppsRangeCheck, pdrequirement: pdRequirement, cableselector: cableSelector, datapath: dataPathCheck, dsc: dscPlan, lanes: lanePlan, dockrequirement: dockRequirement, hubpower: hubPowerBudget, troubleshoot, usb4path: usb4FeaturePath, usb4budget: usb4Budget, adapterdirection: adapterDirection, mstchain: mstChain, pdfixed: pdFixedProfile, multiportcompare: multiportCompare, directdock: directDockIsolation, portdecode: portDecode, videochain: videoFeatureChain, hubbandwidth: hubBandwidth, rolematch: roleMatch, usb4fallback: usb4Fallback, highrefresh: highRefreshIsolation, dropout: peripheralDropout, onecablemonitor: oneCableMonitor, hdmirouting: hdmiRoutingSelector, hdmimatrix: hdmiMatrixSize, hdmimixed: hdmiMixedDisplay, hdmiaudio: hdmiAudioRoute, hdmiisolation: hdmiDistributionIsolation, poeclass: poeClassCheck, poeselector: poeEquipmentSelector, poebudget: poePowerBudget, poepassthrough: poePassthroughPlan, passivepoe: passivePoePreflight, poeisolation: poeFailureIsolation, audiosignal: audioSignalPath, headsetadapter: headsetAdapter, micpower: microphonePower, audionoise: audioNoiseIsolation };
   const calculate = calculators[tool.dataset.tool];
   if (!calculate) return;
   form.addEventListener('input', calculate);
@@ -1206,7 +1354,7 @@
   });
   tool.querySelector('[data-copy]')?.addEventListener('click', async (event) => {
     const button = event.currentTarget;
-    const text = [status.textContent, headline.textContent, summary.textContent, ...Array.from(details.querySelectorAll('li')).map((li) => li.textContent)].join('\n');
+    const text = [status.textContent, headline.textContent, summary.textContent, ...Array.from(details.querySelectorAll('li')).map((li) => li.textContent), ...(['audiosignal', 'headsetadapter', 'micpower', 'audionoise'].includes(tool.dataset.tool) ? [evidence.textContent.replace(/^Confidence boundary/, 'Confidence boundary: ')] : [])].join('\n');
     try {
       await navigator.clipboard.writeText(text);
       track('copy_result', { ...analyticsContext, result_state: resultState(), source_context: 'result_panel' });
