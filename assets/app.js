@@ -128,27 +128,31 @@
     const connector = value('connector');
     const marked = checked('marked');
     const video = checked('video');
-    if (![power, data, length].every(Number.isFinite) || power < 0 || data < 0 || length <= 0) {
-      paint('bad', 'Check input', '—', 'Use valid cable claims and a positive length.', ['Choose a power claim, data claim, and cable length.'], 'No capability screen is produced from invalid inputs.');
+    if (![power, data, length].every(Number.isFinite) || ![0, 60, 100, 240].includes(power) || ![0, .48, 5, 10, 20, 40, 80].includes(data) || !['c-c', 'a-c', 'c-dp', 'c-hdmi'].includes(connector) || length <= 0) {
+      paint('bad', 'Check input', '—', 'Use valid cable claims and a positive length.', ['Choose a power claim, data claim, and cable length.', 'Page: https://cablechecklab.com/<wbr>tools/<wbr>cable-decoder/'], 'No capability screen is produced from invalid inputs.');
       return;
     }
     const claims = [];
     const cautions = [];
-    const dataLabel = data === 0 ? 'no verified high-speed data claim' : data < 1 ? fmt(data * 1000, 0) + ' Mbps' : fmt(data) + ' Gbps';
+    const dataLabel = data === 0 ? 'Data unverified' : data < 1 ? fmt(data * 1000, 0) + ' Mbps' : fmt(data) + ' Gbps';
+    const inputRecord = ['Input record: ' + ({'c-c': 'USB-C to USB-C cable', 'a-c': 'USB-A to USB-C cable', 'c-dp': 'USB-C to DisplayPort adapter cable', 'c-hdmi': 'USB-C to HDMI adapter cable'})[connector] + '; power ' + (power === 0 ? 'unknown' : power + ' W') + '; data ' + dataLabel + '; length ' + fmt(length) + ' m; relevant evidence ' + (marked ? 'confirmed' : 'not confirmed') + '; display video intended ' + (video ? 'yes' : 'no') + '.', 'Page: https://cablechecklab.com/<wbr>tools/<wbr>cable-decoder/'];
     let title = (power === 0 ? 'Power unverified' : power + ' W') + ' / ' + dataLabel;
 
     if (connector === 'c-c') {
       claims.push(power === 0 ? 'No cable power rating supplied; no wattage ceiling can be inferred.' : 'Declared charging ceiling: ' + power + ' W.');
       if (power === 0) cautions.push('Find the exact-model power rating or suitable cable-reader evidence before relying on this cable for the requested charging rate.');
-      claims.push(data === 0 ? 'No high-speed data claim supplied; treat it as USB 2.0 or charge-first until verified.' : 'Declared data rate: ' + dataLabel + '.');
+      claims.push(data === 0 ? 'No USB data rating supplied; no transfer-rate ceiling, USB 2.0 class, or charge-only classification can be inferred.' : 'Declared data rate: ' + dataLabel + '.');
+      if (data === 0) cautions.push('Find exact-model data capability evidence. A power mark or a successful charge does not establish USB data speed.');
       if (power > 60 && !marked) cautions.push('Above 60 W requires a 5 A electronically marked cable; no exact-model marking, record, or tester evidence was confirmed.');
-      if (video && data < 5) cautions.push('A charge-first or USB 2.0 C-to-C cable is not a safe choice for DisplayPort Alt Mode.');
+      if (video && data === 0) cautions.push('DisplayPort Alt Mode cable support is unverified; no USB data class or video support was supplied.');
+      if (video && data > 0 && data < 5) cautions.push('A declared USB 2.0-only C-to-C cable does not establish a full-featured DisplayPort Alt Mode path.');
       if (length > 2 && data >= 40) cautions.push('For a long high-speed cable, verify the exact length, active/passive construction, and certified data rating.');
       if (video && data >= 5) claims.push('A full-featured high-speed C-to-C cable is a plausible DisplayPort Alt Mode path, but source and display support remain separate requirements.');
     } else if (connector === 'a-c') {
       title = 'USB-A to USB-C';
       claims.push('This is a legacy USB-A host-side path, not a USB-C to USB-C Power Delivery cable.');
       claims.push('Declared data claim: ' + dataLabel + '. Verify the USB-A port and exact cable generation.');
+      if (data === 0) cautions.push('No USB data rating supplied; an unknown cable is not a confirmed USB 2.0 or charge-only cable.');
       if (power > 15) cautions.push('A 60 W, 100 W, or 240 W USB-C cable power mark does not establish that rate over USB-A. USB PD is not negotiated through a standard A-to-C cable.');
       if (data > 10) cautions.push('A data claim above 10 Gbps is not plausible for a standard USB-A to USB-C cable path.');
       if (video) cautions.push('USB-A does not provide DisplayPort Alt Mode. A separate USB graphics adapter is a different product category.');
@@ -161,7 +165,7 @@
       cautions.push('The selected USB-C cable power rating does not establish charge-through support for this adapter cable.');
     }
     const kind = cautions.length ? 'warn' : marked ? 'ok' : 'info';
-    paint(kind, kind === 'ok' ? 'Declared fit' : kind === 'warn' ? 'Verify before use' : 'Unverified claim', title, cautions.length ? 'The selected claims do not fully establish the intended use.' : 'The declared capabilities are internally plausible.', claims.concat(cautions), 'A browser cannot read an e-marker or identify an adapter chipset. Packaging, the USB-IF product record, exact-model specifications, a hardware tester, or operating-system telemetry is needed to verify the product. Connector shape alone proves no data, video, or charging capability.');
+    paint(kind, kind === 'ok' ? 'Declared fit' : kind === 'warn' ? 'Verify before use' : 'Unverified claim', title, cautions.length ? 'The selected claims do not fully establish the intended use.' : 'The declared capabilities are internally plausible.', claims.concat(cautions, inputRecord), 'A browser cannot read an e-marker or identify an adapter chipset. Packaging, the USB-IF product record, exact-model specifications, a hardware tester, or operating-system telemetry is needed to verify the product. Connector shape alone proves no data, video, or charging capability.');
   }
 
   function displayPlan() {

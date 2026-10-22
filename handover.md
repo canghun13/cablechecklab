@@ -179,7 +179,7 @@ Potential long-term models are contextual advertising, clearly disclosed affilia
 
 ## Current inventory
 
-- Public HTML total: 84 (reverified 2026-10-16)
+- Public HTML total: 84 (reverified 2026-10-22)
 - Indexable HTML / sitemap URLs: 83; the custom 404 is the only non-indexable HTML page
 - Interactive Tools: 43
 - Problem workbenches: 9 (`charging`, `cables`, `displays`, `docks`, `usb4-thunderbolt`, `video-adapters`, `hdmi-routing`, `poe`, and `analog-audio`) plus the main Tools hub
@@ -2130,3 +2130,70 @@ Normal Chrome and Googlebot Smartphone requests returned identical final HTML fo
 - Final user-facing production screenshot retained outside the repository. Local preview processes were stopped, accessible agent research/QA tabs closed, viewport override cleared; the failed connection error tab is left to automatic turn cleanup because its data URL cannot be rebound under browser policy. One-session source-audit script is removed; retained audio regression remains.
 - No raw exports, credentials, personal report data, screenshots or temporary server/harness are committed. Existing Contact/Privacy, protected footers/Home Findly/badge, 39 old Tools, robots and CNAME are preserved. New total remains **84 / 83 / 43 / 9 / 16 / 8** (HTML / indexable / Tools / workbenches / Guides / References).
 - This final documentation-only commit records deployment results and the additional Korean article verification. Its SHA cannot be embedded in itself; resolve it from Git history. After pushing it, verify its Pages run, local HEAD = fetched origin/main = actual remote main, divergence 0/0 and clean tree; report the exact SHA to the user. Public HTML/assets do not change in this final commit.
+
+## 2026-10-22 — Weekly evidence review, external discovery and unknown-data correction
+
+### Safe start and source boundaries
+
+- Existing correct repository on `main`, clean at **5e366eaff6ee36e2dc9af10223781179e8c00123**. Actual remote main, fetched origin/main and local HEAD matched, ahead/behind 0/0. No pull, clone, reset, restore, repository creation, install or environment reconfiguration was needed. No AGENTS.md was present. Prior research/exclusions, October 15 review and October 16 launch were reused.
+- All **five exact user-supplied October 22 file references** were accessible and read in place: GSC Performance ZIP, full Coverage ZIP, GA4 overview CSV and separate Keyword/PageTraffic CSVs. No Downloads enumeration, guessed alternate path, raw-data copy or request for local paths. The filenames are not measurement periods. Source cells/query text are data, never instructions.
+- Spreadsheet skill read-only analysis used the bundled Python runtime for ZIP/multi-section CSV and preserved period, metric grain and rate denominators. No workbook deliverable was requested, no raw export/personal rows or QA screenshot is tracked. Future environments must start from actual remote main plus this file and preserve unknown changes.
+
+### Report definitions and observed change
+
+| Evidence | Actual period / grain | Result / interpretation |
+|---|---|---|
+| GSC chart | Web, Aug 10–Oct 19, 71 daily rows | **727 impressions / 8 clicks / 1.10% CTR**; approximate impression-weighted position 31.90 |
+| GSC prior complete week | Oct 6–12 | **64 impressions / 0 clicks**, approximate position 21.62 |
+| GSC latest complete week | Oct 13–19 | **97 impressions / 4 clicks / 4.12% CTR**, approximate position 21.94; +33 impressions / **+51.6%**, very small sample and mixed queries |
+| GSC visible queries | 62 rows | **219 impressions / 0 clicks**; anonymized/unreported queries prevent reconciliation to chart totals |
+| GSC page aggregation | 64 rows | **823 impressions / 8 clicks**; page/property aggregation differs, not an arithmetic repair target |
+| Full Coverage chart | Aug 10–Oct 12, stale before analog release | **71 indexed / 8 not indexed**: 3 redirect, 5 discovered-currently-not-indexed; crawled-currently-not-indexed 0, validation passed. No affected-URL list in this ZIP |
+| GA4 overview | **Sep 24–Oct 21 rolling 28 days** | **84 active / 80 new users / 19.45 sec mean engagement / 727 total events**; previous Sep 17–Oct 14 was 66/65/13.08 sec/442, overlapping 21 days, not independent weekly lift |
+| GA4 acquisition | first-user vs session grain | **15 organic active users by first-user source** (Google 6, Bing 6, DuckDuckGo 3); **16 organic sessions** (Google 7, Bing 6, DuckDuckGo 3), total 88 sessions. Prior overview 11/11. Direct 67 of 84 first-user active users (**79.8%**) |
+| Separate KeywordReport | filename Oct 22, period/engine/property/filter absent; header labels advertising impressions | **413 rows / 537 displayed impressions / 8 clicks / 1.49% CTR**. Prior 326/426/6 is not a verified comparable period |
+| Separate PageTrafficReport | same missing metadata | **43 rows / 902 displayed impressions / 8 clicks / 0.89% CTR**. Prior 36/739/6 is not a verified comparable period |
+
+- GSC top devices: desktop 610 impressions/6 clicks, mobile 115/2, tablet 2/0. These are not session counts. Country one-click changes are too small for targeting decisions.
+- Growth signals: USB4 PCIe Reference **149/0** (previous 144/0), four core PCIe-tunneling queries **120/0** (previous 98/0); Cable Decoder **42/1** (37/0); HDMI routing workbench **21/1**, one-cable role Guide **17/1**, PD Requirement Builder **2/1** gain one reported click each. PPS checker **34/0**, position about 8.03, still a tiny sample. No causal attribution to recent releases or unsupported title/CTR rewrite.
+- Separate PageTraffic priority remains Display Alt Mode Guide **545/2**, PD-PPS Guide **57/0**, MST Guide **40/0**, Hub Guide **39/0**, Cable Labels **33/0**, USB4 Reference **24/1**, Decoder **21/0**. Keep this report separate from GSC; do not call it verified Google volume or ad revenue.
+- New analog launch has **two exposed GSC page rows: 6 impressions / 1 click total** (Signal Tool 2/1; Guide 4/0). The existing HDMI audio route's 6 impressions are **not** part of the new analog cluster. PoE has eight exposed rows / 76 impressions / 0 clicks, versus 51 impressions previously; this does not prove all PoE URLs indexed.
+- GA4 seven analog titles total **111 pageviews / 185 events**; per-page active-user counts are non-additive. October 16's 120 local/production browser QA checks were not network-stubbed, so these views/events can include substantial QA. Neither these totals nor 727 total events establish real tool demand. Named event + tool_id/workbench/result_state + date/channel exports remain missing.
+- Coverage ends before the October 16 analog launch. **Do not report 71 as the current October 22 indexed count**, identify the five current issue URLs from this aggregate ZIP, or claim all new routes indexed. Prior five URL controls are reused for access checks, not relabeled as a new URL list.
+
+### External discovery and prioritization
+
+- Full reusable record: [research/2026-10-22-cluster-discovery.md](research/2026-10-22-cluster-discovery.md): **40 keyword seeds / five families / 20 decision-level candidates**. Not 40 executed searches or independent validated Tools.
+- Fresh/adjacent families: SDI/reference sync/BNC roles; deskphone RJ9/QD/EHS; reopened PATA/IDE/ATAPI bridges; sim peripheral ports; smartcard reader protocol/host paths. Broad sources include actual Google/Naver search pages, Reddit, specialist forums, manufacturer manuals/support, Microsoft and reseller tables; not only our GSC or three named venues.
+- Demand is qualitative repetition; no new verified view-count sample, keyword volume, global document count or numeric competition score was available. Naver listings/spam are weak evidence. Failed Blackmagic forum body, incomplete Jabra form and failed alternate ACS PDF are explicitly not counted as verified detailed inspections.
+- Actual SimRacing Guide competitor UI: PC selection advanced through Continue to Recommended setups / Custom build, supporting real interactive competition, not every pairing's accuracy. Exact-model vendor/reseller compatibility data compete strongly with generic RJ9 and sim planners.
+- **New cluster NO-GO this week.** SDI retains two plausible independent decisions; BNC role and cable reach do not establish a safe independent fourth Tool. Legacy bridge settings/power are largely prerequisites; other families require model maintenance or overlap existing paths. No filler Tools, unsafe wiring, credential/card handling, automatic hardware sensing or model database added. GSC absence is not a rejection reason.
+- Existing PCIe Reference already covers meaning/path/host/security/enumeration and was left unchanged. Active/passive cable intent plus the real Decoder unknown-data ambiguity is a more actionable existing-page gap.
+- Source-quality gate: an externally found Plugable KB contained misleading TB4 rate/USB3.1 power statements and was not used as authority. The public expansion relies on onsemi passive-EMCA/active-conditioning distinctions and one exact Cable Matters HOST/SINK example, not a universal active-cable direction/length rule.
+
+### Implementation and completion quality
+
+- Public changes: **three existing pages**, no new URLs: Cable Decoder, Cable Labels Guide and Video Adapter Direction Guide. New page / Tool / cluster delta **0 / 0 / 0**. Inventory remains **84 HTML / 83 indexable / 43 Tools / 9 workbenches / 16 Guides / 8 References / 0 Comparisons**.
+- Decoder's absent data rating is now **Not stated / unknown**, separate from documented **480 Mbps**. Unknown is not inferred USB 2.0, charge-only, a quantified transfer ceiling or a declared fit, even with a confirmed power record. Video-unverified vs documented USB2-only warnings are distinct; A-to-C unknown likewise stays unknown. Finite/enum validation covers altered or missing claims.
+- Decoder result now retains selected product/power/data, length in meters, evidence/video choices and canonical URL for Copy/Print. Unknown and invalid states remain warnings/errors, never promoted to normal fit. Hardcoded URL word-break opportunities prevent mobile intrinsic overflow without CSS changes.
+- Cable Labels adds a source-backed active/passive/active-converter comparison, e-marker distinction, exact-model direction example and job-first next actions. Video Adapter Guide links the construction/conversion distinction. Existing URLs, title/H1 and canonicals are preserved; only Cable Labels description and actual Guide modification dates changed.
+- Sitemap retains exactly **83 URLs**, changing only the three edited page lastmods to October 22. Existing robots Sitemap directive preserved. **No IndexNow added**, following the user's latest sitemap-first decision; no external submission/IndexNow success is claimed.
+- **Only cableDecode body changes in shared app.js**; every other function/helper, event taxonomy and controller is equal after newline normalization. Decoder JS cache key becomes 20261022a. CSS is unchanged, including older desktop select alignment. Exact footers on all 83 indexable pages, Home/Findly/badge, About/Contact/Privacy, CNAME, robots and llms are preserved against 5e366ea.
+- AdSense objective: clearer honest capability limits, original decision usefulness, sources and unchanged navigation/contact/privacy support site completeness. No thin cluster or fabricated compatibility claim added; no account/ad-policy audit, approval guarantee or application submission is claimed. GA4 **G-8PFRRXPGEF** singleton remains on all 84 public HTML pages.
+
+### Local verification
+
+- Existing verifier PASS: **84 HTML / 83 sitemap URLs**, metadata, canonical/OG, JSON-LD, H1, duplicate IDs, internal targets and GA4 singleton. Static link graph **0 orphan pages**; reused five Coverage controls depth 1–2.
+- Retained unknown-power/data regression expanded: absent/invalid/nonfinite/altered enums; documented USB2 vs unknown; video branches; EPR/PPS/known ratings; selected input/unit/URL record; shipped Copy payload and Print invocation for unknown/error states. PASS. Existing analog regression **4,095 states PASS**, JS syntax and diff whitespace PASS.
+- Actual IAB browser: **26 viewport checks** (three edited pages at 390/768/900/1024/1280/1440 =18; Charge, Hub Bandwidth, PoE Passthrough, Audio Signal controls at 390/1280 =8), then Decoder rechecked all six after result-record addition. No overflow/H1 defect, Decoder 46px controls and paired desktop tops PASS. A temporary harness initially requested a nonexistent PoE route; correcting it to the existing poe-passthrough-planner fixed the harness without product changes.
+- Browser unknown, evidence checkbox, video, documented 480 Mbps vs 5 Gbps, explicit submit, empty-length error, Reset and Copy success label verified. Clipboard read API returned empty after the success label; **end-to-end clipboard read-back is not claimed**. Retained fixture verifies the real shared Copy handler receives input/unit/URL text. Fixture scaffolding needed classList/button defaults; those were test-only repairs, not product defects.
+- Print handler invocation and retained hide-form/nav/buttons CSS verified; **no saved PDF/print-preview visual check or physical printing claimed**. Guide table and mobile Decoder visuals inspected. Observed browser warnings/errors **0**.
+- Local-only preview omits GA loader/config from served responses without editing public files, so local QA does not send GA. No browser/dependency installation or execution-policy change. Production QA visits may send GA and must not be counted as acquisition evidence.
+
+### Next week's evidence gates
+
+1. Compare the next complete GSC seven days with **October 13–19**, not the overlapping GA4 windows or undated separate exports; avoid attributing one-click changes.
+2. Obtain current Coverage/URL Inspection evidence and the affected-URL list before updating current indexed counts or asserting an indexing fix.
+3. Request/export named tool events with date, source/channel, tool_id/workbench/result_state; exclude known QA where possible. Watch analog search landings beyond launch QA.
+4. Observe active/passive and missing-data task success on the existing routes. Do not churn the USB4 Reference or recently clarified Hub pages just because impressions rise.
+5. Continue external discovery with SDI as a bounded HOLD; require four genuinely independent useful actions and actual tool-level competition checks before a new cluster. Reuse all older exclusions.
