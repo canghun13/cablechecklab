@@ -179,12 +179,12 @@ Potential long-term models are contextual advertising, clearly disclosed affilia
 
 ## Current inventory
 
-- Public HTML total: 84 (reverified 2026-10-22)
-- Indexable HTML / sitemap URLs: 83; the custom 404 is the only non-indexable HTML page
-- Interactive Tools: 43
-- Problem workbenches: 9 (`charging`, `cables`, `displays`, `docks`, `usb4-thunderbolt`, `video-adapters`, `hdmi-routing`, `poe`, and `analog-audio`) plus the main Tools hub
-- Standalone Guides: 16 plus the Guides hub
-- Focused References: 8 plus the References/method hub
+- Public HTML total: 91 (reverified 2026-10-26)
+- Indexable HTML / sitemap URLs: 90; the custom 404 is the only non-indexable HTML page
+- Interactive Tools: 47
+- Problem workbenches: 10 (`charging`, `cables`, `displays`, `docks`, `usb4-thunderbolt`, `video-adapters`, `hdmi-routing`, `poe`, `analog-audio`, and `digital-studio`) plus the main Tools hub
+- Standalone Guides: 17 plus the Guides hub
+- Focused References: 9 plus the References/method hub
 - Comparisons: 0
 - Other public pages: Home, About, Contact, Privacy, 404
 
@@ -2208,3 +2208,57 @@ Normal Chrome and Googlebot Smartphone requests returned identical final HTML fo
 - Final production screenshot retained outside the repository. Temporary preview and agent tabs are cleaned up; temporary analysis/source-audit scripts contain no copied report rows and are removed after verification. Retained regression tests and reusable research remain in Git. QA source requests do not execute GA, but the real production browser visits can contribute events/views and must not be interpreted as external demand.
 - Source availability note: after the initial successful five-report reading/calculation, a final optional repeat found the four exact October 22 GSC/Keyword/PageTraffic references no longer accessible; the GA4 overview reference remained accessible. Earlier computed analysis was retained, no alternate Downloads search was made and no path/re-upload request was needed to complete the already-analyzed work. No report was deleted or modified by this task.
 - Final documentation-only commit records this closeout. Its SHA cannot be embedded in itself; resolve from Git history. After its push, verify exact-SHA Pages completion, local HEAD = fetched origin/main = actual remote main, 0/0 divergence and clean working tree and report those final values. Public HTML/assets do not change in this closeout commit.
+
+## 2026-10-26 — Aggressive fresh-family discovery and digital studio launch
+
+### Baseline and scope
+
+- User clarified that the expansion prompt was for execution in this chat, not merely prompt drafting. Prioritize a useful new long-tail cluster, not another report-only/quick NO-GO turn.
+- Existing correct repository on main, clean at **9b5958ad98c8a09cea618ff16316712b66eff318**. Live remote main and fetched origin/main matched, 0/0 divergence; no pull, clone, repository creation, reset/restore, unknown-work overwrite, installation or environment reconfiguration. Current handover and prior research/exclusion sets were read first. No applicable project/parent AGENTS.md was found.
+- Reused nine completed clusters and the 35/28/54/60 historical sets, September fan/RGB/legacy exclusions, October radio/Powerline/DMX and October 16/22 research. No new GSC/GA4 exports were provided or required; no Downloads search or old report re-analysis. Previous reporting caveats remain intact.
+
+### Fresh discovery and GO
+
+- Full record: [research/2026-10-26-cluster-discovery.md](research/2026-10-26-cluster-discovery.md). **32 distinct searched problem families**, not keyword synonyms, product-name variants or 32 launchable clusters. Four finalists and **16 proposed action-level Tools** were compared. One final cluster only.
+- New families include studio ADAT/clocking, modular CV, phono loading, stage digital snakes, networked audio, LTC recording, split keyboards, arcade I/O, SCSI, camera remotes/flash, AV triggers, assistive switches, amateur radio, NMEA, telescope control, RC buses, debug/maker/instrument buses, UPS management, POS, DECT/FXS, mains/EV and e-bike connector boundaries. Out-of-scope/safety/database-heavy families were explicitly screened out rather than silently made into pages.
+- Freshness is relative to named workflows in prior records. Digital studio is not the previously held optical/coax-to-analogue DAC task; NMEA/USBTMC/debug buses are not renamed serial-settings pages; split keyboard TRRS is not headset TRRS. Exploratory modular-PSU research hit an existing exclusion and was not counted fresh. Prior SDI/RJ9/PATA/sim/smartcard/PCIe/RF/control-pedal/FFC/Ethernet/KVM candidates were not rebranded.
+- Evidence spans actual Google and Naver search pages, Reddit, Avid/Eventide specialist discussions, manufacturer support/manuals, GitHub/project sites, actual routing UI and YouTube. Search counts, numeric keyword difficulty and monthly volume were not invented. Naver weak/aggregator/unrelated shopping results were discounted.
+- Actual [Cranborne clock/S-MUX tutorial](https://www.youtube.com/watch?v=3_r7fZpHmaE): approximately **3.4k lifetime views / 41 likes**, about six years old on October 26. Modest accumulated interest, not monthly demand or acquisition forecast. Larger recommended-video counts were not promoted to directly verified page metrics.
+- Actual [Routing Editor](https://routingeditor.com/editor): searched catalogue, added Clarett+ 8Pre to the desk; real digital/clock/TOSLINK/BNC roles exist. ADAT-only catalogue search had no entry, but model search did, so this was not falsely called absent support. No full pairing/export test or assertion that every clock function is missing. It is a broad wiring competitor, not evidence against all narrower decision Tools.
+- Finalists: digital studio **GO**; modular CV **HOLD** (Ableton/VCV/Patcher and exact voltage/scale constraints); phono **HOLD** (loading/gain competitors plus shipped hum overlap); NMEA **HOLD** (Maretron/Actisense and exact PGN/install data). Rejection was not based on absent GSC exposure.
+- Competition is **medium at the bounded task level**, high for generic audio routing/content. A current October expansion guide directly overlaps informational intent; the opportunity is a concise evidence-aware interactive decision sequence, not an empty SERP or guaranteed rankings.
+- Primary technical sources include Audient/PreSonus S-MUX, Focusrite format/clock/troubleshooting/standalone routing, Apogee fixed-leader counterexample and RME explicit S-MUX4/word-clock-rate behavior. Exact model/firmware overrides general patterns. Current support notes can contain specific clock/rate issues; do not encode a timeless brand-wide guarantee.
+
+### Four independent Tools and public implementation
+
+1. **/tools/optical-audio-format-checker/** — declared ADAT/S-PDIF optical mode + OUT/IN direction + route/manual evidence → matching mode, direction conflict or genuine format-conversion requirement. No TV DAC/codec selector, AES3 electrical adapter promise or cable detection.
+2. **/tools/adat-expansion-planner/** — target channels, rate, usable one-way optical OUT/IN counts, exact endpoint channel ceilings and mode support → required links, constrained budget and logical bundles. 8/4/2 slots depend on base/S-MUX2/S-MUX4 support; unknown ceilings are not unlimited. Bundles are not universal DAW channel maps.
+3. **/tools/digital-clock-route-planner/** — preferred leader, embedded/BNC timing route, current audio direction, clock capabilities and audio rates → follower settings, timing-route diagram and missing reverse clock path. Two-device synchronous domain only; no SRC or multi-device BNC distribution/termination design. Audio sample rate is not a universal BNC-frequency prescription.
+4. **/tools/digital-audio-failure-isolator/** — lock/source/receiver/DAW meter observations, rate comparison and controlled cable result → next unresolved layer. Rate/conflicting-observation precedence retained, no automatic hardware diagnosis or successful-fit result.
+
+- New workbench **/tools/digital-studio/**; practical Guide **/guides/adat-digital-audio/**; primary-source Reference **/references/digital-studio/**. Four decisions can be used independently: format/conversion, purchase/link count, timing configuration, and fault observations. The fourth is not another capacity formula or prerequisite page.
+- Integrated Home/Tools/Guides/References/About, llms and an appropriate cross-link from the existing analog Signal Tool. Updated accurate public counts and only six actually changed old-page sitemap dates; added seven canonical URLs. No existing route or canonical removed.
+- Inventory: **91 HTML / 90 indexable / 47 Tools / 10 workbenches / 17 Guides / 9 References / 0 Comparisons**. Delta **+7 public pages / +4 Tools / +1 cluster**.
+- Existing **46 named function/helper/controller bodies** remain byte-equal after newline normalization. Shared changes are the new workbench ID, six new digital functions, four registry entries and confidence-boundary inclusion only for new digital Copy outputs. Existing 43 calculations and previous fixes are preserved.
+- New scoped CSS contains long native selects/records, keeps 46px controls and paired desktop labels aligned, and provides the timing-route diagram. Existing rules are unchanged; new print rules hide only new Tool notes and keep timing diagrams together. Original print form/nav/button hiding remains.
+- All new outputs, including invalid/unknown states, retain selected inputs, units, canonical URL and confidence boundary for Copy/Print. Missing/altered/nonfinite values do not become fit; nonfinite raw numeric records are labeled invalid rather than printed as numeric results.
+- GA4 **G-8PFRRXPGEF** singleton remains on every public HTML page; existing six-event taxonomy/coarse IDs preserved, no selected field values sent. Contact remains canghun13@naver.com. No audio permission/upload/recording/tone generation, model DB, backend, framework or dependencies added.
+- Protected exact footers on **all 84 prior pages**, Home footer/Findly/badge tail, Contact/Privacy, robots and CNAME equal baseline. No affiliate layer, ad claim, approval guarantee or external policy/account action. Site completeness grows through independent useful actions and primary evidence, not doorway variants.
+- Sitemap **90 URLs**, zero duplicates/orphans and canonical discovery retained. **No IndexNow added**; latest sitemap-first user preference remains.
+
+### Local QA
+
+- Existing site verifier **PASS — 91 HTML / 90 sitemap URLs**, GA4, metadata/OG/canonical, H1, JSON-LD, duplicate IDs and internal targets. Extended static graph **0 orphans**, seven new routes depth 1–2, at least seven distinct inbound pages per new Tool/Guide/Reference; new workbench depth 1.
+- New retained **tools-qa/verify-digital-studio.cjs**: **9,906 states PASS** using HTML-derived fields and shipped controllers. Includes format enums, independent channel-budget oracle, S-MUX rates, endpoint unknowns, clock direction/rate/capability, fault precedence, missing/altered/nonfinite inputs, escaped records, Reset, real shared Copy payload/Print invocation, coarse event privacy and workbench transition.
+- Retained analog regression **4,095 states PASS**; unknown cable power/data and Copy/Print regression PASS; JS syntax and diff whitespace checks PASS. No full deep retest of all 43 unchanged controllers without a shared-logic change.
+- Actual IAB browser: new seven pages at **390/768/900/1024/1280/1440 =42 viewport checks**; six edited old pages plus Decoder/Charge/Hub Bandwidth/PoE Passthrough at 390/1280 =**20 controls**. **62 checks PASS**, no overflow/H1/table defect; every new control 46px, paired desktop tops equal. Mobile workbench/clock form and desktop ADAT form inspected visually.
+- Actual browser alternate/default/unknown/conflict behavior exercised for all four; explicit submit, empty-number error and Reset/default restoration PASS. Actual **all four Copy read-backs PASS**, including input record/units/URL/confidence boundary. This session's clipboard API worked; do not reuse October 22's read-back limitation as the current result.
+- Mobile menu open/close PASS, observed console warnings/errors **0**. Print verified by shipped-handler invocation and retained/scoped print CSS; **no saved-PDF or native print-preview visual verification claimed**, no physical print job sent.
+- Local preview strips GA loader/config from response HTML only; public files retain GA. This prevents local QA events. Production browser visits may send GA and must not be interpreted as acquired demand. No installed runtime/browser, changed execution policy or system settings.
+
+### Next evidence / reuse
+
+- Observe digital-studio landing/query families and named tool_run/result/Copy/Print with date/channel/tool IDs after enough post-release data. A successful QA/Pages release is not proof of indexing or demand.
+- Continue current Coverage and event-export follow-up from October 22; no fresh indexed-count claim or report uplift is made in this supplemental release.
+- Preserve all 32 family decisions and source boundaries. Reopen held workflows only with materially new independence/maintenance/competition evidence, not a new name.
+- Start every future environment from actual remote main plus this file, inspect dirty/unpushed changes, use only safe ff-only sync and preserve unknown work. No install/reconfiguration was needed here.

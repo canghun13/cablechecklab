@@ -10,7 +10,7 @@
     });
   }
 
-  const workbenchIds = new Set(['charging', 'cables', 'displays', 'docks', 'usb4-thunderbolt', 'video-adapters', 'hdmi-routing', 'poe', 'analog-audio']);
+  const workbenchIds = new Set(['charging', 'cables', 'displays', 'docks', 'usb4-thunderbolt', 'video-adapters', 'hdmi-routing', 'poe', 'analog-audio', 'digital-studio']);
   const pathParts = window.location.pathname.split('/').filter(Boolean);
   const pageWorkbench = pathParts[0] === 'tools' && pathParts.length === 2 && workbenchIds.has(pathParts[1]) ? pathParts[1] : '';
   const track = (eventName, parameters = {}) => {
@@ -1341,7 +1341,161 @@
     audioPaint('info', label, title, 'Change one documented condition at a time and keep untested observations explicit.', actions, note);
   }
 
-  const calculators = { charge: chargeCheck, cable: cableDecode, display: displayPlan, multiport: multiportPlan, pps: ppsRangeCheck, pdrequirement: pdRequirement, cableselector: cableSelector, datapath: dataPathCheck, dsc: dscPlan, lanes: lanePlan, dockrequirement: dockRequirement, hubpower: hubPowerBudget, troubleshoot, usb4path: usb4FeaturePath, usb4budget: usb4Budget, adapterdirection: adapterDirection, mstchain: mstChain, pdfixed: pdFixedProfile, multiportcompare: multiportCompare, directdock: directDockIsolation, portdecode: portDecode, videochain: videoFeatureChain, hubbandwidth: hubBandwidth, rolematch: roleMatch, usb4fallback: usb4Fallback, highrefresh: highRefreshIsolation, dropout: peripheralDropout, onecablemonitor: oneCableMonitor, hdmirouting: hdmiRoutingSelector, hdmimatrix: hdmiMatrixSize, hdmimixed: hdmiMixedDisplay, hdmiaudio: hdmiAudioRoute, hdmiisolation: hdmiDistributionIsolation, poeclass: poeClassCheck, poeselector: poeEquipmentSelector, poebudget: poePowerBudget, poepassthrough: poePassthroughPlan, passivepoe: passivePoePreflight, poeisolation: poeFailureIsolation, audiosignal: audioSignalPath, headsetadapter: headsetAdapter, micpower: microphonePower, audionoise: audioNoiseIsolation };
+
+  // Digital studio: declared optical formats, capacity, timing routes and observations.
+  function digitalPaint(kind, label, title, text, list, note) {
+    const escape = entry => String(entry).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+    const record = Array.from(form.elements).filter(field => field.name && ['SELECT', 'INPUT'].includes(field.tagName)).map(field => {
+      const choice = field.tagName === 'SELECT' ? Array.from(field.options).find(option => option.value === field.value)?.textContent || 'Missing / altered' : String(field.value).trim() !== '' && Number.isFinite(Number(field.value)) ? field.value : 'Invalid / missing';
+      return (field.labels?.[0]?.textContent || field.name) + ': ' + choice;
+    }).join('; ');
+    const routes = { opticalformat: 'optical-audio-format-checker', adatcapacity: 'adat-expansion-planner', digitalclock: 'digital-clock-route-planner', digitalfault: 'digital-audio-failure-isolator' };
+    paint(kind, label, title, text, [...list, 'Input record — ' + escape(record), 'Page: https://cablechecklab.com/<wbr>tools/<wbr>' + routes[tool.dataset.tool] + '/'], note);
+  }
+
+  function digitalChoices(entries) {
+    if (entries.every(([name, choices]) => choices.includes(value(name)))) return true;
+    digitalPaint('bad', 'Check input', 'Complete every selection', 'Use listed values; unknown and not tested are explicit evidence states.', ['Missing or altered values never become a fit.'], 'No connection verdict is produced from invalid inputs.');
+    return false;
+  }
+
+  function opticalFormatCheck() {
+    if (!digitalChoices([['ofSource', ['adat', 'spdif', 'unknown']], ['ofTarget', ['adat', 'spdif', 'unknown']], ['ofDirection', ['out-in', 'out-out', 'in-in', 'unknown']], ['ofRoute', ['direct', 'passive', 'converter', 'unknown']], ['ofEvidence', ['yes', 'no', 'unknown']]])) return;
+    const source = value('ofSource'), target = value('ofTarget'), direction = value('ofDirection'), route = value('ofRoute'), docs = value('ofEvidence');
+    const note = 'This checks declared optical format and direction, not the physical cable, sample-rate support, channel budget, clock lock or encoded S/PDIF content. A TOSLINK plug is not a protocol detector; a format converter is not a passive shape adapter.';
+    let kind = 'warn', label = 'Evidence needed', title = 'Identify both optical modes', text = 'Read the selected port mode in both manuals or control panels.';
+    const list = ['ADAT and optical S/PDIF can use the same TOSLINK connector but are different digital formats.', 'Use a transmitting OUT port and a receiving IN port; the one-way audio route does not automatically provide a return clock route.'];
+    const mismatch = source !== 'unknown' && target !== 'unknown' && source !== target;
+    if (direction === 'out-out' || direction === 'in-in') {
+      kind = 'bad'; label = 'Direction conflict'; title = 'OUT must feed IN'; text = 'The declared endpoints do not form a transmitter-to-receiver path.';
+    } else if (docs === 'no') {
+      kind = 'bad'; label = 'Documented conflict'; title = 'Resolve the manual conflict'; text = 'The exact route or mode is explicitly not supported.';
+    } else if (mismatch && route !== 'converter' && route !== 'unknown') {
+      kind = 'bad'; label = 'Format conflict'; title = 'A passive cable cannot translate this'; text = 'Changing the TOSLINK cable or plug shape does not convert ADAT to S/PDIF or the reverse.';
+      list.push('Look for a device with the required selectable input mode or a converter explicitly accepting the source format and producing the destination format.');
+    } else if (mismatch) {
+      title = 'Verify an actual format converter'; text = 'A different format must be translated, not merely passed through.';
+      list.push(docs === 'yes' && route === 'converter' ? 'A conversion route is declared in the manuals. Verify its input/output modes, channel mapping, supported rates and clock behavior separately.' : 'An unspecified converter, optical/coax transport box or DAC is not evidence of ADAT/S/PDIF translation.');
+    } else if (source !== 'unknown' && target !== 'unknown' && direction === 'out-in' && route === 'direct' && docs === 'yes') {
+      kind = 'ok'; label = 'Declared format match'; title = 'The optical modes agree'; text = 'Both declared ends use the same format in the correct direction. This is not a measured audio or sync pass.';
+    } else if (source !== 'unknown' && target !== 'unknown') {
+      title = 'Matching format, remaining route checks'; list.push('Confirm any adapter/converter and exact-model mode declarations before treating the complete route as supported.');
+    }
+    digitalPaint(kind, label, title, text, list, note);
+  }
+
+  function adatCapacityPlan() {
+    if (!digitalChoices([['apSupport', ['yes', 'no', 'unknown']]])) return;
+    const rate = number('apRate'), wanted = number('apWanted'), tx = number('apTx'), rx = number('apRx'), sourceCap = number('apSourceCap'), receiverCap = number('apReceiverCap'), support = value('apSupport');
+    if (![44.1, 48, 88.2, 96, 176.4, 192].includes(rate) || ![wanted, tx, rx, sourceCap, receiverCap].every(Number.isInteger) || wanted < 1 || wanted > 32 || tx < 0 || tx > 8 || rx < 0 || rx > 8 || sourceCap < 0 || sourceCap > 64 || receiverCap < 0 || receiverCap > 64) {
+      digitalPaint('bad', 'Check input', 'Use whole channel and port counts', 'Target: 1–32 channels; optical ports: 0–8; declared channel ceilings: 0–64 (0 means unknown).', ['Choose a listed sample rate in kHz.'], 'No capacity verdict is produced from invalid or nonfinite input.'); return;
+    }
+    const perLink = rate <= 48 ? 8 : rate <= 96 ? 4 : 2;
+    const mode = rate <= 48 ? 'base-rate ADAT' : rate <= 96 ? 'S/MUX2' : 'S/MUX4';
+    const required = Math.ceil(wanted / perLink), links = Math.min(tx, rx), slots = links * perLink;
+    const bound = Math.min(slots, sourceCap || slots, receiverCap || slots);
+    const note = 'This is a one-source-to-one-receiver, one-direction declared budget. Both devices must support the selected ADAT rate/mode. S/MUX4 at 176.4/192 kHz is not universal. Counts exclude analogue I/O and opposite-direction ports; clocking, firmware, DSP and exact hardware/DAW channel maps remain separate.';
+    const list = ['Target: ' + wanted + ' channels at ' + fmt(rate) + ' kHz; mode: ' + mode + '.', 'Arithmetic when supported: ' + perLink + ' channels per optical link; at least ' + required + ' separate one-way links for the target.', 'Declared optical OUT ports: ' + tx + '; optical IN ports: ' + rx + '; paired links: ' + links + '.'];
+    let kind = 'warn', label = 'Mode evidence needed', title = required + ' links if supported', text = 'Confirm the selected rate/mode at both ends before treating arithmetic as available channels.';
+    if (support === 'no') {
+      kind = 'bad'; label = 'Mode unsupported'; title = 'The selected ADAT mode is not supported'; text = 'More cables do not add a missing rate/mode capability.';
+    } else if (tx === 0 || rx === 0) {
+      kind = 'bad'; label = 'Missing optical port'; title = 'No declared one-way optical link'; text = 'A usable source OUT and receiver IN are both required.';
+    } else if (support === 'yes') {
+      list.push('Link-only slots: ' + slots + ' channels. Source channel ceiling: ' + (sourceCap || 'unknown') + '; receiver ceiling: ' + (receiverCap || 'unknown') + '.');
+      if (bound < wanted) {
+        kind = 'bad'; label = 'Declared budget shortfall'; title = 'At most ' + bound + ' channels within this budget'; text = 'The declared links or endpoint ceiling cannot meet the target.';
+        if (slots < wanted) list.push('The target needs ' + required + ' usable OUT/IN port pairs. Extra cables alone cannot create extra ports.');
+        if ((sourceCap && sourceCap < wanted) || (receiverCap && receiverCap < wanted)) list.push('An endpoint channel ceiling also matters; adding optical links will not remove that declared ceiling.');
+      } else if (!sourceCap || !receiverCap) {
+        label = 'Endpoint ceiling unknown'; title = slots + ' link slots; endpoint limits unverified'; text = 'The optical arithmetic fits, but an unknown channel ceiling is not permission to assume those channels are exposed.';
+      } else {
+        kind = 'ok'; label = 'Declared port budget fits'; title = wanted + ' channels fit the declared budget'; text = 'The chosen mode, link count and entered endpoint ceilings accommodate the target on paper.';
+      }
+      for (let i = 0; i < Math.min(required, links); i++) list.push('Logical bundle ' + (i + 1) + ': target channels ' + (i * perLink + 1) + '–' + Math.min((i + 1) * perLink, wanted) + '. This is an allocation worksheet, not a physical-port/DAW numbering claim.');
+    }
+    digitalPaint(kind, label, title, text, list, note);
+  }
+
+  function digitalClockPlan() {
+    if (!digitalChoices([['cpLeader', ['a', 'b', 'unknown']], ['cpRoute', ['adat', 'spdif', 'word', 'unknown']], ['cpAudio', ['a-b', 'b-a', 'both', 'unknown']], ['cpEmit', ['yes', 'no', 'unknown']], ['cpFollow', ['yes', 'no', 'unknown']], ['cpWord', ['yes', 'no', 'unknown']]])) return;
+    const rateA = number('cpRateA'), rateB = number('cpRateB');
+    if (![rateA, rateB].every(rate => [0, 44.1, 48, 88.2, 96, 176.4, 192].includes(rate))) {
+      digitalPaint('bad', 'Check input', 'Choose listed audio sample rates', '0 is the explicit unknown-rate option.', ['A missing or altered rate is not a match.'], 'No clock route is certified.'); return;
+    }
+    const leader = value('cpLeader'), route = value('cpRoute'), audio = value('cpAudio'), emit = value('cpEmit'), follow = value('cpFollow'), word = value('cpWord');
+    const note = 'Two devices in one synchronous domain only, with no asynchronous sample-rate conversion. Planned settings are not measured lock. Exact devices may require a fixed leader; BNC word-clock base/double/quad-rate modes and termination are manual-specific. This is not a multi-device BNC distribution design or a sound-quality comparison.';
+    const list = ['A dedicated word-clock cable carries timing, not the missing audio channels. ADAT and S/PDIF can carry embedded timing only in their transmission direction.'];
+    let kind = 'warn', label = 'Clock evidence needed', title = 'Choose one timing leader', text = 'A clock follower needs a real input path from the selected leader.';
+    if (rateA && rateB && rateA !== rateB) {
+      kind = 'bad'; label = 'Audio-rate conflict'; title = 'The declared audio sample rates differ'; text = 'A cable does not resample audio. Use one supported session rate or a separately documented SRC system outside this planner.';
+    } else if (leader !== 'unknown' && route !== 'unknown') {
+      const lead = leader.toUpperCase(), slave = leader === 'a' ? 'B' : 'A';
+      const transport = route === 'word' ? 'Word Clock' : route === 'adat' ? 'ADAT' : 'S/PDIF';
+      list.push('<div class="digital-route"><strong>' + lead + ' · Internal</strong><span>clock → ' + transport + ' →</span><strong>' + slave + ' · ' + transport + ' sync</strong></div>');
+      list.push('Planned settings: ' + lead + ' uses Internal; ' + slave + ' follows its incoming ' + transport + ' reference. Verify exact menu names and supported modes.');
+      const embeddedPath = audio === 'both' || audio === (leader === 'a' ? 'a-b' : 'b-a');
+      const pathKnown = route === 'word' ? word === 'yes' : embeddedPath;
+      const missingPath = route === 'word' ? word === 'no' : audio !== 'unknown' && !embeddedPath;
+      if (emit === 'no' || follow === 'no') {
+        kind = 'bad'; label = 'Clock capability conflict'; title = 'The chosen leader/follower route is unsupported'; text = 'Follow the exact-model clock-source constraints; do not assume every optical receiver can slave from ADAT.';
+      } else if (missingPath) {
+        kind = 'bad'; label = 'Missing timing path'; title = route === 'word' ? 'Provide the documented OUT-to-IN clock route' : 'A return timing connection is required'; text = 'Audio travels opposite to the selected clock leader, or the selected BNC route is absent.';
+        list.push('A follower cannot use an outgoing-only cable as its incoming clock reference. If supported, add a leader OUT → follower IN return link, use a documented word-clock route, or choose the other valid leader.');
+      } else if (pathKnown && emit === 'yes' && follow === 'yes' && rateA && rateB) {
+        kind = 'ok'; label = 'Declared clock route available'; title = lead + ' leads; ' + slave + ' follows'; text = 'The entered rate and timing path are internally consistent. Apply only supported settings, then confirm the receiver lock indicator.';
+      } else {
+        title = lead + ' → ' + slave + ': verify the timing route'; text = 'At least one rate, clock capability or incoming path remains unverified; no sync success is inferred.';
+      }
+      if (route === 'word') list.push('The selected rates are AUDIO sample rates, not a universal BNC clock-frequency prescription. Check full/base-rate output, input range, rated 75-ohm cabling and termination in both manuals; no passive splitting advice is given.');
+    }
+    digitalPaint(kind, label, title, text, list, note);
+  }
+
+  function digitalFaultIsolate() {
+    if (!digitalChoices([['dfSymptom', ['silent', 'clicks', 'channels', 'rate-change', 'unknown']], ['dfLock', ['yes', 'no', 'unknown']], ['dfSource', ['yes', 'no', 'unknown']], ['dfReceive', ['yes', 'no', 'unknown']], ['dfDaw', ['yes', 'no', 'unknown']], ['dfRate', ['same', 'different', 'unknown']], ['dfCable', ['fixes', 'same', 'untested']]])) return;
+    const symptom = value('dfSymptom'), lock = value('dfLock'), source = value('dfSource'), receive = value('dfReceive'), daw = value('dfDaw'), rate = value('dfRate'), cable = value('dfCable');
+    const note = 'These are user observations on one identified channel, not live detection or a root-cause verdict. Lock does not prove correct audio routing, the complete channel map or absence of intermittent errors. Change one external condition at a time, keep levels low, do not look into optical emitters, rewire equipment or modify mains/earth.';
+    const list = ['Record the same source channel at the source, receiver digital meter and DAW input; observations from different channels are not comparable.'];
+    let label = 'Next controlled test', title = 'Establish clock and meter evidence', text = 'Untested observations remain unknown; do not replace equipment from a symptom alone.';
+    if (rate === 'different') {
+      title = 'Resolve the declared rate mismatch first'; text = 'The source, receiver and session are not in one declared audio-rate domain.';
+      list.push('Check a supported common session rate and each device’s mode. This planner does not assume a sample-rate converter is present.');
+    } else if ((lock === 'no' && (receive === 'yes' || daw === 'yes')) || (source === 'no' && receive === 'yes')) {
+      label = 'Recheck observation points'; title = 'The observations need alignment'; text = 'A meter may be showing a local/other channel or a previously locked state.';
+      list.push('Refresh lock status and repeat with one named source channel. Do not interpret the conflicting observations as a pass.');
+    } else if (lock !== 'yes') {
+      title = lock === 'no' ? 'Establish the incoming digital lock' : 'Read the receiver lock status first';
+      list.push('Check OUT → IN, ADAT versus S/PDIF mode, selected sample rate and the actual leader-to-follower clock path.', 'Use the Format Checker and Clock Route Planner before assuming a cable failure. A visible optical light is not a protocol/lock test.');
+    } else if (source === 'no') {
+      title = 'Source signal before the digital link'; text = 'The selected source channel has no observed signal even though timing is reported locked.';
+      list.push('Check the source input mode, normal gain and routing to its digital output. A replacement optical cable cannot create a missing source signal.');
+    } else if (cable === 'fixes') {
+      title = 'Original optical path is implicated'; text = 'A documented known-good cable control changed the outcome; this is not proof the cable alone is defective.';
+      list.push('Retest once with the same ports, modes, clock and routing. Connector seating or the changed route may also matter.');
+    } else if (symptom === 'channels' || symptom === 'rate-change') {
+      title = 'Check S/MUX capacity and channel mapping'; text = 'A rate change can alter the channels per optical link and the exposed input map.';
+      list.push('Compare each manual’s per-rate port/channel table with the ADAT Expansion Planner. Check whether another dedicated optical port is required; do not assume a second socket is an input.');
+    } else if (receive === 'yes' && daw === 'no') {
+      title = 'Receiver-to-DAW routing next'; text = 'Signal reaches the observed receiver digital meter but not the selected DAW input.';
+      list.push('Check the selected audio device, mono/stereo input mapping, channel enable/arm and monitor routing. Record settings; do not reset the interface or DAW blindly.');
+    } else if (daw === 'yes' && receive === 'yes') {
+      title = symptom === 'clicks' ? 'Check intermittent sync and the monitored path' : 'Monitor/output path after recording input';
+      list.push(symptom === 'clicks' ? 'A locked snapshot does not exclude intermittent sync errors. Watch status over time, confirm one clock leader, then compare one known-good optical cable with settings unchanged.' : 'The chosen DAW input shows signal. Check its monitoring/output destination and ordinary low-level listening controls rather than replace the optical input cable.');
+    } else if (source === 'yes' && receive === 'no') {
+      title = 'Source digital routing or receiving bank next'; text = 'The source meter moves, but the selected receiver digital input does not.';
+      list.push('Confirm the source routes that channel to the digital OUT and the receiver uses the expected format/bank. Lock alone does not carry the missing analogue channel into that output.');
+    } else if (symptom === 'clicks') {
+      title = 'Observe lock over time before swapping parts'; list.push('Confirm one supported clock leader and a common audio rate. Then compare one known-good optical cable with routing unchanged.');
+    } else {
+      list.push('Find the first test point with signal: source input meter → receiver digital input meter → DAW input meter → monitor/output. Change only the first unresolved layer.');
+    }
+    if (rate === 'unknown') list.push('The common source/receiver/session audio rate is not yet verified.');
+    if (cable === 'same') list.push('The known-good cable did not change this controlled test. That does not certify every cable/port or prove a software fault.');
+    digitalPaint('info', label, title, text, list, note);
+  }
+
+  const calculators = { charge: chargeCheck, cable: cableDecode, display: displayPlan, multiport: multiportPlan, pps: ppsRangeCheck, pdrequirement: pdRequirement, cableselector: cableSelector, datapath: dataPathCheck, dsc: dscPlan, lanes: lanePlan, dockrequirement: dockRequirement, hubpower: hubPowerBudget, troubleshoot, usb4path: usb4FeaturePath, usb4budget: usb4Budget, adapterdirection: adapterDirection, mstchain: mstChain, pdfixed: pdFixedProfile, multiportcompare: multiportCompare, directdock: directDockIsolation, portdecode: portDecode, videochain: videoFeatureChain, hubbandwidth: hubBandwidth, rolematch: roleMatch, usb4fallback: usb4Fallback, highrefresh: highRefreshIsolation, dropout: peripheralDropout, onecablemonitor: oneCableMonitor, hdmirouting: hdmiRoutingSelector, hdmimatrix: hdmiMatrixSize, hdmimixed: hdmiMixedDisplay, hdmiaudio: hdmiAudioRoute, hdmiisolation: hdmiDistributionIsolation, poeclass: poeClassCheck, poeselector: poeEquipmentSelector, poebudget: poePowerBudget, poepassthrough: poePassthroughPlan, passivepoe: passivePoePreflight, poeisolation: poeFailureIsolation, audiosignal: audioSignalPath, headsetadapter: headsetAdapter, micpower: microphonePower, audionoise: audioNoiseIsolation, opticalformat: opticalFormatCheck, adatcapacity: adatCapacityPlan, digitalclock: digitalClockPlan, digitalfault: digitalFaultIsolate };
   const calculate = calculators[tool.dataset.tool];
   if (!calculate) return;
   form.addEventListener('input', calculate);
@@ -1358,7 +1512,7 @@
   });
   tool.querySelector('[data-copy]')?.addEventListener('click', async (event) => {
     const button = event.currentTarget;
-    const text = [status.textContent, headline.textContent, summary.textContent, ...Array.from(details.querySelectorAll('li')).map((li) => li.textContent), ...(['audiosignal', 'headsetadapter', 'micpower', 'audionoise'].includes(tool.dataset.tool) ? [evidence.textContent.replace(/^Confidence boundary/, 'Confidence boundary: ')] : [])].join('\n');
+    const text = [status.textContent, headline.textContent, summary.textContent, ...Array.from(details.querySelectorAll('li')).map((li) => li.textContent), ...(['audiosignal', 'headsetadapter', 'micpower', 'audionoise', 'opticalformat', 'adatcapacity', 'digitalclock', 'digitalfault'].includes(tool.dataset.tool) ? [evidence.textContent.replace(/^Confidence boundary/, 'Confidence boundary: ')] : [])].join('\n');
     try {
       await navigator.clipboard.writeText(text);
       track('copy_result', { ...analyticsContext, result_state: resultState(), source_context: 'result_panel' });

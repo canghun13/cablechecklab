@@ -1,12 +1,12 @@
 # Cable Check Lab
 
-> Cable Check Lab provides 43 free, browser-only tools for USB-C, USB Power Delivery, USB4, Thunderbolt, video adapters, DisplayPort, docks, HDMI routing, Power over Ethernet, analog audio, and troubleshooting.
+> Cable Check Lab provides 47 free, browser-only tools for USB-C, USB Power Delivery, USB4, Thunderbolt, video adapters, DisplayPort, docks, HDMI routing, Power over Ethernet, analog audio, digital studio, and troubleshooting.
 
 Primary URL: https://cablechecklab.com/
 Contact: canghun13@naver.com
 Language: English
 
-## Nine workbenches
+## Ten workbenches
 
 - [Charging](https://cablechecklab.com/tools/charging/): Fixed PDOs, PPS, requirements, full-chain checks, port-table comparison, shared budgets.
 - [Cables and data](https://cablechecklab.com/tools/cables/): Cable selection, cable/port decoding, data paths, USB4 features.
@@ -18,7 +18,9 @@ Language: English
 - [Power over Ethernet](https://cablechecklab.com/tools/poe/): IEEE Type/Class matching, equipment selection, switch and pass-through budgets, passive-PoE preflight, and isolation.
 - [Analog audio](https://cablechecklab.com/tools/analog-audio/): Signal roles, headset adapter direction and contact order, microphone power preflight, and controlled hum/buzz isolation.
 
-## Forty-three interactive tools
+- [Digital studio](https://cablechecklab.com/tools/digital-studio/): ADAT/S/PDIF formats, S/MUX port budgets, clock-return paths and digital fault observations.
+
+## Forty-seven interactive tools
 
 - [USB-C Charge Check](https://cablechecklab.com/tools/charge-check/)
 - [Audio Signal Path Checker](https://cablechecklab.com/tools/audio-signal-path-checker/)
@@ -64,6 +66,11 @@ Language: English
 - [Passive PoE Compatibility Preflight](https://cablechecklab.com/tools/passive-poe-preflight/)
 - [PoE Failure Isolator](https://cablechecklab.com/tools/poe-failure-isolator/)
 
+- [ADAT vs S/PDIF Optical Format Checker](https://cablechecklab.com/tools/optical-audio-format-checker/)
+- [ADAT Expansion Planner — Channels, Ports & S/MUX](https://cablechecklab.com/tools/adat-expansion-planner/)
+- [Digital Audio Clock Route Planner — ADAT & Word Clock](https://cablechecklab.com/tools/digital-clock-route-planner/)
+- [Digital Audio Failure Isolator — ADAT No Sound & Clicks](https://cablechecklab.com/tools/digital-audio-failure-isolator/)
+
 ## Guides and evidence
 
 - [Analog audio connection guide](https://cablechecklab.com/guides/analog-audio-connections/)
@@ -77,6 +84,9 @@ Language: English
 - [HDMI routing, EDID, and eARC reference](https://cablechecklab.com/references/hdmi-routing-distribution/)
 - [Power over Ethernet Types and Classes reference](https://cablechecklab.com/references/power-over-ethernet/)
 - [Technical references and method](https://cablechecklab.com/references/)
+
+- [ADAT expansion guide](https://cablechecklab.com/guides/adat-digital-audio/)
+- [Digital studio primary sources](https://cablechecklab.com/references/digital-studio/)
 
 ## Interpretation policy
 

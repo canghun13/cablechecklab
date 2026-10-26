@@ -189,6 +189,19 @@ fieldset { border: 1px solid var(--line); margin: 0; padding: 14px; }
 }
 
 /* New audio forms: contain native select and printed-URL intrinsic widths. */
+/* Digital studio: long options and preserved input records stay within the panel. */
+main:is([data-tool="opticalformat"], [data-tool="adatcapacity"], [data-tool="digitalclock"], [data-tool="digitalfault"]) :is(.tool-panel, .result-panel, .field, select) { min-width: 0; }
+main:is([data-tool="opticalformat"], [data-tool="adatcapacity"], [data-tool="digitalclock"], [data-tool="digitalfault"]) .result-list { overflow-wrap: anywhere; }
+.digital-route { display: grid; gap: 8px; border: 1px solid var(--line); padding: 12px; margin-block: 12px; }
+.digital-route span { color: var(--brand); font-weight: 750; }
+@media print {
+  main:is([data-tool="opticalformat"], [data-tool="adatcapacity"], [data-tool="digitalclock"], [data-tool="digitalfault"]) .tool-notes { display: none !important; }
+  .digital-route { break-inside: avoid; }
+}
+@media (min-width: 641px) {
+  main:is([data-tool="opticalformat"], [data-tool="adatcapacity"], [data-tool="digitalclock"], [data-tool="digitalfault"]) .field:not(.full) { align-content: start; }
+  main:is([data-tool="opticalformat"], [data-tool="adatcapacity"], [data-tool="digitalclock"], [data-tool="digitalfault"]) .field:not(.full) > label { min-height: 3.2em; }
+}
 main:is([data-tool="audiosignal"], [data-tool="headsetadapter"], [data-tool="micpower"], [data-tool="audionoise"]) :is(.tool-panel, .result-panel, .field, select) { min-width: 0; }
 main:is([data-tool="audiosignal"], [data-tool="headsetadapter"], [data-tool="micpower"], [data-tool="audionoise"]) .result-list { overflow-wrap: anywhere; }
 /* Keep paired labels and intrinsic control heights consistent on desktop. */
