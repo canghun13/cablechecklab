@@ -94,7 +94,7 @@
 <h2>Why 40 Gbps does not mean 40 Gbps of PCIe throughput</h2>
 <p>The USB4 link is a shared fabric. Display, USB, and PCIe traffic can coexist, and routing, protocol overhead, active traffic, the PCIe function itself, the enclosure controller, and the host all affect delivered performance. A 40 Gbps path is therefore a link-class statement, not a promise of 40 Gbps for storage or an eGPU.</p>
 <p>Microsoft’s connection-manager guidance documents a Windows planning model with explicit allocation limits and dynamic DisplayPort bandwidth behavior. Cable Check Lab exposes a planning share in the Tunnel Budget Planner so the assumption remains visible; it is not a universal efficiency factor.</p>
-<h2 id="windows-evidence">Can an app tell whether my USB4 port supports PCIe tunneling?</h2>
+<h2 id="windows-evidence" style="scroll-margin-top:6rem">Can an app tell whether my USB4 port supports PCIe tunneling?</h2>
 <p>A browser-based cable checker cannot inspect your host’s PCIe tunnel. On Windows, combine the exact port specification with operating-system observations. A USB4 connection, a working USB peripheral, and a working external PCIe function are different pieces of evidence.</p>
 <ol>
 <li><strong>Identify the USB4 connection.</strong> On Windows 11 systems using Microsoft’s USB4 Connection Manager, open <strong>Settings → Bluetooth &amp; devices → USB → USB4 Hubs and Devices</strong>. Inspect the connected-device tree and retain its details for your manufacturer. If the page is absent, verify the Windows version and host’s connection-manager implementation; absence alone is not a verdict on every Thunderbolt or USB-C port.</li>
