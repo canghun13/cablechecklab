@@ -1,12 +1,12 @@
 # Cable Check Lab
 
-> Cable Check Lab provides 47 free, browser-only tools for USB-C, USB Power Delivery, USB4, Thunderbolt, video adapters, DisplayPort, docks, HDMI routing, Power over Ethernet, analog audio, digital studio, and troubleshooting.
+> Cable Check Lab provides 51 free, browser-only tools for USB-C, USB Power Delivery, USB4, Thunderbolt, video adapters, DisplayPort, docks, HDMI routing, Power over Ethernet, analog audio, digital studio, and troubleshooting.
 
 Primary URL: https://cablechecklab.com/
 Contact: canghun13@naver.com
 Language: English
 
-## Ten workbenches
+## Eleven workbenches
 
 - [Charging](https://cablechecklab.com/tools/charging/): Fixed PDOs, PPS, requirements, full-chain checks, port-table comparison, shared budgets.
 - [Cables and data](https://cablechecklab.com/tools/cables/): Cable selection, cable/port decoding, data paths, USB4 features.
@@ -20,7 +20,9 @@ Language: English
 
 - [Digital studio](https://cablechecklab.com/tools/digital-studio/): ADAT/S/PDIF formats, S/MUX port budgets, clock-return paths and digital fault observations.
 
-## Forty-seven interactive tools
+- [Electronic drums](https://cablechecklab.com/tools/electronic-drums/): Trigger requirements, equivalent input allocation, foot-position routes and observed faults.
+
+## Fifty-one interactive tools
 
 - [USB-C Charge Check](https://cablechecklab.com/tools/charge-check/)
 - [Audio Signal Path Checker](https://cablechecklab.com/tools/audio-signal-path-checker/)
@@ -91,3 +93,13 @@ Language: English
 ## Interpretation policy
 
 Results are calculations and declared-capability screens, not live measurements, certification, or exact-model guarantees. Unknown claims remain unknown. Exact product manuals, certified markings, operating-system telemetry, or hardware tests are required where stated.
+
+## Electronic drum connections
+- Workbench: https://cablechecklab.com/tools/electronic-drums/
+- Drum Trigger Compatibility Preflight: https://cablechecklab.com/tools/drum-trigger-preflight/ — Compare a pad’s declared trigger family, input mode, zone ceiling, choke/position support and approved lead. Connector fit alone is not compatibility.
+- Drum Module Input Allocation Planner: https://cablechecklab.com/tools/drum-input-allocation-planner/ — Allocate dual-zone and single-zone pads across one documented equivalent input pool. Preserve split-capable groups and generate a printable input worksheet.
+- Hi-Hat Controller Route Planner: https://cablechecklab.com/tools/hi-hat-control-route-planner/ — Plan separate strike and foot-position paths for electronic hi-hats. Check switch versus continuous control and exact approved analog or digital routes.
+- Drum Trigger Connection Fault Isolator: https://cablechecklab.com/tools/drum-trigger-fault-isolator/ — Record trigger activity, audio output, assignments and controlled approved cable/pad tests. Get the next evidence-based step without claiming a failed component.
+- Guide: https://cablechecklab.com/guides/electronic-drum-connections/
+- Sources and limits: https://cablechecklab.com/references/electronic-drums/
+- Declared requirements and observations only; no hardware sensing, universal model database or wiring/calibration recipe. Input allocation requires one documented equivalent pool.

@@ -10,7 +10,7 @@
     });
   }
 
-  const workbenchIds = new Set(['charging', 'cables', 'displays', 'docks', 'usb4-thunderbolt', 'video-adapters', 'hdmi-routing', 'poe', 'analog-audio', 'digital-studio']);
+  const workbenchIds = new Set(['charging', 'cables', 'displays', 'docks', 'usb4-thunderbolt', 'video-adapters', 'hdmi-routing', 'poe', 'analog-audio', 'digital-studio', 'electronic-drums']);
   const pathParts = window.location.pathname.split('/').filter(Boolean);
   const pageWorkbench = pathParts[0] === 'tools' && pathParts.length === 2 && workbenchIds.has(pathParts[1]) ? pathParts[1] : '';
   const track = (eventName, parameters = {}) => {
@@ -1495,7 +1495,114 @@
     digitalPaint('info', label, title, text, list, note);
   }
 
-  const calculators = { charge: chargeCheck, cable: cableDecode, display: displayPlan, multiport: multiportPlan, pps: ppsRangeCheck, pdrequirement: pdRequirement, cableselector: cableSelector, datapath: dataPathCheck, dsc: dscPlan, lanes: lanePlan, dockrequirement: dockRequirement, hubpower: hubPowerBudget, troubleshoot, usb4path: usb4FeaturePath, usb4budget: usb4Budget, adapterdirection: adapterDirection, mstchain: mstChain, pdfixed: pdFixedProfile, multiportcompare: multiportCompare, directdock: directDockIsolation, portdecode: portDecode, videochain: videoFeatureChain, hubbandwidth: hubBandwidth, rolematch: roleMatch, usb4fallback: usb4Fallback, highrefresh: highRefreshIsolation, dropout: peripheralDropout, onecablemonitor: oneCableMonitor, hdmirouting: hdmiRoutingSelector, hdmimatrix: hdmiMatrixSize, hdmimixed: hdmiMixedDisplay, hdmiaudio: hdmiAudioRoute, hdmiisolation: hdmiDistributionIsolation, poeclass: poeClassCheck, poeselector: poeEquipmentSelector, poebudget: poePowerBudget, poepassthrough: poePassthroughPlan, passivepoe: passivePoePreflight, poeisolation: poeFailureIsolation, audiosignal: audioSignalPath, headsetadapter: headsetAdapter, micpower: microphonePower, audionoise: audioNoiseIsolation, opticalformat: opticalFormatCheck, adatcapacity: adatCapacityPlan, digitalclock: digitalClockPlan, digitalfault: digitalFaultIsolate };
+
+  // Electronic drum workflows: declared evidence and observations, never hardware sensing.
+  function drumEscape(text) {
+    return String(text).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+  function drumPaint(kind, label, title, text, list, note) {
+    const routes = {drumtrigger:'drum-trigger-preflight',drumallocation:'drum-input-allocation-planner',hihatroute:'hi-hat-control-route-planner',drumfault:'drum-trigger-fault-isolator'};
+    const record = Array.from(form.elements).filter(f => f.name).map(f => {
+      const choice = f.tagName === 'SELECT' ? Array.from(f.options).find(o => o.value === f.value)?.textContent || 'Missing / altered' :
+        String(f.value).trim() !== '' && Number.isFinite(Number(f.value)) ? f.value + ' ' + (f.dataset?.unit || '') : 'Invalid / missing';
+      return (f.labels?.[0]?.textContent || f.name) + ': ' + choice;
+    }).join('; ');
+    paint(kind, label, title, text, [...list, 'Input record — ' + drumEscape(record), 'Page: https://cablechecklab.com/<wbr>tools/<wbr>' + routes[tool.dataset.tool] + '/'], note);
+  }
+  function drumValid(names) {
+    return names.every(n => {
+      const f = form.elements[n];
+      return f && Array.from(f.options).some(o => o.value === value(n));
+    });
+  }
+  function drumInvalid() {
+    drumPaint('bad','Check input','Choose valid, complete inputs','Missing, altered or out-of-range values cannot establish a connection plan.',[], 'No hardware has been detected or tested. Restore a listed choice and a finite whole-number count.');
+  }
+  function drumTriggerPreflight() {
+    const names = ['dtPad','dtMode','dtZones','dtCapacity','dtFeature','dtFeatureSupport','dtLead','dtEvidence'];
+    if (!drumValid(names)) return drumInvalid();
+    const pad=value('dtPad'), mode=value('dtMode'), zones=Number(value('dtZones')), capacity=Number(value('dtCapacity')), feature=value('dtFeature'), support=value('dtFeatureSupport'), lead=value('dtLead'), proof=value('dtEvidence');
+    const list = ['Strike signal: pad output → exact approved lead → assigned module trigger mode.',
+      'Requested zones: '+zones+'; declared receiving ceiling: '+(capacity || 'unknown')+'. Choke and position sensing are separate capabilities.',
+      'A TRS shell or matching brand does not establish sensor wiring, resistor coding, supported zones or feature behavior.'];
+    const note = 'Declared preflight only, not a model lookup, electrical safety approval or physical test. Use the exact pad, module input, firmware, mode and lead documentation. A different analog family may require a specifically documented mode, not a generic converter.';
+    if (proof === 'no' || (capacity && zones > capacity) || (pad === 'digital' && !['digital','unknown'].includes(mode)) || (mode === 'digital' && !['digital','unknown'].includes(pad)) || (feature !== 'zones' && support === 'no')) {
+      return drumPaint('bad','Declared conflict','Requested function is not supported by this declaration','Resolve the documented conflict before connecting; another cable is not proof of conversion.',list,note);
+    }
+    if ([pad,mode].includes('unknown') || !capacity || proof !== 'yes' || lead !== 'approved' || (feature !== 'zones' && support !== 'yes')) {
+      return drumPaint('warn','Verify requirements','Exact support is still unverified','Record the required mode, zone ceiling, optional features and approved lead before treating this as a fit.',list,note);
+    }
+    if (pad !== mode) list.push('Different analog descriptions: the affirmative exact-pair documentation must explicitly cover this exception; do not infer it from connector fit.');
+    drumPaint('ok','Declared alignment','Declared requirements align','Your entered documentation covers this request. Confirm the physical response separately; this is not a universal brand/pad compatibility result.',list,note);
+  }
+  function drumAllocationPlan() {
+    if (!drumValid(['daPool','daSplitProof'])) return drumInvalid();
+    const names=['daTotal','daReserved','daEligible','daDual','daSingle'];
+    const nums=names.map(n => number(n));
+    if (nums.some((n,i) => String(form.elements[names[i]].value).trim()==='' || !Number.isInteger(n) || n<0 || n>(i===4?64:32))) return drumInvalid();
+    const [total,reserved,eligible,dual,single]=nums, available=total-reserved;
+    if (reserved>total || eligible>available) return drumInvalid();
+    const proof=value('daPool'), splitProof=value('daSplitProof');
+    const note='Arithmetic for one homogeneous, documented pool only. Logical group labels are not manufacturer jack numbers. Exclude dedicated kick/control inputs and reserve extra resources for two-input cymbals or conflicting digital assignments first. Splitting is allowed only in an exact documented two-independent-single-pad mode with the approved lead; it may lose rim/choke/position features. No wiring or resistor recipe is supplied.';
+    const base=['Pool: '+total+' groups − '+reserved+' unavailable = '+available+' available groups; '+eligible+' of these are documented split-eligible.',
+      'Demand: '+dual+' dual-zone pads and '+single+' single-zone pads. Count one equivalent group per dual-zone pad; unequal inputs must be planned as separate pools.'];
+    if (!dual && !single) return drumPaint('info','No demand','Enter a pad target','Zero pads is not a compatibility or capacity success.',base,note);
+    if (dual>available) return drumPaint('bad','Group shortfall','Not enough groups for dual-zone pads',dual+' required groups exceed '+available+' available groups.',base,note);
+    const remaining=available-dual, remainingEligible=eligible-Math.max(0,dual-(available-eligible)), capacity=remaining+remainingEligible, pairs=Math.max(0,single-remaining);
+    base.push('After dual-zone allocation: '+remaining+' groups remain, including '+remainingEligible+' eligible for a two-single-pad split. Maximum conditional single-pad capacity: '+capacity+' pads.');
+    if (single>capacity) return drumPaint('bad','Pad shortfall','This pool cannot carry the target','Single-pad demand '+single+' exceeds the conditional '+capacity+'-pad capacity, even with all remaining supported splits.',base,note);
+    if (proof==='no' || (pairs && splitProof==='no')) return drumPaint('bad','Unsupported pool','Do not use this allocation as a connection plan',proof==='no'?'These inputs are not interchangeable for the planned pads. Divide them into documented equivalent pools.':'The plan needs '+pairs+' split groups, but that split mode/lead is declared unsupported.',base,note);
+    // Place duals on non-splittable groups first, preserving the scarce split resource.
+    const groups=Array.from({length:available},(_,i)=>({label:i+1,split:i>=available-eligible,use:''}));
+    let d=dual,s=single,p=pairs;
+    for (const g of groups) if(d){g.use='Dual-zone pad '+(dual-d+1);d--;}
+    for (const g of groups) if(!g.use && p && g.split){g.use='Single pads '+(single-s+1)+' + '+(single-s+2)+' (documented split)';s-=2;p--;}
+    for (const g of groups) if(!g.use && s){g.use='Single pad '+(single-s+1);s--;}
+    const occupied=dual+single-pairs;
+    base.push('Occupied: '+occupied+' groups; free: '+(available-occupied)+' groups; split groups actually required: '+pairs+'. No split is used when one pad per remaining group already fits.');
+    base.push('<div class="drum-plan" aria-label="Logical input allocation">'+groups.map(g=>'<div><strong>Plan group '+g.label+': </strong><span>'+g.use.replace(/</g,'&lt;')+(g.use?'':'Unused')+'; </span></div>').join('')+'</div>');
+    const verified=proof==='yes' && (!pairs || splitProof==='yes');
+    drumPaint(verified?'ok':'warn',verified?'Declared budget fits':'Conditional budget',verified?'Documented pool budget fits':'Count fits only if the missing support is documented',dual+' dual-zone + '+single+' single-zone pads use '+occupied+' of '+available+' available logical groups. '+(verified?'Verify the actual assigned inputs and response.':'This arithmetic is not permission to connect.'),base,note);
+  }
+  function hiHatRoutePlan() {
+    const names=['hhStrike','hhController','hhPort','hhGoal','hhLead','hhEvidence'];
+    if (!drumValid(names)) return drumInvalid();
+    const strike=value('hhStrike'), controller=value('hhController'), port=value('hhPort'), goal=value('hhGoal'), lead=value('hhLead'), proof=value('hhEvidence');
+    const integrated=controller==='digital';
+    const list=['Required behavior: '+(goal==='continuous'?'continuous opening positions':'open/closed states only')+'. Foot-position sensing is separate from detecting a strike.',
+      '<div class="drum-route"><strong>Strike path</strong><span>'+(strike==='digital'?'Approved integrated digital pad → exact digital pad port':'Analog pad strike → documented trigger function')+'</span><strong>Position path</strong><span>'+(integrated?'Supported integrated assembly → exact digital pad port':'Foot controller → documented controller function')+'</span><strong>Module</strong><span>Combines strike and position only in a supported assignment/mode.</span></div>',
+      'A sounding strike does not prove that the module can see foot position. Read the input’s documented function, not only its printed TRIG / CONTROL label.'];
+    const note='Route requirements only, not a model database, calibration procedure or safety certification. An audio TRS Y lead does not create a controller port. Some controller inputs source power; do not connect a strike pad there just because the plug fits. Exact approved mode, polarity and lead documentation controls; no universal voltage/resistance claim is made.';
+    const conflict=proof==='no' || port==='none' || lead==='audioy' ||
+      (goal==='continuous' && (controller==='switch' || port==='switch')) ||
+      (integrated && (strike==='analog' || ['switch','continuous'].includes(port) || lead==='separate')) ||
+      (['switch','continuous'].includes(controller) && (port==='digital' || lead==='integrated')) ||
+      (strike==='digital' && ['switch','continuous'].includes(controller));
+    if(conflict) return drumPaint('bad','Control-route conflict','The requested foot control is not established','Resolve the declared missing/incompatible control function, assembly or lead before connecting. A working strike path cannot repair it.',list,note);
+    if([strike,controller,port,lead].includes('unknown') || proof!=='yes') return drumPaint('warn','Verify control path','Foot-position route is still conditional','Confirm the exact controller, module function, supported behavior and approved separate/integrated lead.',list,note);
+    drumPaint('ok','Declared control route','Both information paths are documented','Your declarations cover the requested strike and foot-position paths. Test open/closed response and any continuous range using the exact manual.',list,note);
+  }
+  function drumFaultIsolate() {
+    const names=['dfSymptom','dfBaseline','dfActivity','dfAudio','dfCollision','dfCable','dfPad'];
+    if(!drumValid(names)) return drumInvalid();
+    const symptom=value('dfSymptom'), baseline=value('dfBaseline'), activity=value('dfActivity'), audio=value('dfAudio'), collision=value('dfCollision'), cable=value('dfCable'), pad=value('dfPad');
+    const list=['Record the exact pad/input/mode locally with this result. Change one approved variable at a time and keep monitoring volume low.',
+      'A meter marked “not observed” is unknown, not a failed trigger. No sound and no trigger activity are different observations.'];
+    const note='Observation-based next-test record only. This page does not listen, detect hardware, certify a cable or prove a failed component. Use a documented compatible baseline before any cable/input/pad substitution; do not reset, open, rewire or change electrical settings from a generic result.';
+    if(collision==='yes') return drumPaint('warn','Assignment check','Audit the shared input assignment first','A digital pad or alternate mode may reserve a related analog trigger resource. Check the exact module manual before changing cables.',list,note);
+    if(baseline!=='yes') return drumPaint('warn','Establish baseline','Do not start unverified cross-swaps',baseline==='no'?'Resolve the known compatibility/mode conflict before fault isolation.':'First document one compatible pad, input mode and approved lead; then collect the named observations.',list,note);
+    if((cable==='fixed' && pad==='follows') || (activity==='no' && audio==='yes')) return drumPaint('warn','Reconcile observations','Repeat a single-variable test','These observations may describe different trials, pads or kit sounds. Record one target hit and restore the baseline between tests before attributing a cause.',list,note);
+    if(activity==='yes' && audio==='no') return drumPaint('info','Output layer','Trace the kit / mapping / monitor path','The observed input activity shows the trigger reached that observation point. Check voice assignment, mute/routing and the intended listening output before blaming a strike cable.',list,note);
+    if(cable==='fixed') return drumPaint('info','Cable-path evidence','Original lead or connection path is implicated','An approved known-good lead changed the result. Repeat with the original path under the same conditions; this is evidence, not a cable-defect certificate.',list,note);
+    if(pad==='follows') return drumPaint('info','Pad-side evidence','Fault follows the pad / pad profile','With an approved known-good lead and compatible alternate input, compare the exact pad profile and pad behavior. A followed fault does not prove hardware damage.',list,note);
+    if(pad==='stays') return drumPaint('info','Input-side evidence','Fault stays with the input / assignment','A documented known-good pad and lead leave the fault at the input. Check its assignment, mode and shared-resource rules before assuming a broken socket.',list,note);
+    if(symptom==='zones') list.push('Check the exact zone/choke support and split-mode feature trade-offs. Working head hits do not establish rim or choke support.');
+    if(symptom==='double' || symptom==='crosstalk') list.push('Compare the exact pad profile and mounting/cross-coupling guidance. Do not apply universal sensitivity, threshold or crosstalk numbers.');
+    const title=activity==='unknown'?'Observe the trigger stage first':activity==='no'?'Start at the approved pad-to-trigger path':audio==='unknown'?'Observe the intended audio output':'Record the specific missing behavior';
+    drumPaint('info','Next controlled test',title,'Use one named hit and the first unresolved observation. '+(cable==='same'?'The approved cable substitution did not change this trial; that does not certify every lead or prove a software cause.':'Record a supported baseline result before substituting one approved component.'),list,note);
+  }
+
+  const calculators = { charge: chargeCheck, cable: cableDecode, display: displayPlan, multiport: multiportPlan, pps: ppsRangeCheck, pdrequirement: pdRequirement, cableselector: cableSelector, datapath: dataPathCheck, dsc: dscPlan, lanes: lanePlan, dockrequirement: dockRequirement, hubpower: hubPowerBudget, troubleshoot, usb4path: usb4FeaturePath, usb4budget: usb4Budget, adapterdirection: adapterDirection, mstchain: mstChain, pdfixed: pdFixedProfile, multiportcompare: multiportCompare, directdock: directDockIsolation, portdecode: portDecode, videochain: videoFeatureChain, hubbandwidth: hubBandwidth, rolematch: roleMatch, usb4fallback: usb4Fallback, highrefresh: highRefreshIsolation, dropout: peripheralDropout, onecablemonitor: oneCableMonitor, hdmirouting: hdmiRoutingSelector, hdmimatrix: hdmiMatrixSize, hdmimixed: hdmiMixedDisplay, hdmiaudio: hdmiAudioRoute, hdmiisolation: hdmiDistributionIsolation, poeclass: poeClassCheck, poeselector: poeEquipmentSelector, poebudget: poePowerBudget, poepassthrough: poePassthroughPlan, passivepoe: passivePoePreflight, poeisolation: poeFailureIsolation, audiosignal: audioSignalPath, headsetadapter: headsetAdapter, micpower: microphonePower, audionoise: audioNoiseIsolation, opticalformat: opticalFormatCheck, adatcapacity: adatCapacityPlan, digitalclock: digitalClockPlan, digitalfault: digitalFaultIsolate, drumtrigger: drumTriggerPreflight, drumallocation: drumAllocationPlan, hihatroute: hiHatRoutePlan, drumfault: drumFaultIsolate };
   const calculate = calculators[tool.dataset.tool];
   if (!calculate) return;
   form.addEventListener('input', calculate);
@@ -1512,7 +1619,7 @@
   });
   tool.querySelector('[data-copy]')?.addEventListener('click', async (event) => {
     const button = event.currentTarget;
-    const text = [status.textContent, headline.textContent, summary.textContent, ...Array.from(details.querySelectorAll('li')).map((li) => li.textContent), ...(['audiosignal', 'headsetadapter', 'micpower', 'audionoise', 'opticalformat', 'adatcapacity', 'digitalclock', 'digitalfault'].includes(tool.dataset.tool) ? [evidence.textContent.replace(/^Confidence boundary/, 'Confidence boundary: ')] : [])].join('\n');
+    const text = [status.textContent, headline.textContent, summary.textContent, ...Array.from(details.querySelectorAll('li')).map((li) => li.textContent), ...(['audiosignal', 'headsetadapter', 'micpower', 'audionoise', 'opticalformat', 'adatcapacity', 'digitalclock', 'digitalfault', 'drumtrigger', 'drumallocation', 'hihatroute', 'drumfault'].includes(tool.dataset.tool) ? [evidence.textContent.replace(/^Confidence boundary/, 'Confidence boundary: ')] : [])].join('\n');
     try {
       await navigator.clipboard.writeText(text);
       track('copy_result', { ...analyticsContext, result_state: resultState(), source_context: 'result_panel' });
