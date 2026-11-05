@@ -10,7 +10,7 @@
     });
   }
 
-  const workbenchIds = new Set(['charging', 'cables', 'displays', 'docks', 'usb4-thunderbolt', 'video-adapters', 'hdmi-routing', 'poe', 'analog-audio', 'digital-studio', 'electronic-drums']);
+  const workbenchIds = new Set(['charging', 'cables', 'displays', 'docks', 'usb4-thunderbolt', 'video-adapters', 'hdmi-routing', 'poe', 'analog-audio', 'digital-studio', 'electronic-drums', 'brick-connections', 'vr-tracking']);
   const pathParts = window.location.pathname.split('/').filter(Boolean);
   const pageWorkbench = pathParts[0] === 'tools' && pathParts.length === 2 && workbenchIds.has(pathParts[1]) ? pathParts[1] : '';
   const track = (eventName, parameters = {}) => {

@@ -1,0 +1,1689 @@
+{
+  "workbench": "brick-connections",
+  "asset": "brick-connections.js",
+  "tools": [
+    {
+      "id": "brickroute",
+      "slug": "brick-system-route-checker",
+      "name": "Brick Motor & Sensor System Route Checker",
+      "h1": "Can this motor or sensor cross LEGO system generations?",
+      "description": "Compare Power Functions, Powered Up/LPF2 and NXT/EV3 connection families before reusing a motor, light or sensor. Software functionality remains separate.",
+      "fields": [
+        {
+          "name": "brSource",
+          "label": "Component connection family",
+          "type": "select",
+          "value": "pf",
+          "options": [
+            [
+              "unknown",
+              "Not verified"
+            ],
+            [
+              "pf",
+              "Power Functions"
+            ],
+            [
+              "pup",
+              "Powered Up / LPF2"
+            ],
+            [
+              "nxt",
+              "MINDSTORMS NXT"
+            ],
+            [
+              "ev3",
+              "MINDSTORMS EV3"
+            ]
+          ]
+        },
+        {
+          "name": "brTarget",
+          "label": "Receiving hub / brick family",
+          "type": "select",
+          "value": "pup",
+          "options": [
+            [
+              "unknown",
+              "Not verified"
+            ],
+            [
+              "pf",
+              "Power Functions"
+            ],
+            [
+              "pup",
+              "Powered Up / LPF2"
+            ],
+            [
+              "nxt",
+              "MINDSTORMS NXT"
+            ],
+            [
+              "ev3",
+              "MINDSTORMS EV3"
+            ]
+          ]
+        },
+        {
+          "name": "brKind",
+          "label": "Component kind",
+          "type": "select",
+          "value": "motor",
+          "options": [
+            [
+              "motor",
+              "Motor"
+            ],
+            [
+              "sensor",
+              "Sensor"
+            ],
+            [
+              "light",
+              "Light"
+            ],
+            [
+              "unknown",
+              "Not verified"
+            ]
+          ]
+        },
+        {
+          "name": "brGoal",
+          "label": "Behavior required",
+          "type": "select",
+          "value": "basic",
+          "options": [
+            [
+              "basic",
+              "Basic motor running"
+            ],
+            [
+              "position",
+              "Position / angle data"
+            ],
+            [
+              "read",
+              "Sensor readings"
+            ],
+            [
+              "light",
+              "Light operation"
+            ],
+            [
+              "unknown",
+              "Not verified"
+            ]
+          ]
+        },
+        {
+          "name": "brConnection",
+          "label": "Connection being proposed",
+          "type": "select",
+          "value": "direct",
+          "options": [
+            [
+              "direct",
+              "Direct, unmodified"
+            ],
+            [
+              "adapter",
+              "Exact adapter route"
+            ],
+            [
+              "unknown",
+              "Not verified"
+            ]
+          ]
+        },
+        {
+          "name": "brFeedback",
+          "label": "Exact motor exposes rotation feedback?",
+          "type": "select",
+          "value": "unknown",
+          "options": [
+            [
+              "unknown",
+              "Not verified"
+            ],
+            [
+              "yes",
+              "Yes — documented"
+            ],
+            [
+              "no",
+              "No — unsupported"
+            ]
+          ]
+        },
+        {
+          "name": "brBridge",
+          "label": "Exact adapter covers required functions?",
+          "type": "select",
+          "value": "unknown",
+          "options": [
+            [
+              "unknown",
+              "Not verified"
+            ],
+            [
+              "yes",
+              "Yes — documented"
+            ],
+            [
+              "no",
+              "No — unsupported"
+            ]
+          ]
+        }
+      ],
+      "intro": "Similar toy-brick connections can belong to different electrical and control systems. Start with the electronic family, not whether the motor mechanically fits your build.",
+      "notes": [
+        {
+          "heading": "Connector family first, software function second",
+          "text": "The official City FAQ distinguishes Power Functions infrared/control wiring from Powered Up Bluetooth and its changed connectors. A direct PF-to-Powered-Up connection is not established by their shared LEGO brand. Conversely, a supported physical-family route does not prove that every app can read a sensor mode or control position."
+        },
+        {
+          "heading": "The NXT / EV3 exception is directional",
+          "text": "Official EV3 support lists NXT and EV3 motors as cross-compatible, and standard LEGO NXT sensors as usable with EV3. EV3 sensors are not supported by the NXT brick. Third-party sensors, driver blocks and unusual component revisions still require their exact documentation."
+        },
+        {
+          "heading": "A working motor is not measured position",
+          "text": "For motor position or angle feedback, verify that the exact motor has rotation sensing and that the hub/software can expose it. A basic motor-power lead does not manufacture sensor data. Lights and sensors are different component jobs, not alternative names for a motor."
+        },
+        {
+          "heading": "Adapters are not universal generation bridges",
+          "text": "A documented adapter route needs direction, required functions, exact endpoints and software support. This tool does not supply a pinout, resistor value, cable modification or power-source conversion. Unknown adapters remain a verification task, even if their plugs look appropriate."
+        },
+        {
+          "heading": "A useful starting example",
+          "text": "The default PF motor to Powered Up direct path is a system conflict. NXT motor to EV3 direct identifies a documented motor-family route; changing that component to an EV3 sensor and receiving brick to NXT demonstrates the asymmetric sensor restriction."
+        }
+      ],
+      "sources": [
+        {
+          "title": "LEGO City FAQ — Powered Up versus Power Functions",
+          "url": "https://www.lego.com/en-au/themes/city/faq"
+        },
+        {
+          "title": "LEGO Education EV3 FAQ — NXT compatibility",
+          "url": "https://education.lego.com/en-us/product-resources/mindstorms-ev3/troubleshooting/faqs/"
+        },
+        {
+          "title": "LEGO SPIKE Large Hub technical specifications",
+          "url": "https://assets.education.lego.com/v3/assets/blt293eea581807678a/bltf512a371e82f6420/5f8801baf4f4cf0fa39d2feb/techspecs_techniclargehub.pdf"
+        }
+      ]
+    },
+    {
+      "id": "brickports",
+      "slug": "powered-up-port-planner",
+      "name": "Powered Up Port Assignment Planner",
+      "h1": "Does the physical wiring match your program’s port map?",
+      "description": "Build a named Powered Up hub port worksheet, compare physical and program assignments, catch duplicate sockets and check a scoped two-motor program pair.",
+      "fields": [
+        {
+          "name": "bpProfile",
+          "label": "External port profile",
+          "type": "select",
+          "value": "technic",
+          "options": [
+            [
+              "unknown",
+              "Not verified"
+            ],
+            [
+              "city",
+              "City Hub 88009"
+            ],
+            [
+              "technic",
+              "Technic Hub 88012"
+            ],
+            [
+              "prime",
+              "SPIKE Large Hub 45601"
+            ]
+          ]
+        },
+        {
+          "name": "bpRuntime",
+          "label": "Runtime context",
+          "type": "select",
+          "value": "stock",
+          "options": [
+            [
+              "unknown",
+              "Not verified"
+            ],
+            [
+              "stock",
+              "Original / stock"
+            ],
+            [
+              "pybricks",
+              "Installed Pybricks"
+            ]
+          ]
+        },
+        {
+          "name": "bp1Label",
+          "label": "Task label",
+          "type": "text",
+          "value": "Left drive",
+          "max": 40,
+          "group": "Connection 1"
+        },
+        {
+          "name": "bp1Role",
+          "label": "Component role",
+          "type": "select",
+          "value": "encoder",
+          "options": [
+            [
+              "unused",
+              "Unused row"
+            ],
+            [
+              "dc",
+              "Basic DC motor"
+            ],
+            [
+              "encoder",
+              "Rotation-sensing motor"
+            ],
+            [
+              "sensor",
+              "Sensor"
+            ],
+            [
+              "light",
+              "Light"
+            ],
+            [
+              "unknown",
+              "Not verified"
+            ]
+          ],
+          "group": "Connection 1"
+        },
+        {
+          "name": "bp1Physical",
+          "label": "Physical socket",
+          "type": "select",
+          "value": "A",
+          "options": [
+            [
+              "none",
+              "Not assigned"
+            ],
+            [
+              "A",
+              "Port A"
+            ],
+            [
+              "B",
+              "Port B"
+            ],
+            [
+              "C",
+              "Port C"
+            ],
+            [
+              "D",
+              "Port D"
+            ],
+            [
+              "E",
+              "Port E"
+            ],
+            [
+              "F",
+              "Port F"
+            ]
+          ],
+          "group": "Connection 1"
+        },
+        {
+          "name": "bp1Program",
+          "label": "Program port selection",
+          "type": "select",
+          "value": "A",
+          "options": [
+            [
+              "none",
+              "Not assigned"
+            ],
+            [
+              "A",
+              "Port A"
+            ],
+            [
+              "B",
+              "Port B"
+            ],
+            [
+              "C",
+              "Port C"
+            ],
+            [
+              "D",
+              "Port D"
+            ],
+            [
+              "E",
+              "Port E"
+            ],
+            [
+              "F",
+              "Port F"
+            ]
+          ],
+          "group": "Connection 1"
+        },
+        {
+          "name": "bp2Label",
+          "label": "Task label",
+          "type": "text",
+          "value": "Right drive",
+          "max": 40,
+          "group": "Connection 2"
+        },
+        {
+          "name": "bp2Role",
+          "label": "Component role",
+          "type": "select",
+          "value": "encoder",
+          "options": [
+            [
+              "unused",
+              "Unused row"
+            ],
+            [
+              "dc",
+              "Basic DC motor"
+            ],
+            [
+              "encoder",
+              "Rotation-sensing motor"
+            ],
+            [
+              "sensor",
+              "Sensor"
+            ],
+            [
+              "light",
+              "Light"
+            ],
+            [
+              "unknown",
+              "Not verified"
+            ]
+          ],
+          "group": "Connection 2"
+        },
+        {
+          "name": "bp2Physical",
+          "label": "Physical socket",
+          "type": "select",
+          "value": "B",
+          "options": [
+            [
+              "none",
+              "Not assigned"
+            ],
+            [
+              "A",
+              "Port A"
+            ],
+            [
+              "B",
+              "Port B"
+            ],
+            [
+              "C",
+              "Port C"
+            ],
+            [
+              "D",
+              "Port D"
+            ],
+            [
+              "E",
+              "Port E"
+            ],
+            [
+              "F",
+              "Port F"
+            ]
+          ],
+          "group": "Connection 2"
+        },
+        {
+          "name": "bp2Program",
+          "label": "Program port selection",
+          "type": "select",
+          "value": "B",
+          "options": [
+            [
+              "none",
+              "Not assigned"
+            ],
+            [
+              "A",
+              "Port A"
+            ],
+            [
+              "B",
+              "Port B"
+            ],
+            [
+              "C",
+              "Port C"
+            ],
+            [
+              "D",
+              "Port D"
+            ],
+            [
+              "E",
+              "Port E"
+            ],
+            [
+              "F",
+              "Port F"
+            ]
+          ],
+          "group": "Connection 2"
+        },
+        {
+          "name": "bp3Label",
+          "label": "Task label",
+          "type": "text",
+          "value": "Distance sensor",
+          "max": 40,
+          "group": "Connection 3"
+        },
+        {
+          "name": "bp3Role",
+          "label": "Component role",
+          "type": "select",
+          "value": "sensor",
+          "options": [
+            [
+              "unused",
+              "Unused row"
+            ],
+            [
+              "dc",
+              "Basic DC motor"
+            ],
+            [
+              "encoder",
+              "Rotation-sensing motor"
+            ],
+            [
+              "sensor",
+              "Sensor"
+            ],
+            [
+              "light",
+              "Light"
+            ],
+            [
+              "unknown",
+              "Not verified"
+            ]
+          ],
+          "group": "Connection 3"
+        },
+        {
+          "name": "bp3Physical",
+          "label": "Physical socket",
+          "type": "select",
+          "value": "C",
+          "options": [
+            [
+              "none",
+              "Not assigned"
+            ],
+            [
+              "A",
+              "Port A"
+            ],
+            [
+              "B",
+              "Port B"
+            ],
+            [
+              "C",
+              "Port C"
+            ],
+            [
+              "D",
+              "Port D"
+            ],
+            [
+              "E",
+              "Port E"
+            ],
+            [
+              "F",
+              "Port F"
+            ]
+          ],
+          "group": "Connection 3"
+        },
+        {
+          "name": "bp3Program",
+          "label": "Program port selection",
+          "type": "select",
+          "value": "D",
+          "options": [
+            [
+              "none",
+              "Not assigned"
+            ],
+            [
+              "A",
+              "Port A"
+            ],
+            [
+              "B",
+              "Port B"
+            ],
+            [
+              "C",
+              "Port C"
+            ],
+            [
+              "D",
+              "Port D"
+            ],
+            [
+              "E",
+              "Port E"
+            ],
+            [
+              "F",
+              "Port F"
+            ]
+          ],
+          "group": "Connection 3"
+        },
+        {
+          "name": "bp4Label",
+          "label": "Task label",
+          "type": "text",
+          "value": "Lights",
+          "max": 40,
+          "group": "Connection 4"
+        },
+        {
+          "name": "bp4Role",
+          "label": "Component role",
+          "type": "select",
+          "value": "light",
+          "options": [
+            [
+              "unused",
+              "Unused row"
+            ],
+            [
+              "dc",
+              "Basic DC motor"
+            ],
+            [
+              "encoder",
+              "Rotation-sensing motor"
+            ],
+            [
+              "sensor",
+              "Sensor"
+            ],
+            [
+              "light",
+              "Light"
+            ],
+            [
+              "unknown",
+              "Not verified"
+            ]
+          ],
+          "group": "Connection 4"
+        },
+        {
+          "name": "bp4Physical",
+          "label": "Physical socket",
+          "type": "select",
+          "value": "D",
+          "options": [
+            [
+              "none",
+              "Not assigned"
+            ],
+            [
+              "A",
+              "Port A"
+            ],
+            [
+              "B",
+              "Port B"
+            ],
+            [
+              "C",
+              "Port C"
+            ],
+            [
+              "D",
+              "Port D"
+            ],
+            [
+              "E",
+              "Port E"
+            ],
+            [
+              "F",
+              "Port F"
+            ]
+          ],
+          "group": "Connection 4"
+        },
+        {
+          "name": "bp4Program",
+          "label": "Program port selection",
+          "type": "select",
+          "value": "D",
+          "options": [
+            [
+              "none",
+              "Not assigned"
+            ],
+            [
+              "A",
+              "Port A"
+            ],
+            [
+              "B",
+              "Port B"
+            ],
+            [
+              "C",
+              "Port C"
+            ],
+            [
+              "D",
+              "Port D"
+            ],
+            [
+              "E",
+              "Port E"
+            ],
+            [
+              "F",
+              "Port F"
+            ]
+          ],
+          "group": "Connection 4"
+        },
+        {
+          "name": "bp5Label",
+          "label": "Task label",
+          "type": "text",
+          "value": "",
+          "max": 40,
+          "group": "Connection 5"
+        },
+        {
+          "name": "bp5Role",
+          "label": "Component role",
+          "type": "select",
+          "value": "unused",
+          "options": [
+            [
+              "unused",
+              "Unused row"
+            ],
+            [
+              "dc",
+              "Basic DC motor"
+            ],
+            [
+              "encoder",
+              "Rotation-sensing motor"
+            ],
+            [
+              "sensor",
+              "Sensor"
+            ],
+            [
+              "light",
+              "Light"
+            ],
+            [
+              "unknown",
+              "Not verified"
+            ]
+          ],
+          "group": "Connection 5"
+        },
+        {
+          "name": "bp5Physical",
+          "label": "Physical socket",
+          "type": "select",
+          "value": "none",
+          "options": [
+            [
+              "none",
+              "Not assigned"
+            ],
+            [
+              "A",
+              "Port A"
+            ],
+            [
+              "B",
+              "Port B"
+            ],
+            [
+              "C",
+              "Port C"
+            ],
+            [
+              "D",
+              "Port D"
+            ],
+            [
+              "E",
+              "Port E"
+            ],
+            [
+              "F",
+              "Port F"
+            ]
+          ],
+          "group": "Connection 5"
+        },
+        {
+          "name": "bp5Program",
+          "label": "Program port selection",
+          "type": "select",
+          "value": "none",
+          "options": [
+            [
+              "none",
+              "Not assigned"
+            ],
+            [
+              "A",
+              "Port A"
+            ],
+            [
+              "B",
+              "Port B"
+            ],
+            [
+              "C",
+              "Port C"
+            ],
+            [
+              "D",
+              "Port D"
+            ],
+            [
+              "E",
+              "Port E"
+            ],
+            [
+              "F",
+              "Port F"
+            ]
+          ],
+          "group": "Connection 5"
+        },
+        {
+          "name": "bp6Label",
+          "label": "Task label",
+          "type": "text",
+          "value": "",
+          "max": 40,
+          "group": "Connection 6"
+        },
+        {
+          "name": "bp6Role",
+          "label": "Component role",
+          "type": "select",
+          "value": "unused",
+          "options": [
+            [
+              "unused",
+              "Unused row"
+            ],
+            [
+              "dc",
+              "Basic DC motor"
+            ],
+            [
+              "encoder",
+              "Rotation-sensing motor"
+            ],
+            [
+              "sensor",
+              "Sensor"
+            ],
+            [
+              "light",
+              "Light"
+            ],
+            [
+              "unknown",
+              "Not verified"
+            ]
+          ],
+          "group": "Connection 6"
+        },
+        {
+          "name": "bp6Physical",
+          "label": "Physical socket",
+          "type": "select",
+          "value": "none",
+          "options": [
+            [
+              "none",
+              "Not assigned"
+            ],
+            [
+              "A",
+              "Port A"
+            ],
+            [
+              "B",
+              "Port B"
+            ],
+            [
+              "C",
+              "Port C"
+            ],
+            [
+              "D",
+              "Port D"
+            ],
+            [
+              "E",
+              "Port E"
+            ],
+            [
+              "F",
+              "Port F"
+            ]
+          ],
+          "group": "Connection 6"
+        },
+        {
+          "name": "bp6Program",
+          "label": "Program port selection",
+          "type": "select",
+          "value": "none",
+          "options": [
+            [
+              "none",
+              "Not assigned"
+            ],
+            [
+              "A",
+              "Port A"
+            ],
+            [
+              "B",
+              "Port B"
+            ],
+            [
+              "C",
+              "Port C"
+            ],
+            [
+              "D",
+              "Port D"
+            ],
+            [
+              "E",
+              "Port E"
+            ],
+            [
+              "F",
+              "Port F"
+            ]
+          ],
+          "group": "Connection 6"
+        },
+        {
+          "name": "bpPair",
+          "label": "Optional paired-program check",
+          "type": "select",
+          "value": "none",
+          "options": [
+            [
+              "none",
+              "No paired-program check"
+            ],
+            [
+              "drivebase",
+              "Pybricks DriveBase pair"
+            ]
+          ],
+          "group": "Optional program pair"
+        },
+        {
+          "name": "bpLeft",
+          "label": "Left motor connection row",
+          "type": "select",
+          "value": "1",
+          "options": [
+            [
+              "none",
+              "Not assigned"
+            ],
+            [
+              "1",
+              "Connection 1"
+            ],
+            [
+              "2",
+              "Connection 2"
+            ],
+            [
+              "3",
+              "Connection 3"
+            ],
+            [
+              "4",
+              "Connection 4"
+            ],
+            [
+              "5",
+              "Connection 5"
+            ],
+            [
+              "6",
+              "Connection 6"
+            ]
+          ],
+          "group": "Optional program pair"
+        },
+        {
+          "name": "bpRight",
+          "label": "Right motor connection row",
+          "type": "select",
+          "value": "2",
+          "options": [
+            [
+              "none",
+              "Not assigned"
+            ],
+            [
+              "1",
+              "Connection 1"
+            ],
+            [
+              "2",
+              "Connection 2"
+            ],
+            [
+              "3",
+              "Connection 3"
+            ],
+            [
+              "4",
+              "Connection 4"
+            ],
+            [
+              "5",
+              "Connection 5"
+            ],
+            [
+              "6",
+              "Connection 6"
+            ]
+          ],
+          "group": "Optional program pair"
+        }
+      ],
+      "intro": "A count of four components on four ports can still be wrong. Map each independent task to its physical socket and the port selected in the program, then inspect the conflicts.",
+      "notes": [
+        {
+          "heading": "One row means one independent external connection",
+          "text": "Use City Hub 88009 A/B, Technic Hub 88012 A–D, or SPIKE Large Hub 45601 A–F. The worksheet catches absent/out-of-profile ports, two independent components assigned to one physical socket, repeated program ports, and physical/program mismatches. It does not create splitter or multiplexer support."
+        },
+        {
+          "heading": "The default example has enough sockets but the wrong map",
+          "text": "Left and right motors occupy A and B, a distance sensor is physically on C but its program says D, and the light uses D. Correct the sensor program selection to C to remove the mismatch and duplicate program assignment. Transfer the resulting worksheet to the exact project; no connected hardware is inspected."
+        },
+        {
+          "heading": "Pair checks are specific, not universal",
+          "text": "The optional Pybricks DriveBase check requires two different active rows containing rotation-sensing motors, in an already-installed documented Pybricks runtime. It rejects one port used twice, a sensor/light as a motor, and basic DC motors without rotation sensing. It is not a claim that every stock app has the same pairing behavior."
+        },
+        {
+          "heading": "Hardware capacity is not app compatibility or power",
+          "text": "The official SPIKE technical sheet allows freely selected paired ports but explicitly warns that the app may not support every hardware function. Pybricks device support belongs to that installed runtime, not automatically to original LEGO apps. No motor-current sum, battery-life estimate or overload-safe verdict is produced."
+        },
+        {
+          "heading": "Built-in resources stay separate",
+          "text": "Buttons, status lights and internal sensors are not extra external ports. BOOST Move Hub is deliberately not a profile here: its built-in motors must not be counted as external sockets. Blank task labels receive connection-row names; unused rows do not consume a port."
+        }
+      ],
+      "sources": [
+        {
+          "title": "LEGO City FAQ — Powered Up versus Power Functions",
+          "url": "https://www.lego.com/en-au/themes/city/faq"
+        },
+        {
+          "title": "LEGO Technic Hub 88012 — four I/O ports and app scope",
+          "url": "https://www.lego.com/en-us/product/technic-hub-88012"
+        },
+        {
+          "title": "LEGO SPIKE Large Hub technical specifications",
+          "url": "https://assets.education.lego.com/v3/assets/blt293eea581807678a/bltf512a371e82f6420/5f8801baf4f4cf0fa39d2feb/techspecs_techniclargehub.pdf"
+        },
+        {
+          "title": "Pybricks DriveBase — two rotation-sensing Motor inputs",
+          "url": "https://docs.pybricks.com/en/latest/robotics.html"
+        },
+        {
+          "title": "Pybricks motors without rotation sensors",
+          "url": "https://docs.pybricks.com/en/latest/pupdevices/dcmotor.html"
+        },
+        {
+          "title": "Official EV3 port-view example — program and physical mismatch",
+          "url": "https://ev3-help-online.api.education.lego.com/Retail/en-us/page.html?Path=editor%2FHardwarePage.html"
+        }
+      ]
+    },
+    {
+      "id": "brickir",
+      "slug": "power-functions-ir-planner",
+      "name": "Power Functions IR Channel & Output Planner",
+      "h1": "Will one PF remote command move the wrong model?",
+      "description": "Map Power Functions receiver channels and red/blue outputs, distinguish independent groups from intentional broadcast, and print an eight-address control map.",
+      "fields": [
+        {
+          "name": "biSystem",
+          "label": "Receiver control system",
+          "type": "select",
+          "value": "pf",
+          "options": [
+            [
+              "pf",
+              "Power Functions IR"
+            ],
+            [
+              "other",
+              "Different system"
+            ],
+            [
+              "unknown",
+              "Not verified"
+            ]
+          ]
+        },
+        {
+          "name": "bi1Channel",
+          "label": "Receiver channel",
+          "type": "select",
+          "value": "1",
+          "options": [
+            [
+              "0",
+              "Inactive receiver"
+            ],
+            [
+              "1",
+              "Channel 1"
+            ],
+            [
+              "2",
+              "Channel 2"
+            ],
+            [
+              "3",
+              "Channel 3"
+            ],
+            [
+              "4",
+              "Channel 4"
+            ],
+            [
+              "unknown",
+              "Not verified"
+            ]
+          ],
+          "group": "Receiver 1"
+        },
+        {
+          "name": "bi1Red",
+          "label": "Red output control group",
+          "type": "text",
+          "value": "Train A",
+          "max": 40,
+          "group": "Receiver 1"
+        },
+        {
+          "name": "bi1Blue",
+          "label": "Blue output control group",
+          "type": "text",
+          "value": "",
+          "max": 40,
+          "group": "Receiver 1"
+        },
+        {
+          "name": "bi2Channel",
+          "label": "Receiver channel",
+          "type": "select",
+          "value": "1",
+          "options": [
+            [
+              "0",
+              "Inactive receiver"
+            ],
+            [
+              "1",
+              "Channel 1"
+            ],
+            [
+              "2",
+              "Channel 2"
+            ],
+            [
+              "3",
+              "Channel 3"
+            ],
+            [
+              "4",
+              "Channel 4"
+            ],
+            [
+              "unknown",
+              "Not verified"
+            ]
+          ],
+          "group": "Receiver 2"
+        },
+        {
+          "name": "bi2Red",
+          "label": "Red output control group",
+          "type": "text",
+          "value": "Train B",
+          "max": 40,
+          "group": "Receiver 2"
+        },
+        {
+          "name": "bi2Blue",
+          "label": "Blue output control group",
+          "type": "text",
+          "value": "",
+          "max": 40,
+          "group": "Receiver 2"
+        },
+        {
+          "name": "bi3Channel",
+          "label": "Receiver channel",
+          "type": "select",
+          "value": "0",
+          "options": [
+            [
+              "0",
+              "Inactive receiver"
+            ],
+            [
+              "1",
+              "Channel 1"
+            ],
+            [
+              "2",
+              "Channel 2"
+            ],
+            [
+              "3",
+              "Channel 3"
+            ],
+            [
+              "4",
+              "Channel 4"
+            ],
+            [
+              "unknown",
+              "Not verified"
+            ]
+          ],
+          "group": "Receiver 3"
+        },
+        {
+          "name": "bi3Red",
+          "label": "Red output control group",
+          "type": "text",
+          "value": "",
+          "max": 40,
+          "group": "Receiver 3"
+        },
+        {
+          "name": "bi3Blue",
+          "label": "Blue output control group",
+          "type": "text",
+          "value": "",
+          "max": 40,
+          "group": "Receiver 3"
+        },
+        {
+          "name": "bi4Channel",
+          "label": "Receiver channel",
+          "type": "select",
+          "value": "0",
+          "options": [
+            [
+              "0",
+              "Inactive receiver"
+            ],
+            [
+              "1",
+              "Channel 1"
+            ],
+            [
+              "2",
+              "Channel 2"
+            ],
+            [
+              "3",
+              "Channel 3"
+            ],
+            [
+              "4",
+              "Channel 4"
+            ],
+            [
+              "unknown",
+              "Not verified"
+            ]
+          ],
+          "group": "Receiver 4"
+        },
+        {
+          "name": "bi4Red",
+          "label": "Red output control group",
+          "type": "text",
+          "value": "",
+          "max": 40,
+          "group": "Receiver 4"
+        },
+        {
+          "name": "bi4Blue",
+          "label": "Blue output control group",
+          "type": "text",
+          "value": "",
+          "max": 40,
+          "group": "Receiver 4"
+        },
+        {
+          "name": "bi5Channel",
+          "label": "Receiver channel",
+          "type": "select",
+          "value": "0",
+          "options": [
+            [
+              "0",
+              "Inactive receiver"
+            ],
+            [
+              "1",
+              "Channel 1"
+            ],
+            [
+              "2",
+              "Channel 2"
+            ],
+            [
+              "3",
+              "Channel 3"
+            ],
+            [
+              "4",
+              "Channel 4"
+            ],
+            [
+              "unknown",
+              "Not verified"
+            ]
+          ],
+          "group": "Receiver 5"
+        },
+        {
+          "name": "bi5Red",
+          "label": "Red output control group",
+          "type": "text",
+          "value": "",
+          "max": 40,
+          "group": "Receiver 5"
+        },
+        {
+          "name": "bi5Blue",
+          "label": "Blue output control group",
+          "type": "text",
+          "value": "",
+          "max": 40,
+          "group": "Receiver 5"
+        },
+        {
+          "name": "bi6Channel",
+          "label": "Receiver channel",
+          "type": "select",
+          "value": "0",
+          "options": [
+            [
+              "0",
+              "Inactive receiver"
+            ],
+            [
+              "1",
+              "Channel 1"
+            ],
+            [
+              "2",
+              "Channel 2"
+            ],
+            [
+              "3",
+              "Channel 3"
+            ],
+            [
+              "4",
+              "Channel 4"
+            ],
+            [
+              "unknown",
+              "Not verified"
+            ]
+          ],
+          "group": "Receiver 6"
+        },
+        {
+          "name": "bi6Red",
+          "label": "Red output control group",
+          "type": "text",
+          "value": "",
+          "max": 40,
+          "group": "Receiver 6"
+        },
+        {
+          "name": "bi6Blue",
+          "label": "Blue output control group",
+          "type": "text",
+          "value": "",
+          "max": 40,
+          "group": "Receiver 6"
+        }
+      ],
+      "intro": "A Power Functions receiver channel is shared by its red and blue outputs. Two receivers using the same channel/output address hear the same command; decide whether that sharing is intentional.",
+      "notes": [
+        {
+          "heading": "Eight command addresses, not eight guaranteed working motors",
+          "text": "Official LEGO guidance describes four selectable channels and two output controls per channel. The planner maps channel × red/blue only. It does not validate power, receiver load, motor count, battery condition, infrared reach or simultaneous handset operation."
+        },
+        {
+          "heading": "A collision is about independent intent",
+          "text": "By default Receiver 1 and Receiver 2 both put different train groups on channel 1 red, so the plan conflicts. Move the second group to channel 1 blue to declare two separate addresses. Give both red outputs the same group name only when you intentionally want the same commands broadcast to them."
+        },
+        {
+          "heading": "One receiver has one channel setting",
+          "text": "Both output colors on one receiver use that receiver’s channel; they cannot each select a different channel. A handset selects one channel at a time. Several remotes on different channels can supply controls simultaneously, but this worksheet does not model operator actions or timing."
+        },
+        {
+          "heading": "Sharing an address is not mechanically synchronized motion",
+          "text": "Matching group labels on the same address mean deliberate command sharing. They do not establish equal motor speed, direction, torque or safe coupled movement. A group appearing on different addresses still needs separate commands; repeating its name does not electrically or wirelessly link those addresses."
+        },
+        {
+          "heading": "Keep the declared area complete",
+          "text": "The worksheet accepts up to six receivers in one shared IR-control area. More than four receivers can intentionally share addresses; four channels is not a four-receiver limit. If your area has more than six receivers, this finite worksheet cannot rule out omitted collisions. Group names ignore case and surrounding spaces; blank outputs are unused. This PF map is not Powered Up BLE pairing, older train IR, or a third-party RF addressing map."
+        }
+      ],
+      "sources": [
+        {
+          "title": "LEGO — Running trains at the same time",
+          "url": "https://www.lego.com/en-gb/service/help-topics/article/running-trains-at-the-same-time"
+        },
+        {
+          "title": "LEGO Power Functions IR Remote Control 8885",
+          "url": "https://www.lego.com/en-us/product/lego-power-functions-ir-remote-control-8885"
+        }
+      ]
+    },
+    {
+      "id": "brickcontrol",
+      "slug": "brick-control-path-selector",
+      "name": "Brick Remote, App & Program Path Selector",
+      "h1": "Can this controller reach the hub in the way you want?",
+      "description": "Separate PF infrared, Powered Up remote, original app and already-installed program routes. Identify the missing receiver, runtime or supported control program.",
+      "fields": [
+        {
+          "name": "bcHub",
+          "label": "Receiving hardware profile",
+          "type": "select",
+          "value": "technic",
+          "options": [
+            [
+              "unknown",
+              "Not verified"
+            ],
+            [
+              "pf",
+              "Power Functions receiver"
+            ],
+            [
+              "city",
+              "City Hub 88009"
+            ],
+            [
+              "technic",
+              "Technic Hub 88012"
+            ],
+            [
+              "prime",
+              "SPIKE Large Hub 45601"
+            ],
+            [
+              "other",
+              "Other exact hardware"
+            ]
+          ]
+        },
+        {
+          "name": "bcGoal",
+          "label": "How you want to control it",
+          "type": "select",
+          "value": "remote",
+          "options": [
+            [
+              "remote",
+              "Physical remote"
+            ],
+            [
+              "app",
+              "Phone / tablet app"
+            ],
+            [
+              "onboard",
+              "On-hub program"
+            ],
+            [
+              "unknown",
+              "Not verified"
+            ]
+          ]
+        },
+        {
+          "name": "bcController",
+          "label": "Actual controller",
+          "type": "select",
+          "value": "puremote",
+          "options": [
+            [
+              "unknown",
+              "Not verified"
+            ],
+            [
+              "pfir",
+              "Power Functions IR"
+            ],
+            [
+              "puremote",
+              "Powered Up Remote 88010"
+            ],
+            [
+              "phone",
+              "Phone / tablet"
+            ],
+            [
+              "none",
+              "No external controller"
+            ],
+            [
+              "other",
+              "Other controller"
+            ]
+          ]
+        },
+        {
+          "name": "bcRuntime",
+          "label": "Software already on the hub",
+          "type": "select",
+          "value": "stock",
+          "options": [
+            [
+              "unknown",
+              "Not verified"
+            ],
+            [
+              "stock",
+              "Original / stock"
+            ],
+            [
+              "pybricks",
+              "Installed Pybricks"
+            ],
+            [
+              "other",
+              "Other documented runtime"
+            ]
+          ]
+        },
+        {
+          "name": "bcReceiver",
+          "label": "For PF: matching IR receiver present?",
+          "type": "select",
+          "value": "unknown",
+          "options": [
+            [
+              "unknown",
+              "Not verified"
+            ],
+            [
+              "yes",
+              "Yes — documented"
+            ],
+            [
+              "no",
+              "No — unsupported"
+            ]
+          ]
+        },
+        {
+          "name": "bcDevice",
+          "label": "For app: current device/app support verified?",
+          "type": "select",
+          "value": "unknown",
+          "options": [
+            [
+              "unknown",
+              "Not verified"
+            ],
+            [
+              "yes",
+              "Yes — documented"
+            ],
+            [
+              "no",
+              "No — unsupported"
+            ]
+          ]
+        },
+        {
+          "name": "bcProgram",
+          "label": "For custom/on-hub route: suitable program ready?",
+          "type": "select",
+          "value": "unknown",
+          "options": [
+            [
+              "unknown",
+              "Not verified"
+            ],
+            [
+              "yes",
+              "Yes — documented"
+            ],
+            [
+              "no",
+              "No — unsupported"
+            ]
+          ]
+        }
+      ],
+      "intro": "A motor can fit the hub while the proposed remote cannot control it. Choose the human-to-hub control path independently from the motor/sensor connection and port worksheet.",
+      "notes": [
+        {
+          "heading": "Known stock routes are deliberately narrow",
+          "text": "City Hub 88009 with Remote 88010 has a documented original-software remote route. A Power Functions IR handset needs its matching PF IR receiver and channel setting; the battery box is not the receiver. Technic Hub 88012 documents Bluetooth to CONTROL+ and compatibility with the Powered Up app. Those statements do not prove a universal 88010-to-every-hub remote rule."
+        },
+        {
+          "heading": "An app needs its actual supported device and hub profile",
+          "text": "Choose the app appropriate to the declared hardware and check its current official device guidance. A Bluetooth logo or OS number alone does not prove every product/app combination. The selector does not download software, change permissions, scan Bluetooth or pair a device."
+        },
+        {
+          "heading": "A different runtime changes the control path",
+          "text": "Pybricks documentation supports Powered Up remotes on its supported hubs, but that is a Pybricks-firmware capability. It is not a statement about original LEGO software. Merely having that firmware installed also does not establish a loaded/running program that responds to the remote. Choose this route only when it is already installed and documented; no firmware installation is prescribed here."
+        },
+        {
+          "heading": "A program on the hub is a separate goal",
+          "text": "The SPIKE Large Hub technical description supports autonomous or streaming operation; the exact software and program still matter. A stock PF receiver is not an autonomous program host. Other stock profiles are not assumed to run a stored autonomous program just because they contain a processor or Bluetooth radio."
+        },
+        {
+          "heading": "Current support and legacy hardware differ",
+          "text": "LEGO Education ended direct SPIKE portfolio sales on June 30, 2026, while promising SPIKE App support through June 30, 2031. That is not a guarantee for every future OS or third-party runtime. This workbench supports existing connection decisions, not a purchase recommendation or competition-eligibility ruling."
+        }
+      ],
+      "sources": [
+        {
+          "title": "LEGO City FAQ — Powered Up versus Power Functions",
+          "url": "https://www.lego.com/en-au/themes/city/faq"
+        },
+        {
+          "title": "LEGO Technic Hub 88012 — documented original app path",
+          "url": "https://www.lego.com/en-us/product/technic-hub-88012"
+        },
+        {
+          "title": "LEGO app device guide",
+          "url": "https://www.lego.com/en-us/service/device-guide"
+        },
+        {
+          "title": "Pybricks supported hub capabilities — runtime-specific",
+          "url": "https://pybricks.com/learn/getting-started/what-do-you-need/"
+        },
+        {
+          "title": "LEGO SPIKE Large Hub technical specifications",
+          "url": "https://assets.education.lego.com/v3/assets/blt293eea581807678a/bltf512a371e82f6420/5f8801baf4f4cf0fa39d2feb/techspecs_techniclargehub.pdf"
+        },
+        {
+          "title": "LEGO Education SPIKE support timeline",
+          "url": "https://education.lego.com/en-us/spike-update-2026/"
+        }
+      ]
+    }
+  ]
+}

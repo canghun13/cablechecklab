@@ -223,3 +223,36 @@ main:is([data-tool="audiosignal"], [data-tool="headsetadapter"], [data-tool="mic
   main:is([data-tool="audiosignal"], [data-tool="headsetadapter"], [data-tool="micpower"], [data-tool="audionoise"]) .field:not(.full) { align-content: start; }
   main:is([data-tool="audiosignal"], [data-tool="headsetadapter"], [data-tool="micpower"], [data-tool="audionoise"]) .field:not(.full) > label { min-height: 3.2em; }
 }
+
+/* Offline brick/VR labs: scoped assignment forms and mobile record tables. */
+main[data-lab] :is(.tool-panel,.result-panel,.field,select,input) { min-width:0; }
+main[data-lab] .field-grid { grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr)); }
+main[data-lab] .lab-prefix { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+main[data-lab] .result-list { overflow-wrap:anywhere; }
+main[data-lab] .lab-fieldset { margin:0 0 18px; padding:16px; border:1px solid var(--line); }
+main[data-lab] .lab-fieldset legend { font-weight:750; padding-inline:6px; }
+main[data-lab] .lab-extra { border:1px solid var(--line); margin-block:12px; padding:12px; }
+main[data-lab] .lab-extra summary { cursor:pointer; font-weight:700; min-height:36px; }
+main[data-lab] .lab-extra .lab-fieldset { margin-top:12px; }
+.lab-table { min-width:0; margin-block:12px; }
+.lab-table table { width:100%; border-collapse:collapse; table-layout:fixed; font-size:.88rem; }
+.lab-table th,.lab-table td { text-align:left; vertical-align:top; padding:9px 6px; border:1px solid var(--line); overflow-wrap:anywhere; }
+.lab-table th { background:#eef2ec; }
+@media (min-width:641px) {
+  main[data-lab] .field { align-content:start; }
+  main[data-lab] .field:not(.full)>label { min-height:4.8em; }
+}
+@media screen and (max-width:640px) {
+  .lab-table table,.lab-table tbody { display:block; }
+  .lab-table thead { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+  .lab-table tr { display:block; margin-block:12px; border-top:2px solid var(--brand); }
+  .lab-table td { display:grid; grid-template-columns:minmax(0,2fr) minmax(0,3fr); gap:8px; }
+  .lab-table td::before { content:attr(data-label); font-weight:750; }
+}
+@media print {
+  main[data-lab] .tool-notes { display:none!important; }
+  main[data-lab] .page-hero { padding:0; margin:0; }
+  main[data-lab] h1 { font-size:22pt; }
+  main[data-lab] .result-value { font-size:20pt; }
+  .lab-table tr { break-inside:avoid; }
+}

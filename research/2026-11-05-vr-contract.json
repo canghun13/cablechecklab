@@ -1,0 +1,654 @@
+{
+  "workbench": "vr-tracking",
+  "asset": "vr-tracking.js",
+  "tools": [
+    {
+      "id": "vrgeneration",
+      "slug": "vr-tracking-generation-checker",
+      "name": "Optical Tracking Generation Checker",
+      "h1": "Check a declared optical tracking generation",
+      "description": "Compare a device’s documented Lighthouse sensor generation with Base Station 1.0 or 2.0, without assuming that SteamVR support means optical compatibility.",
+      "fields": [
+        {
+          "name": "stations",
+          "label": "Station generation used",
+          "type": "select",
+          "value": "v2",
+          "options": [
+            [
+              "v1",
+              "Base Station 1.0"
+            ],
+            [
+              "v2",
+              "Base Station 2.0"
+            ],
+            [
+              "mixed",
+              "Mixed 1.0 and 2.0"
+            ],
+            [
+              "none",
+              "No stations"
+            ],
+            [
+              "unknown",
+              "Unknown"
+            ]
+          ],
+          "group": "Declarations"
+        },
+        {
+          "name": "sensors",
+          "label": "Device manual: tracking support",
+          "type": "select",
+          "value": "both",
+          "options": [
+            [
+              "v1only",
+              "Lighthouse 1.0 only"
+            ],
+            [
+              "both",
+              "Lighthouse 1.0 and 2.0"
+            ],
+            [
+              "insideout",
+              "Independent inside-out"
+            ],
+            [
+              "unknown",
+              "Unknown"
+            ]
+          ],
+          "group": "Declarations"
+        },
+        {
+          "name": "generationEvidence",
+          "label": "Exact device manual checked",
+          "type": "select",
+          "value": "no",
+          "options": [
+            [
+              "yes",
+              "Verified"
+            ],
+            [
+              "no",
+              "Not verified"
+            ]
+          ],
+          "group": "Declarations"
+        }
+      ],
+      "intro": "Check one declared device’s optical reference requirement, not the complete headset or accessory system. Start with exact manuals rather than connector shape or a generic SteamVR label.",
+      "notes": [
+        {
+          "heading": "What this result decides",
+          "text": "The result checks optical-generation intersection only. Radio receivers, app support, shared coordinate spaces, synchronization and wired-PCVR video/USB requirements are separate decisions."
+        },
+        {
+          "heading": "Primary examples are not a device database",
+          "text": "Valve documents 1.0/2.0 station separation and older sensor limitations. Use the exact device manual for your declaration; no complete model compatibility list is embedded."
+        },
+        {
+          "heading": "Independent tracking is different",
+          "text": "Inside-out devices need their own supported runtime and coordinate-alignment route when mixed with Lighthouse accessories. A Quest or other headset is never assumed to work automatically."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Valve: base stations and Lighthouse tracking",
+          "url": "https://help.steampowered.com/en/faqs/view/1AF1-670B-FF5C-3323"
+        },
+        {
+          "title": "HTC: Ultimate Tracker and receiver family",
+          "url": "https://www.vive.com/us/accessory/vive-ultimate-tracker/"
+        }
+      ]
+    },
+    {
+      "id": "vrreceivers",
+      "slug": "vr-tracking-receiver-planner",
+      "name": "Tracking Receiver Assignment Planner",
+      "h1": "Allocate verified tracking receiver channels",
+      "description": "Plan logical radio assignments within verified classic-compatible and Ultimate receiver pools, keeping reserved channels and unknown capacities explicit.",
+      "fields": [
+        {
+          "name": "classicNeed",
+          "label": "Classic devices needing channels",
+          "type": "number",
+          "value": 3,
+          "min": 0,
+          "max": 32,
+          "unit": "devices",
+          "group": "Classic compatible pool"
+        },
+        {
+          "name": "classicTotal",
+          "label": "Verified total classic slots",
+          "type": "number",
+          "value": 3,
+          "min": 0,
+          "max": 32,
+          "unit": "channels",
+          "group": "Classic compatible pool"
+        },
+        {
+          "name": "classicReserved",
+          "label": "Classic slots already occupied",
+          "type": "number",
+          "value": 0,
+          "min": 0,
+          "max": 32,
+          "unit": "channels",
+          "group": "Classic compatible pool"
+        },
+        {
+          "name": "classicProof",
+          "label": "Classic receiver/device evidence",
+          "type": "select",
+          "value": "unknown",
+          "options": [
+            [
+              "yes",
+              "Verified compatible"
+            ],
+            [
+              "unknown",
+              "Not verified"
+            ]
+          ],
+          "group": "Classic compatible pool"
+        },
+        {
+          "name": "ultimateNeed",
+          "label": "Ultimate devices needing channels",
+          "type": "number",
+          "value": 0,
+          "min": 0,
+          "max": 5,
+          "unit": "devices",
+          "group": "One Ultimate dongle"
+        },
+        {
+          "name": "ultimateTotal",
+          "label": "Verified Ultimate total slots",
+          "type": "number",
+          "value": 0,
+          "min": 0,
+          "max": 5,
+          "unit": "channels",
+          "group": "One Ultimate dongle"
+        },
+        {
+          "name": "ultimateReserved",
+          "label": "Ultimate slots already occupied",
+          "type": "number",
+          "value": 0,
+          "min": 0,
+          "max": 5,
+          "unit": "channels",
+          "group": "One Ultimate dongle"
+        },
+        {
+          "name": "ultimateProof",
+          "label": "Ultimate receiver/device evidence",
+          "type": "select",
+          "value": "unknown",
+          "options": [
+            [
+              "yes",
+              "Verified compatible"
+            ],
+            [
+              "unknown",
+              "Not verified"
+            ]
+          ],
+          "group": "One Ultimate dongle"
+        }
+      ],
+      "intro": "Allocate free documented radio channels, not USB sockets. This worksheet supports one homogeneous classic-compatible pool and, separately, at most one documented Ultimate dongle with up to five supported trackers.",
+      "notes": [
+        {
+          "heading": "Define a compatible pool first",
+          "text": "Classic pool totals may include only receivers/channels documented to support all requested devices in that pool. Count verified headset spare channels only if the exact hardware/runtime evidence establishes them; this Tool never subtracts or adds a generic two headset slots."
+        },
+        {
+          "heading": "Reservations are inside the total",
+          "text": "Reserved means already-occupied channels included in the entered total. Requested devices are additional demand, not those reserved devices. Unknown receiver capacity or device support remains unverified even if entered numbers appear sufficient."
+        },
+        {
+          "heading": "Physical dongles do not equal channels",
+          "text": "Tundra SW3/SW5/SW7 document multiple compatible channels. Ultimate uses a different receiver family with up to five trackers per documented dongle and does not need Lighthouse stations. Do not transfer spare capacity between families."
+        },
+        {
+          "heading": "Worksheet labels are not wiring",
+          "text": "Assignments label logical free channels only. They are not actual hardware addresses, a pairing command, RF reliability prediction, app tracker limit or instruction to change an existing working pairing."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Tundra: Super Wireless Dongle FAQ",
+          "url": "https://tundra-labs.github.io/tundra-tracker-docs/dongle_faq/"
+        },
+        {
+          "title": "HTC: Ultimate Tracker and receiver family",
+          "url": "https://www.vive.com/us/accessory/vive-ultimate-tracker/"
+        },
+        {
+          "title": "HTC: using the classic Tracker dongle",
+          "url": "https://www.vive.com/us/support/tracker3/category_howto/using-the-dongle.html"
+        }
+      ]
+    },
+    {
+      "id": "vrsync",
+      "slug": "vr-base-station-sync-planner",
+      "name": "Base-Station Sync Planner",
+      "h1": "Plan a documented base-station synchronization route",
+      "description": "Build a logical Lighthouse 1.0 mode or 2.0 channel worksheet, distinguishing optical sync, approved sync cables and duplicate channels.",
+      "fields": [
+        {
+          "name": "syncGeneration",
+          "label": "Station generation",
+          "type": "select",
+          "value": "v1",
+          "options": [
+            [
+              "v1",
+              "Base Station 1.0"
+            ],
+            [
+              "v2",
+              "Base Station 2.0"
+            ],
+            [
+              "mixed",
+              "Mixed 1.0 and 2.0"
+            ],
+            [
+              "unknown",
+              "Unknown"
+            ]
+          ],
+          "group": "Declarations"
+        },
+        {
+          "name": "stationCount",
+          "label": "Active stations in this tracked set",
+          "type": "number",
+          "value": 2,
+          "min": 0,
+          "max": 4,
+          "unit": "stations",
+          "group": "Counts"
+        },
+        {
+          "name": "syncRoute",
+          "label": "Two-station 1.0 sync route",
+          "type": "select",
+          "value": "optical",
+          "options": [
+            [
+              "optical",
+              "Optical synchronization"
+            ],
+            [
+              "cable",
+              "Approved sync cable"
+            ],
+            [
+              "unknown",
+              "Unknown"
+            ]
+          ],
+          "group": "1.0 synchronization"
+        },
+        {
+          "name": "interStation",
+          "label": "1.0 inter-station optical view",
+          "type": "select",
+          "value": "unknown",
+          "options": [
+            [
+              "clear",
+              "Declared unobstructed"
+            ],
+            [
+              "blocked",
+              "Declared blocked"
+            ],
+            [
+              "unknown",
+              "Unknown"
+            ]
+          ],
+          "group": "1.0 synchronization"
+        },
+        {
+          "name": "approvedCable",
+          "label": "1.0 sync cable/manual approval",
+          "type": "select",
+          "value": "unknown",
+          "options": [
+            [
+              "yes",
+              "Documented approved"
+            ],
+            [
+              "no",
+              "Not approved"
+            ],
+            [
+              "unknown",
+              "Unknown"
+            ]
+          ],
+          "group": "1.0 synchronization"
+        },
+        {
+          "name": "channel1",
+          "label": "2.0 station 1 channel",
+          "type": "number",
+          "value": 1,
+          "min": 1,
+          "max": 16,
+          "unit": "channel ID",
+          "group": "2.0 active channels"
+        },
+        {
+          "name": "channel2",
+          "label": "2.0 station 2 channel",
+          "type": "number",
+          "value": 2,
+          "min": 1,
+          "max": 16,
+          "unit": "channel ID",
+          "group": "2.0 active channels"
+        },
+        {
+          "name": "channel3",
+          "label": "2.0 station 3 channel",
+          "type": "number",
+          "value": 3,
+          "min": 1,
+          "max": 16,
+          "unit": "channel ID",
+          "group": "2.0 active channels"
+        },
+        {
+          "name": "channel4",
+          "label": "2.0 station 4 channel",
+          "type": "number",
+          "value": 4,
+          "min": 1,
+          "max": 16,
+          "unit": "channel ID",
+          "group": "2.0 active channels"
+        }
+      ],
+      "intro": "Use this for an already identified station generation. It produces logical synchronization requirements, not a room layout or coverage estimate. Only the first N channel fields apply to N active 2.0 stations.",
+      "notes": [
+        {
+          "heading": "Documented 1.0 consumer case",
+          "text": "A single 1.0 station uses mode A. Two use b/c with unobstructed optical synchronization or A/b with an approved synchronization cable, as described in the linked HTC instructions. No three- or four-station 1.0 plan is supplied."
+        },
+        {
+          "heading": "2.0 channels are not a sync cable",
+          "text": "This worksheet supports up to four active 2.0 stations per consumer tracked set and requires distinct channel IDs from 1–16. The 1.0 route/cable/visibility fields are ignored for a 2.0 result. Actual tracked-device support remains a separate prerequisite."
+        },
+        {
+          "heading": "No placement or safety certification",
+          "text": "No room coverage, beam geometry, mounting, range or tracking-accuracy result is inferred. Do not open stations, inspect laser emissions or use their firmware port as a normal tracking-data route. Follow exact current manufacturer instructions."
+        }
+      ],
+      "sources": [
+        {
+          "title": "HTC: Base Station 1.0 installation and sync",
+          "url": "https://www.vive.com/ca/support/vive-pro-hmd/category_howto/installing-the-base-stations.html"
+        },
+        {
+          "title": "Valve: base stations and Lighthouse tracking",
+          "url": "https://help.steampowered.com/en/faqs/view/1AF1-670B-FF5C-3323"
+        }
+      ]
+    },
+    {
+      "id": "vrfault",
+      "slug": "vr-tracking-evidence-isolator",
+      "name": "Tracking Evidence Isolator",
+      "h1": "Separate pairing, pose and app-assignment evidence",
+      "description": "Record observed tracking stages to distinguish receiver ownership, runtime visibility, valid pose and app/coordinate-space issues without automatic hardware diagnosis.",
+      "fields": [
+        {
+          "name": "supportedBaseline",
+          "label": "Supported connection baseline",
+          "type": "select",
+          "value": "unknown",
+          "options": [
+            [
+              "yes",
+              "Documented supported"
+            ],
+            [
+              "no",
+              "Not supported"
+            ],
+            [
+              "unknown",
+              "Unknown"
+            ]
+          ],
+          "group": "Declarations"
+        },
+        {
+          "name": "trackingFamily",
+          "label": "Affected device tracking family",
+          "type": "select",
+          "value": "lighthouse",
+          "options": [
+            [
+              "lighthouse",
+              "Lighthouse optical"
+            ],
+            [
+              "camera",
+              "Camera inside-out"
+            ],
+            [
+              "unknown",
+              "Unknown"
+            ]
+          ],
+          "group": "Declarations"
+        },
+        {
+          "name": "affectedScope",
+          "label": "Affected device scope",
+          "type": "select",
+          "value": "single",
+          "options": [
+            [
+              "single",
+              "One device"
+            ],
+            [
+              "multiple",
+              "Multiple devices"
+            ]
+          ],
+          "group": "Declarations"
+        },
+        {
+          "name": "pairedSignal",
+          "label": "Manual-defined pairing indication",
+          "type": "select",
+          "value": "unknown",
+          "options": [
+            [
+              "yes",
+              "Observed yes"
+            ],
+            [
+              "no",
+              "Observed no"
+            ],
+            [
+              "unknown",
+              "Unknown"
+            ]
+          ],
+          "group": "Observed stages"
+        },
+        {
+          "name": "runtimePresent",
+          "label": "Device present in runtime",
+          "type": "select",
+          "value": "unknown",
+          "options": [
+            [
+              "yes",
+              "Observed yes"
+            ],
+            [
+              "no",
+              "Observed no"
+            ],
+            [
+              "unknown",
+              "Unknown"
+            ]
+          ],
+          "group": "Observed stages"
+        },
+        {
+          "name": "validPose",
+          "label": "Valid tracked pose in runtime",
+          "type": "select",
+          "value": "unknown",
+          "options": [
+            [
+              "yes",
+              "Observed yes"
+            ],
+            [
+              "no",
+              "Observed no"
+            ],
+            [
+              "unknown",
+              "Unknown"
+            ]
+          ],
+          "group": "Observed stages"
+        },
+        {
+          "name": "appDetected",
+          "label": "Intended app detects device",
+          "type": "select",
+          "value": "unknown",
+          "options": [
+            [
+              "yes",
+              "Observed yes"
+            ],
+            [
+              "no",
+              "Observed no"
+            ],
+            [
+              "unknown",
+              "Unknown"
+            ]
+          ],
+          "group": "Observed stages"
+        },
+        {
+          "name": "appAssigned",
+          "label": "Intended app/body role assigned",
+          "type": "select",
+          "value": "unknown",
+          "options": [
+            [
+              "yes",
+              "Observed yes"
+            ],
+            [
+              "no",
+              "Observed no"
+            ],
+            [
+              "unknown",
+              "Unknown"
+            ]
+          ],
+          "group": "Observed stages"
+        },
+        {
+          "name": "coordinateSpace",
+          "label": "Shared coordinate space verified",
+          "type": "select",
+          "value": "unknown",
+          "options": [
+            [
+              "same",
+              "Verified shared space"
+            ],
+            [
+              "different",
+              "Known different spaces"
+            ],
+            [
+              "unknown",
+              "Unknown"
+            ]
+          ],
+          "group": "Observed stages"
+        }
+      ],
+      "intro": "For a wireless receiver path, record what has actually been observed using the exact device and app manuals. A paired LED, a listed runtime device, a valid tracked pose and an assigned app role are not interchangeable. A direct wired-USB device is outside this pairing-stage model.",
+      "notes": [
+        {
+          "heading": "A tracking-specific evidence record",
+          "text": "The next step is the earliest unresolved stage: supported baseline, pairing/receiver ownership, runtime detection, optical/camera pose, app detection, role assignment or coordinate alignment. It does not diagnose a cable or prove a failed station from a single LED."
+        },
+        {
+          "heading": "Keep unknown observations unknown",
+          "text": "The Tool never converts an unknown LED, unobserved pose or unverified shared coordinate space into no/yes. Multiple affected devices prompt a shared-dependency record; one affected device retains an already-working comparison without disrupting it."
+        },
+        {
+          "heading": "App limits are app-specific",
+          "text": "VRChat documents runtime roles, supported tracking points and calibration. It is an example, not a universal game limit or guarantee that every headset/tracker combination shares coordinates."
+        },
+        {
+          "heading": "No risky troubleshooting prescriptions",
+          "text": "No device access, laser inspection, opening, firmware or driver reinstall, reset, security-disable command, blind re-pairing or calibration math is performed or prescribed. A complete observation chain does not certify accuracy or eliminate intermittent faults."
+        }
+      ],
+      "sources": [
+        {
+          "title": "HTC: pairing VIVE Tracker 3.0",
+          "url": "https://www.vive.com/us/support/tracker3/category_howto/pairing-vive-tracker.html"
+        },
+        {
+          "title": "HTC: verify runtime tracking",
+          "url": "https://www.vive.com/us/support/tracker3/category_howto/verifying-the-connection-status.html"
+        },
+        {
+          "title": "HTC: Tracker 3.0 troubleshooting",
+          "url": "https://www.vive.com/us/support/tracker3/category_howto/troubleshooting-vive-tracker.html"
+        },
+        {
+          "title": "VRChat: full-body tracking roles and calibration",
+          "url": "https://docs.vrchat.com/docs/full-body-tracking"
+        },
+        {
+          "title": "Valve: base stations and Lighthouse tracking",
+          "url": "https://help.steampowered.com/en/faqs/view/1AF1-670B-FF5C-3323"
+        }
+      ]
+    }
+  ]
+}

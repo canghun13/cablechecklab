@@ -2,6 +2,8 @@
 
 This document is the environment-independent operating record for the project. Treat GitHub `origin/main` plus this file as the baseline at the start of every work session. Do not assume that a local checkout is current.
 
+**Current expansion authority (2026-11-05):** the owner explicitly revoked the former one-new-cluster-per-week limit, including the suggestion to allow only one exception today. Select as many genuinely useful clusters as evidence and QA justify, without forced page counts. Historical weekly-cap HOLD records below remain history, not an active restriction. There is no fixed publishing quantity that guarantees Google indexing. The four-independent-Tool, original-utility, source, competition and QA gates still apply.
+
 ## Project identity
 
 - Project: Cable Check Lab
@@ -179,12 +181,12 @@ Potential long-term models are contextual advertising, clearly disclosed affilia
 
 ## Current inventory
 
-- Public HTML total: 91 (reverified 2026-10-26)
-- Indexable HTML / sitemap URLs: 90; the custom 404 is the only non-indexable HTML page
-- Interactive Tools: 47
-- Problem workbenches: 10 (`charging`, `cables`, `displays`, `docks`, `usb4-thunderbolt`, `video-adapters`, `hdmi-routing`, `poe`, `analog-audio`, and `digital-studio`) plus the main Tools hub
-- Standalone Guides: 17 plus the Guides hub
-- Focused References: 9 plus the References/method hub
+- Public HTML total: 112 (reverified 2026-11-05)
+- Indexable HTML / sitemap URLs: 111; the custom 404 is the only non-indexable HTML page
+- Interactive Tools: 59
+- Problem workbenches: 13 (`charging`, `cables`, `displays`, `docks`, `usb4-thunderbolt`, `video-adapters`, `hdmi-routing`, `poe`, `analog-audio`, `digital-studio`, `electronic-drums`, `brick-connections`, and `vr-tracking`) plus the main Tools hub
+- Standalone Guides: 20 plus the Guides hub
+- Focused References: 12 plus the References/method hub
 - Comparisons: 0
 - Other public pages: Home, About, Contact, Privacy, 404
 
@@ -2439,3 +2441,47 @@ Normal Chrome and Googlebot Smartphone requests returned identical final HTML fo
 - Final inventory **98/97/51/11/18/10** (HTML/indexable/Tools/workbenches/Guides/References), delta+7/+4/+1pages/Tools/clusters. No new Comparison. Full sources and four-action competition/safety decision remain in research. Skill guidance shaped static-local implementation, read-only period-correct analysis and actual browser QA; no installation or hosting migration.
 - Production screenshot retained outside Git at the session artifact root. Owned preview stopped,8766 listener absent; one-session report parser removed; audit/preview scripts removed after verification. QA tab closed, temporary viewport override reset; the initial unmarked browser error tab remains subject to the browser tool's automatic end-of-turn cleanup. No screenshot, rawCSV/ZIP, temporary server/analysis script or credential committed. Production QA can contribute GA traffic and is not acquired demand.
 - This final documentation-only commit records the completed deployment/QA and does not change public HTML/assets. Its exact SHA cannot embed itself: resolve it from the final Git history. After push, check its exact-SHA Pages result, **local HEAD=fetched origin/main=actual remote main**, divergence0/0, and clean worktree; report actual returned values, not an assumed push outcome. Working tree was clean at132b1b7 immediately before this closeout. No required implementation work remains.
+
+## 2026-11-05 — Aggressive fresh discovery / brick electronics and VR tracking
+
+### Authority and safe continuation
+
+- The owner explicitly authorizes additional strong clusters today and revokes both the weekly-one cap and a fixed-one exception. Historical cap-based HOLD decisions are not current authority. Quantity remains evidence/QA bounded; there is no promised Google-safe numerical release rate or indexing guarantee.
+- Existing correct repository/main started clean at **d3362e9236077d4eb6f1447f8d199cecd259afbf**. Checked pwd, remotes, branch, status, log5, HEAD, actual ls-remote, fetch, origin/main and divergence0/0. No pull was necessary. No applicable AGENTS.md found. Latest handover and October/Nov3 GO/HOLD/NO-GO reused; no clone, reset, restore, installation, IDE/runtime/browser/framework reconfiguration or other-environment overwrite.
+- On another PC continue from actual remote/main and latest handover, inspect unknown local/unpushed work, only clean-behind fast-forward safely, and recheck actual remote before push. Never assume a hard-coded path contains all current work. No raw reports revisited or local Downloads scan/path request; this session is fresh external discovery, not a repeated weekly report analysis. The cancelled guitar task stays cancelled.
+- Sites skill shaped existing-repository static implementation and bounded research/contract delegation. Computer Use provides actual competitor and website QA. Existing GitHub Pages/domain/GA4/contact remain; no native Sites migration, new account, subscription, package install or hardware access.
+
+### Discovery and decisions
+
+- Full integrated record: [research/2026-11-05-cluster-discovery.md](research/2026-11-05-cluster-discovery.md), plus detailed A/B actual search ledgers and two retained JSON contracts. A30targets−2oldscope=28; B24−4=20; seven overlapping identities →41 provisional new screens, minus out-of-remit firearm dryfire →**40 other named screens**. These are not40 eligible clusters or hands-on Google/Naver SERPs. Follow-up variations and parent-only old-adjacent queries do not inflate count.
+- Broad web search plus official/project sources, Reddit, Steam Community, Eurobricks and specialist Stack Exchange. Naver-scoped query did not yield useful Naver evidence. No volume/KD/document-count or guaranteed low-competition claim. Repeated questions show task friction, not measured market size. Prior patchbay/mix-minus/DB25/wired-PCVR and other named candidates are not renamed new.
+- **GO — Brick electronics connections:** component-family/function reuse; physical/program port worksheet; PF IR group/address collisions; separate remote/app/installed-program route. Four independently actionable results, not four prerequisite checkboxes. Finite hardware profiles, no universal adapter DB, power/torque calculation, firmware install, motor control, wiring/pinout or electrical-safety approval.
+- Actual Flash Force rival UI: dismissed Welcome, selected existing **PU Dual motor train**, opened **Controls**, observed City Hub PortA knob/Stop/forward/backward. It is real rich free competition, not an empty market. No BLE/hardware Connect, firmware, model mutation, download or account action. Our offline mapping/collision work complements rather than replaces it. LEGO manufacturer/app views, Brick Remote and Pybricks are substantive free substitutes.
+- **GO — VR tracking connections:** generation intersection; separately verified radio pools/reservations; fixed-inventory1.0sync or2.0channel conflicts; pairing/runtime-pose/app-role evidence isolation. Distinct from previously held wired-PCVR video/USB. Earlier placement/calibration HOLD was challenged with materially different controllers and revised to conditional research GO, then shipped-logic/browser verified.
+- Valve/HTC/Tundra and VRChat official/project contracts anchor finite rules. SteamVR Automatic Configuration is an actual free incumbent; SpaceCalibrator and downloaded FOV visualization compete. Sensor-tester403 is not a working-UI verification. No native hardware/software install/run, pose/coverage/calibration measurement or security weakening. Four-station worksheet limit is scope, not universal hardware capacity. Unknowns/conflicting observations never become a definitive physical diagnosis.
+- Remaining families HOLD/NO-GO for fewer than four independent useful jobs, strong free exact-model services, volatile data or safety/scope. No fixed cap or missing GSC used to reject them. Do not relabel these40 screens fresh next week.
+
+### Implementation and preservation
+
+- Added eight Tools: `/tools/brick-system-route-checker/`, `/tools/powered-up-port-planner/`, `/tools/power-functions-ir-planner/`, `/tools/brick-control-path-selector/`, `/tools/vr-tracking-generation-checker/`, `/tools/vr-tracking-receiver-planner/`, `/tools/vr-base-station-sync-planner/`, `/tools/vr-tracking-evidence-isolator/`.
+- Added workbenches `/tools/brick-connections/` and `/tools/vr-tracking/`, substantive Guides `/guides/brick-electronics-connections/` and `/guides/vr-tracking-connections/`, and two sources/limits References. Initial static HTML contains meaningful controls/explanations/examples; no empty JS-only doorway templates.
+- New opt-in `assets/workflow-labs.js` handles only explicitly loaded new `main[data-lab]`; brick/VR modules hold their separate controllers. Input validation, escaped local labels, input/unit/URL/confidence record, recalculation, Reset, Copy and Print. Coarse tool_run/tool_result/copy/print/reset and workbench navigation reuse existing taxonomy; no form/group labels in GA events, no passive calculation event spam. New GA4 **G-8PFRRXPGEF** once on every new public page; contact unchanged.
+- Existing `assets/app.js` changes only two workbench registry names. All51 prior controllers/shared events otherwise exact. CSS old source is exact prefix, new rules scoped to opted-in lab pages/table classes. All98 baseline footer fragments and Home footer-through-end Findly/badge tail preserved. No robots/CNAME change, global select rewrite, old title/logic churn, IndexNow setup or external sitemap/index submission claim.
+- Updated Home/Tools/Guides/References/About navigation/counts, llms and sitemap. Fourteen new sitemap URLs; only five actually changed old HTML routes receive Nov5lastmod. New cachekey20261105a only new pages. Zero orphans, new hubs depth1, leaf/Guide/Reference depth2.
+- Delta **+14 pages /+8 Tools /+2 clusters**. Current **112 HTML /111 indexable /59 Tools /13 workbenches /20 Guides /12 References /0 Comparisons**. This is not a mandate to add more pages; future releases still need independent utility.
+
+### Predeployment QA
+
+- Retained `tools-qa/verify-november-workflows.cjs` executes shipped initial HTML plus actual app/core/modules: **117,528 states PASS**. Independent mapping oracle6,144; IR address oracle1,296; receiver pool oracle864; distinct-channel oracle65,536. Selector combinations, missing/altered/nonfinite/fraction/out-of-range, escaping, unknown precedence, Reset, real Copy/Print handlers, input record and coarse event privacy/navigation pass. Advisory contract-only test totals are not added.
+- Existing drum **106,660** and digital **9,906** states PASS; three new JS syntax checks PASS. Site verifier **112HTML/111sitemap PASS**; metadata, GA4, canonical/OG/H1/JSON-LD/IDs/targets, graph, footer/app/CSS preservation and diff checks PASS.
+- Actual local browser **84 new six-width +18 edited/representative-old controls =102 successful core viewport checks**, actual innerWidth390/768/900/1024/1280/1440 as applicable. Overflow, H1, meaningful result and visible native field containment/min46px verified. An old-control harness initially included checkboxes and smaller action buttons in the field-size assertion; corrected filter and reran, no product change for that false alarm.
+- All eight Tools passed default/alternate/conflict, explicit submit, actual Copy read-back and Reset. Initial one-call clipboard read was stale; split action/state and later read-back confirmed actual copied current result/inputs/URL/confidence. No old Copy changes. Empty receiver count is error; actual mobile Menu and workbench→port Tool navigation pass;2.0duplicate channels resolve after correction. Browser warnings/errors observed0.
+- Actual narrow-desktop selected-option clipping was fixed with new-lab-only adaptive grid min220px, not global control styling. Repeated84 viewport checks pass;1024 native selection and390 mobile table cards visually reviewed. Print handler/CSS tested; no saved PDF/native print-preview, physical print, actual connected hardware or compatibility measurement claim.
+- Local preview strips GA in served responses only; source GA remains. Production QA can contribute real GA traffic and must not be called acquired demand. Deployment/production repeats and final Git/teardown results follow below.
+
+### Next measurement / reuse
+
+1. Separate each new cluster's real organic landing/query exposure and named events from launch QA. Do not attribute traffic growth or index inclusion before observing it.
+2. Reuse Nov3 period-correct report interpretation; newest drilldown endsOct23 and cannot prove current full indexed totals. Do not repeat stale issue exports as a new regression.
+3. Keep sitemap parity, meaningful internal links, self-canonical/static content and accurate lastmod. No blanket resubmission, random date churn, mass near-duplicate model pages or claimed Google-safe batch number.
+4. Retain all40 fresh screens, old exclusions and changed VR contract. Refine/merge weak outcomes from actual use; strong one-Tool ideas need not become padded four-Tool clusters.

@@ -1,12 +1,12 @@
 # Cable Check Lab
 
-> Cable Check Lab provides 51 free, browser-only tools for USB-C, USB Power Delivery, USB4, Thunderbolt, video adapters, DisplayPort, docks, HDMI routing, Power over Ethernet, analog audio, digital studio, and troubleshooting.
+> Cable Check Lab provides 59 free, browser-only tools for USB-C, USB Power Delivery, USB4, Thunderbolt, video adapters, DisplayPort, docks, HDMI routing, Power over Ethernet, analog audio, digital studio, and troubleshooting.
 
 Primary URL: https://cablechecklab.com/
 Contact: canghun13@naver.com
 Language: English
 
-## Eleven workbenches
+## Thirteen workbenches
 
 - [Charging](https://cablechecklab.com/tools/charging/): Fixed PDOs, PPS, requirements, full-chain checks, port-table comparison, shared budgets.
 - [Cables and data](https://cablechecklab.com/tools/cables/): Cable selection, cable/port decoding, data paths, USB4 features.
@@ -22,7 +22,7 @@ Language: English
 
 - [Electronic drums](https://cablechecklab.com/tools/electronic-drums/): Trigger requirements, equivalent input allocation, foot-position routes and observed faults.
 
-## Fifty-one interactive tools
+## Fifty-nine interactive tools
 
 - [USB-C Charge Check](https://cablechecklab.com/tools/charge-check/)
 - [Audio Signal Path Checker](https://cablechecklab.com/tools/audio-signal-path-checker/)
@@ -103,3 +103,20 @@ Results are calculations and declared-capability screens, not live measurements,
 - Guide: https://cablechecklab.com/guides/electronic-drum-connections/
 - Sources and limits: https://cablechecklab.com/references/electronic-drums/
 - Declared requirements and observations only; no hardware sensing, universal model database or wiring/calibration recipe. Input allocation requires one documented equivalent pool.
+
+## Brick electronics and VR tracking
+- Brick electronics workbench: https://cablechecklab.com/tools/brick-connections/
+- Brick Motor & Sensor System Route Checker: https://cablechecklab.com/tools/brick-system-route-checker/ — Compare Power Functions, Powered Up/LPF2 and NXT/EV3 connection families before reusing a motor, light or sensor. Software functionality remains separate.
+- Powered Up Port Assignment Planner: https://cablechecklab.com/tools/powered-up-port-planner/ — Build a named Powered Up hub port worksheet, compare physical and program assignments, catch duplicate sockets and check a scoped two-motor program pair.
+- Power Functions IR Channel & Output Planner: https://cablechecklab.com/tools/power-functions-ir-planner/ — Map Power Functions receiver channels and red/blue outputs, distinguish independent groups from intentional broadcast, and print an eight-address control map.
+- Brick Remote, App & Program Path Selector: https://cablechecklab.com/tools/brick-control-path-selector/ — Separate PF infrared, Powered Up remote, original app and already-installed program routes. Identify the missing receiver, runtime or supported control program.
+- Guide: https://cablechecklab.com/guides/brick-electronics-connections/
+- Sources: https://cablechecklab.com/references/brick-connections/
+- VR tracking workbench: https://cablechecklab.com/tools/vr-tracking/
+- Optical Tracking Generation Checker: https://cablechecklab.com/tools/vr-tracking-generation-checker/ — Compare a device’s documented Lighthouse sensor generation with Base Station 1.0 or 2.0, without assuming that SteamVR support means optical compatibility.
+- Tracking Receiver Assignment Planner: https://cablechecklab.com/tools/vr-tracking-receiver-planner/ — Plan logical radio assignments within verified classic-compatible and Ultimate receiver pools, keeping reserved channels and unknown capacities explicit.
+- Base-Station Sync Planner: https://cablechecklab.com/tools/vr-base-station-sync-planner/ — Build a logical Lighthouse 1.0 mode or 2.0 channel worksheet, distinguishing optical sync, approved sync cables and duplicate channels.
+- Tracking Evidence Isolator: https://cablechecklab.com/tools/vr-tracking-evidence-isolator/ — Record observed tracking stages to distinguish receiver ownership, runtime visibility, valid pose and app/coordinate-space issues without automatic hardware diagnosis.
+- Guide: https://cablechecklab.com/guides/vr-tracking-connections/
+- Sources: https://cablechecklab.com/references/vr-tracking/
+- Offline declared-capability planning only. No BLE/USB/hardware scan, motor control, firmware change, pose measurement or calibration. Unknown support remains unverified; field labels and values are not sent in custom analytics events.
