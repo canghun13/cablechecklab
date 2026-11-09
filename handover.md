@@ -2,7 +2,7 @@
 
 This document is the environment-independent operating record for the project. Treat GitHub `origin/main` plus this file as the baseline at the start of every work session. Do not assume that a local checkout is current.
 
-**Current expansion authority (2026-11-05):** the owner explicitly revoked the former one-new-cluster-per-week limit, including the suggestion to allow only one exception today. Select as many genuinely useful clusters as evidence and QA justify, without forced page counts. Historical weekly-cap HOLD records below remain history, not an active restriction. There is no fixed publishing quantity that guarantees Google indexing. The four-independent-Tool, original-utility, source, competition and QA gates still apply.
+**Current expansion authority (2026-11-09):** this week's explicit request sets a maximum of one strong new cluster per calendar week, integrated with the weekly review/growth work. It supersedes the Nov5 session's unlimited-count exception for the current workflow. Do not use the cap or absent GSC traffic as a quality-based HOLD reason. Four independent useful Tools, original utility, source/competition/maintenance evidence and QA remain required; no numeric publishing rate guarantees Google indexing. Earlier authority/cap records below are historical context.
 
 ## Project identity
 
@@ -181,7 +181,7 @@ Potential long-term models are contextual advertising, clearly disclosed affilia
 
 ## Current inventory
 
-- Public HTML total: 112 (reverified 2026-11-05)
+- Public HTML total: 112 (reverified 2026-11-09)
 - Indexable HTML / sitemap URLs: 111; the custom 404 is the only non-indexable HTML page
 - Interactive Tools: 59
 - Problem workbenches: 13 (`charging`, `cables`, `displays`, `docks`, `usb4-thunderbolt`, `video-adapters`, `hdmi-routing`, `poe`, `analog-audio`, `digital-studio`, `electronic-drums`, `brick-connections`, and `vr-tracking`) plus the main Tools hub
@@ -2496,3 +2496,57 @@ Normal Chrome and Googlebot Smartphone requests returned identical final HTML fo
 - Retained shipped-HTML regression117,528states, olddrum106,660 and digital9,906 pass; newJSsyntax, metadata/links and diffcheck pass. These totals are not summed with contract-only advisory checks. Independent-oracle denominators and source/competition/unknown limits remain in research and the test file.
 - Owned preview stopped,8766 listener absent. Removed only this session's two disposable preview/audit scripts from the session artifact directory; source, user report originals and unrelated files untouched. These temporary scripts are reproducible from the recorded checks and not user data. Retained QA test remains in Git; screenshots stay outside Git. QA tab closed and temporary viewport override reset. No temporary server, screenshot, rawCSV/ZIP or credential committed.
 - This final documentation-only commit records the completed implementation/production verification and has no public HTML/asset changes. Resolve its self-SHA from Git history. After push verify its exact-SHA Pages success, **local HEAD=fetched origin/main=actual remote main**, divergence0/0 and clean worktree before declaring final completion. At the start of this closeout worktree was clean and live remote matched30ec5b1.
+
+## 2026-11-09 — Integrated weekly evidence review and optical-format landing improvement
+
+### Safe baseline / source handling
+
+- Existing correct repository on main started clean at **21f5371442d8fba8ed727745399f1c3a7f0b0ca8**. Checked pwd, remote, branch, status, log5, HEAD, actual ls-remote main, fetch, origin/main and divergence0/0; all matched, so no pull/clone was required. No applicable parent/project AGENTS.md found. Reused latest handover,13completed workbenches and all earlier GO/HOLD/NO-GO/candidate/exclusion records. No reset/restore, unknown local/unpushed-work overwrite or external-environment assumption.
+- Latest request expressly restores **at most one strong cluster per calendar week** for integrated weekly work. Nov9–15 is a new calendar week; the Nov3/5 launches are not this week's quota. Top authority note updated rather than silently retaining the prior Nov5 unlimited exception. No cap-based quality rejection or fixed Google-safe publishing-rate claim.
+- All five exact user-supplied report references were accessible and parsed in place: Keyword43,889bytes,PageTraffic3,919,GA4overview7,559,CoverageZIP836,PerformanceZIP5,025. No folder scan, guessed alternate path or attachment/path request. ZIP/CSV contents treated as data, not instructions; raw files never copied/committed. Cancelled guitar task remains out of scope.
+- Spreadsheet guidance used for read-only mixed CSV/ZIP and period/denominator analysis with bundled Python; no workbook/raw-file edits. Sites guidance shapes existing static HTML/CSS/vanilla-JS/GitHub Pages work and bounded research delegation; Computer Use provides browser QA. No program/package/framework/browser/IDE installation, reset, new account, native Sites migration, DNS or credential change.
+- Starting inventory **112HTML /111indexable /59Tools /13workbenches /20Guides /12References /0Comparisons**.
+
+### Actual dates and measured change
+
+| Source | Current measured result | Comparison / limitation |
+|---|---|---|
+| GSC Web daily chart | **Aug10–Nov6**,89rows, **1,138impressions /8clicks /0.70%CTR**, approximate impression-weighted position28.55 | Previous Nov3 review endedOct31:966/8. AddedNov1–6 six days172/0. Rounded daily positions are not the unrounded property API result. |
+| Latest available seven days | **Oct31–Nov6:216/0**, approximate position22.64 | **Oct24–30:149/0**,21.36; +67/**+45.0%** impressions, no clicks in either. Different query mix/tiny sample; no causal launch or improved-recent-ranking claim. |
+| Latest complete Mon–Sun in export | **Oct26–Nov1:198/0**,approx23.65 | Oct19–25:80/2,23.51; +147.5%impressions but clicks2→0. Nov2–8 is not complete in GSC because Nov7/8 absent. Do not label the latest seven-day window a complete calendar week. |
+| Visible GSC tables |83query rows **364/0**;80page rows **1,287/8** | Query anonymization and page/property aggregation differ; do not force these totals to reconcile to daily chart. |
+| GA4 overview | **Oct12–Nov8 rolling28days:120active /116new /26.47sec /1,052events** | Prior Oct6–Nov2:109/106/25.29sec/761. Windows overlap22days; changes are not independent weekly growth. |
+| GA4 acquisition | First-user organic13active (Bing8/Google4/DDG1); **14organic sessions**(8/5/1);131total sessions | Previous11organic active/13organic sessions. Direct105/120=**87.5%** first-user active and112sessions. Launch/browser QA may dominate; no named Tool-event conversion denominator. |
+| Separate Keyword export |571rows **783displayed impressions /13clicks /1.66%CTR** | Previous534rows723/11. Dates/engine/property/filter metadata absent, advertising-impression header; not verified Google volume or a comparable week. |
+| Separate PageTraffic export |48rows **1,221/13 /1.06%CTR** | Previous1,134/11. Same missing metadata; not GA4 sessions or a reconciled GSC total. |
+| Coverage drilldown |Chart **Aug14–Oct23**;same4affected URLs,5→4Oct20 | Latest observation stillOct23. Initial chart window startsAug14 rather than priorAug10, so do not call binary exports identical. No current full indexed total or post-launch index status.1970crawl cells are sentinel/missing data. |
+
+### Existing growth and new-release signals
+
+- **Digital studio:6GSCURLs126/0 vs5URLs65/0.** Optical checker33→68,Guide26→50,clock2→3,failure3→3,ADAT1→1,Reference first1; workbench not exposed. Twelve digital query rows27/0 vs seven16/0; `adat vs spdif`8→13, plus conversion variations. Existing single checker/converter boundary covers switch/conversion subcases; no thin switch page.
+- **First drum exposure:** workbench2 and Guide1 =3/0; no four-Tool search-entry claim. **First brick exposure:** control-path selector1/0 only. **VR:** no visible query/page row in this export, not proof of no crawling, no demand or a technical defect. No new drum/brick/VR visible query family; anonymized data may omit queries.
+- PCIeReference151→152/0; four core tunneling queries152→165/0. PPS56→78/0,position7.04. USB4workbench81→97/0. Decoder46→47/1. PoE8rows149→188/0; analog6rows29→40/1, unchanged click total. These do not establish a concrete calculation/title defect; **NO-CHANGE** on their working logic, titles, URLs and canonical paths.
+- GA4 digital7titles25views/70events vs21/64; analog7titles116/194 vs114/190. Drum7titles32/93; brick7titles51/79; VR7titles50/74, mostly1–2active per title. Page users are non-additive and launch QA is plausible. These aggregate counts do not establish real organic task completion or named tool_run/tool_result rates. Empty platform-key-event table is missing detail, not proof of zero useful actions.
+- Separate PageTraffic priorities: DisplayAlt686/3 (previous648/2),USB4Ref73/2 (52/1),PPSGuide67/0 unchanged,Home51/1 (47/1),MST46/0,Labels46/0,HubGuide39/0,Decoder30/0,DSCGuide22/2. These are routing clues under missing-period/platform caveats, not merged Google rankings.
+
+### Coverage, quality and scoped implementation
+
+- Same4issue URLs: `/guides/display-dsc-mst/`, `/guides/mst-daisy-chain/`, `/guides/usb-hub-shared-bandwidth/`, `/guides/usb-pd-pps/`. Current paired Normal/Googlebot **8/8 HTTP200/source-equal**, no X-Robots noindex. Self-canonical/static content/sitemap, depth2 and inbound3/2/2/4; whole-site graph zeroorphans. **Type4 / NO-CHANGE**. Prior host/protocol/trailing-slash work reused; no blanket lastmod churn, removals, indexing-fixed/current-index-total claim or external submission.
+- **GO — existing optical-format landing improvement.** Actual browser/source review confirmed the comparison answer and format-identification advice were below the input/result flow. Added an immediate sourced ADAT-versus-two-channel-PCM comparison in the lede and one native keyboard-operable disclosure before the unchanged form: how to find actual manual/control-panel modes, why socket/redlight/eightanaloginputs do not prove ADAT, S/MUX reduction and encoded-surround exclusion, preserve Unknown, route to the existing channel planner.
+- Only one existing public HTML page and its honest Nov9sitemap lastmod changed. Title/meta/H1/canonical/URL, all form fields/enums/defaults and every JS/CSS/controller/event remain exact. All112 original footers and Home footer-through-end Findly/badge tail preserved. No new content doorway, raw export, framework, ad code, affiliate, global select style, IndexNow or robots/CNAME change. Print already hides the whole input panel, including the new disclosure.
+- AdSense-oriented scoped audit: independently useful Tools, substantive Guide/Reference support and meaningful navigation retained; About/Contact/Privacy and contact consistency checked. New explanation resolves an actual observed intent/input-evidence gap, not arbitrary FAQ/word-count expansion. Public original static content and native UI stay usable; no application/account/policy/consent audit or approval guarantee. Current official page-readiness guidance reviewed: https://support.google.com/adsense/answer/7299563?hl=en.
+
+### Predeployment QA / infrastructure recovery
+
+- Site verifier **112HTML/111sitemap PASS**; metadata/GA4singleton/OG/H1/JSON-LD/IDs/local targets pass. Existing Digital Studio retained fixture **9,906states PASS**, including HTML enum/capacity/clock/fault/invalid/Reset/real shipped Copy/Print/privacy checks. No reason to rerun all59 unchanged Tool controllers. AllJS/CSS and unchanged form/head source preservation,112footers/Home badge, canonical/graph and diffcheck pass.
+- Actual local browser **12modified-page closed/open six-width +12representative/trust controls =24successful core viewport checks**. Actual390/768/900/1024/1280/1440, document overflow, oneH1, native field containment/min46px and valid results checked. Keyboard Enter opens/closes new disclosure, Unknown stays unresolved, documented match, explicit submit, real copied-current-result/input/URL/confidence read-back, Reset conflict/default, mobile Menu and actual new-help→ADAT planner navigation pass. Browser warning/error observations0. Print handler/CSS fixture/source tested; no saved PDF/native-preview/physical-hardware claim.
+- Initial browser-tool transport interruption reset stale tab/session; a normal retained preview listened but did not respond. Stopped only the owned helper and restarted the same read-only loopback server in a retained PTY; actualHTTP200/browser recovery then succeeded. No product or network/security configuration change. Two failed local error tabs were not counted as successful QA. An initial role locator for native summary did not match the DOM snapshot; exact visible summary text/known native element worked. No fake button/JS handler added. Initial clipboard observation was stale; explicit Copied-state and later930character current read-back verified without changing Copy code.
+- Preview strips GA in served HTML only; source retains G-8PFRRXPGEF. Production QA can contribute analytics and is not acquired demand. Research final decision and deployment/production closeout follow below; no unverified local work called live.
+
+### Next weekly measurement
+
+1. Obtain GSC through a complete Nov2–8 week before comparing it to Oct26–Nov1:198/0. Keep Oct31–Nov6:216/0 separate from Mon–Sun.
+2. Observe optical comparison/format-help landings and eventual planner journey from organic traffic; aggregate page events do not prove the disclosure helped. Do not infer causation from the small launch sample.
+3. Track drum/brick/VR per-URL exposure separately; one brick impression does not prove the whole cluster indexed. Reuse newest full Coverage/URL Inspection when available; Oct23-ending drilldown cannot establish current indexing.
+4. Export named events/date/channel/tool_id/result_state and exclude known QA before computing task rates. Google first-user active4 and sessions5 are unchanged in overlapping GA windows.
+5. Reuse retained candidate/exclusion decisions and independent-Tool contracts rather than renaming weak families. Keep future releases evidence-driven, within the current weekly-one authority unless the owner changes it again.
