@@ -246,6 +246,10 @@
       paint('bad', 'Check input', '—', 'PPS entries must stay at or below 21 V.', ['Higher programmable-voltage ranges use an AVS APDO, not a PPS APDO. Use the exact APDO type and range from the source specification.'], 'This checker is limited to PPS. It does not evaluate SPR AVS or EPR AVS ranges.');
       return;
     }
+    if ([deviceV, minV, maxV].some((n) => n < 1) || [deviceA, maxA].some((n) => n < .01 || n > 5) || maxW < 1 || maxW > 105) {
+      paint('bad', 'Check input', '—', 'Use voltages from 1–21 V, currents from 0.01–5 A, and a power ceiling from 1–105 W.', ['These are this checker’s supported input bounds, not a substitute for the exact documented PPS APDO.'], 'No range result is produced from values outside the supported input bounds.');
+      return;
+    }
     const requestW = deviceV * deviceA;
     const voltageFits = deviceV >= minV && deviceV <= maxV;
     const currentFits = deviceA <= maxA;
